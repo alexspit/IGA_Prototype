@@ -1,0 +1,12 @@
+h1{
+
+    color : black;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: large;
+    font-style: italic;
+    font-weight: bold;
+    background-color: antiquewhite;
+}
