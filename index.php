@@ -45,6 +45,7 @@ function decode($id, Individual $individual, Element $element){
     return $cssCode;
 
 }
+//Test
 
 /*
     $ga = new GeneticAlgorithm(25, 0.95, 0.01, 3);
