@@ -11,18 +11,16 @@ class Population {
     private $population;
     private $populationFitness = -1;
 
-    public function __construct($populationSize, $chromosomeLength = null ){
+    public function __construct($populationSize, Element $element = null ){
 
         $this->population = new SplFixedArray($populationSize);
 
-        if(!is_null($chromosomeLength) && $chromosomeLength > 0){
+        for($individualCount = 0; $individualCount < $populationSize; $individualCount++){
 
-            for($individualCount = 0; $individualCount < $populationSize; $individualCount++){
-
-                $individual = new Individual($chromosomeLength);
-                $this->population[$individualCount] = $individual;
-            }
+            $individual = new Individual($element);
+            $this->population[$individualCount] = $individual;
         }
+
     }
 
     public function getIndividuals(){

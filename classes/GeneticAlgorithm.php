@@ -27,9 +27,9 @@ class GeneticAlgorithm {
     }
 
 
-    public function initPopulation($chromosomeLength){
+    public function initPopulation(Element $element){
 
-        return new Population($this->populationSize, $chromosomeLength);
+        return new Population($this->populationSize, $element);
     }
 
     public function calcFitness(Individual $individual){
