@@ -34,21 +34,7 @@ class GeneticAlgorithm {
 
     public function calcFitness(Individual $individual){
 
-        $correctGenes = 0;
-
-        for($locus = 0; $locus < $individual->getChromosomeLength(); $locus++){
-
-            if($individual->getGene($locus) == 1){
-
-                $correctGenes += 1;
-            }
-        }
-
-        $fitness = (double) $correctGenes / $individual->getChromosomeLength();
-
-        $individual->setFitness($fitness);
-
-        return $fitness;
+       //
     }
 
     public function evalPopulation(Population $population){

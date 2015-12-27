@@ -13,9 +13,9 @@ require_once 'core/init.php';
         <meta name="keywords" content="GA IGA">
         <meta name="author" content="Alexander Spiteri">
 
-        <!--Main CSS
-        <link rel='stylesheet' type='text/css' href='style.php' />-->
-
+        <!--Main CSS-->
+        <link rel='stylesheet' type='text/css' href='css/ui.css' />
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine:i|Tangerine:b|Inconsolata|Droid+Sans">
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
