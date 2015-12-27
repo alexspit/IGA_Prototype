@@ -27,6 +27,7 @@ $element->addProperty(new Property(7, "background-color", ["#1abc9c", "#16a085",
 
 $population = new Population(6, $element);
 
+
 $individuals = $population->getIndividuals();
 
 function decode($id, Individual $individual, Element $element){
@@ -69,7 +70,7 @@ function decode($id, Individual $individual, Element $element){
 
         $population = $ga->crossoverUniform($population, GeneticAlgorithm::TOURNAMENT,5);
 
-	    $population = $ga->mutate($population);
+	    $population = $ga->mutateUniform($population);
 
         $ga->evalPopulation($population);
 

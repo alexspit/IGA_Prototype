@@ -32,11 +32,6 @@ class GeneticAlgorithm {
         return new Population($this->populationSize, $element);
     }
 
-    public function calcFitness(Individual $individual){
-
-       //
-    }
-
     public function evalPopulation(Population $population){
 
         $populationFitness = 0;
@@ -44,7 +39,7 @@ class GeneticAlgorithm {
 
         foreach ($population->getIndividuals() as $individual) {
 
-            $populationFitness += $this->calcFitness($individual);
+            $populationFitness += $individual->getFitness();
         }
 
         $population->setPopulationFitness($populationFitness);
@@ -149,7 +144,7 @@ class GeneticAlgorithm {
         return $newPopulation;
     }
 
-    public function mutate(Population $population){
+    public function mutateUniform(Population $population, Element $element){
 
         $newPopulation = new Population($population->size());
 
@@ -157,18 +152,14 @@ class GeneticAlgorithm {
 
             $individual = $population->getFittestIndividual($populationIndex);
 
+            $randomIndividual = new Individual($element);
+
             for($geneIndex = 0; $geneIndex < $individual->getChromosomeLength(); $geneIndex++){
 
                 if($populationIndex >= $this->elitismCount){
                     if($this->mutationRate > Random::generate()){
 
-                        $newGene = 1;
-
-                        if($individual->getGene($geneIndex) == 1){
-                            $newGene = 0;
-                        }
-
-                        $individual->setGene($geneIndex, $newGene);
+                        $individual->setGene($geneIndex, $randomIndividual->getGene($geneIndex));
                     }
 
                 }
