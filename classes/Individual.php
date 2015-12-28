@@ -41,7 +41,9 @@ class Individual {
 
     public function __construct(Element $element)
     {
-        $this->chromosome = $this->encode($element);
+
+            $this->chromosome = $this->encode($element);
+
     }
 
     private function encode(Element $element){

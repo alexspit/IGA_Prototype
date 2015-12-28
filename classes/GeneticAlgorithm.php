@@ -32,12 +32,35 @@ class GeneticAlgorithm {
         return new Population($this->populationSize, $element);
     }
 
+    function decode($id, Individual $individual, Element $element){
+
+        $cssCode = "{$element->getCssTag()}#individual{$id} {".PHP_EOL;
+        $chromosome = $individual->getChromosome()->toArray();
+        $geneIndex = 0;
+
+        foreach ($element->getProperties() as $property) {
+
+            if($property->getCssName() == "font-family"){
+                $cssCode .= "{$property->getCssName()} : '{$property->getValue($chromosome[$geneIndex])}', serif; ";
+            }else{
+                $cssCode .= "{$property->getCssName()} : {$property->getValue($chromosome[$geneIndex])}; ";
+            }
+
+            $geneIndex++;
+        }
+        $cssCode .= "}";
+
+        return $cssCode;
+
+    }
+
     public function evalPopulation(Population $population){
 
         $populationFitness = 0;
 
 
         foreach ($population->getIndividuals() as $individual) {
+
 
             $populationFitness += $individual->getFitness();
         }
@@ -97,7 +120,7 @@ class GeneticAlgorithm {
 
     }
 
-    public function crossoverUniform(Population $population, $selectionMethod = 2, $tournamentSize = 10){
+    public function crossoverUniform(Population $population, Element $element, $selectionMethod = 2, $tournamentSize = 10){
 
         $newPopulation = new Population($population->size());
 
@@ -106,7 +129,7 @@ class GeneticAlgorithm {
             $parent1 = $population->getFittestIndividual($populationIndex);
 
             if($this->crossoverRate > Random::generate() && $populationIndex > $this->elitismCount){
-                $offspring = new Individual($parent1->getChromosomeLength());
+                $offspring = new Individual($element);
 
                 if($selectionMethod == 1){
                     $parent2 = $this->selectParentRoulette($population);
@@ -143,6 +166,107 @@ class GeneticAlgorithm {
 
         return $newPopulation;
     }
+
+    public function crossoverSinglePoint(Population $population, $selectionMethod = 2, $tournamentSize = 10){
+
+        $newPopulation = new Population($population->size());
+
+        for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
+
+            $parent1 = $population->getFittestIndividual($populationIndex);
+
+            if($this->crossoverRate > Random::generate() && $populationIndex >= $this->elitismCount){
+                $offspring = new Individual($parent1->getChromosomeLength());
+
+                if($selectionMethod == 1){
+                    $parent2 = $this->selectParentRoulette($population);
+                }
+                else if($selectionMethod == 2){
+
+                    if($tournamentSize <= $population->size()){
+
+                        $parent2 = $this->selectParentTournament($population, $tournamentSize);
+                    }
+                    else{
+                        throw new Exception("Tournament size larger than populations");
+                    }
+
+                }
+
+                $swapPoint = (int) Random::generate() * ($parent1->getChromosomeLength() + 1);
+
+                for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                    if($geneIndex < $swapPoint){
+                        $offspring->setGene($geneIndex, $parent1->getGene($geneIndex));
+                    }
+                    else{
+                        $offspring->setGene($geneIndex, $parent2->getGene($geneIndex));
+                    }
+                }
+
+                $newPopulation->setIndividual($populationIndex, $offspring);
+            }
+            else{
+                $newPopulation->setIndividual($populationIndex, $parent1);
+            }
+        }
+
+        return $newPopulation;
+    }
+
+    public function crossoverTwoPoint(Population $population, $selectionMethod = 2, $tournamentSize = 10){
+
+        $newPopulation = new Population($population->size());
+
+        for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
+
+            $parent1 = $population->getFittestIndividual($populationIndex);
+
+            if($this->crossoverRate > Random::generate() && $populationIndex >= $this->elitismCount){
+                $offspring = new Individual($parent1->getChromosomeLength());
+
+                if($selectionMethod == 1){
+                    $parent2 = $this->selectParentRoulette($population);
+                }
+                else if($selectionMethod == 2){
+
+                    if($tournamentSize <= $population->size()){
+
+                        $parent2 = $this->selectParentTournament($population, $tournamentSize);
+                    }
+                    else{
+                        throw new Exception("Tournament size larger than populations");
+                    }
+
+                }
+
+                //$swapPoint1 = Random::generate() * ($parent1->getChromosomeLength() + 1);
+
+                $swapPoint1 = rand(0,$parent1->getChromosomeLength()-2);
+
+                $swapPoint2 = rand($swapPoint1+1, $parent1->getChromosomeLength()-1);
+
+                for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                    if($geneIndex < $swapPoint1 || $geneIndex > $swapPoint2 ){
+                        $offspring->setGene($geneIndex, $parent1->getGene($geneIndex));
+                    }
+                    else{
+                        $offspring->setGene($geneIndex, $parent2->getGene($geneIndex));
+                    }
+                }
+
+                $newPopulation->setIndividual($populationIndex, $offspring);
+            }
+            else{
+                $newPopulation->setIndividual($populationIndex, $parent1);
+            }
+        }
+
+        return $newPopulation;
+    }
+
 
     public function mutateUniform(Population $population, Element $element){
 

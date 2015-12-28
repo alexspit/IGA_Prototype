@@ -16,6 +16,11 @@ require_once 'core/init.php';
         <!--Main CSS-->
         <link rel='stylesheet' type='text/css' href='css/ui.css' />
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine:i|Tangerine:b|Inconsolata|Droid+Sans">
+        <link rel='stylesheet' type='text/css' href='css/normalize.css' />
+        <link rel='stylesheet' type='text/css' href='css/ion.rangeSlider.css' />
+        <link rel='stylesheet' type='text/css' href='css/ion.rangeSlider.skinHTML5.css' />
+
+
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>

@@ -15,11 +15,14 @@ class Population {
 
         $this->population = new SplFixedArray($populationSize);
 
-        for($individualCount = 0; $individualCount < $populationSize; $individualCount++){
+        if(!is_null($element)){
+            for($individualCount = 0; $individualCount < $populationSize; $individualCount++){
 
-            $individual = new Individual($element);
-            $this->population[$individualCount] = $individual;
+                $individual = new Individual($element);
+                $this->population[$individualCount] = $individual;
+            }
         }
+
 
     }
 
