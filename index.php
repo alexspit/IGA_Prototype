@@ -6,9 +6,44 @@
  * Time: 23:04
  */
 
+require 'vendor/autoload.php';
+
+use JonnyW\PhantomJs\Client;
+
+$client = Client::getInstance();
+$client->getEngine()->setPath(__DIR__.'/bin/phantomjs.exe');
+
+
+$request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/GitHub/storelocator/');
+$response = $client->getMessageFactory()->createResponse();
+
+$file = 'thumbnails/file5.jpg';
+
+$top    = 0;
+$left   = 0;
+$width  = 1024;
+$height = 768;
+$request->setViewportSize($width, $height);
+$request->setCaptureDimensions($width, $height, $top, $left);
+
+$request->setOutputFile($file);
+
+$client->send($request, $response);
+
+echo $response->getStatus();
+exit;
+
+
+session_start();
+
+
 include_once "includes/masterpage/header.php"; ?>
 
     <h1>Give an Aesthetic Rating to each title</h1>
+    <form action="test.php" method="post" id="form1">
+
+        <input type="submit" value="Submit">
+    </form>
 
 
 <?php
@@ -24,7 +59,7 @@ $element->addProperty(new Property(6, "font-weight", ["normal", "lighter", "bold
 $element->addProperty(new Property(7, "letter-spacing", ["-3px", "-2px", "-1px", "0px", "1px", "2px", "3px"]));
 $element->addProperty(new Property(7, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
 
-$ga = new GeneticAlgorithm(10, 0.9,0.1,1);
+$ga = new GeneticAlgorithm(5, 0.9,0.1,1);
 
 $population = $ga->initPopulation($element);
 
@@ -42,7 +77,7 @@ foreach ($individuals as $id => $individual) {
     $id++;
     echo "Encoded: ".$individual."<br>";
     echo "Decoded: <h1 id='individual{$id}'>This is a Title</h1>";
-    echo '<input type="text" class="input_range" id="range_'.$id.'" name="individual'.$id.'" value="" />';
+    echo '<input type="text" class="input_range" id="range_'.$id.'" form="form1" name="individual_'.$id.'" value="" />';
 }
 
 //TEMP:: Setting random fitness
@@ -54,6 +89,7 @@ $ga->evalPopulation($population);
 
 echo $population->getPopulationFitness()."<br>";
 
+$_SESSION['population'] = serialize($population);
 
 
 ?>

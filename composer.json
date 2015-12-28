@@ -1,0 +1,27 @@
+{
+    "name": "alexspit/IGA_Prototype",
+    "description": "A basic implementation of an IGA to generativaly design web user interfaces based on the aesthetic preferences of users",
+    "minimum-stability": "dev",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Alexander Spiteri",
+            "email": "aspiteri6@gmail.com"
+        }
+    ],
+    "require": {
+        "jonnyw/php-phantomjs": "4.*",
+        "psr/log": "1.0.0"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "PhantomInstaller\\Installer::installPhantomJS"
+        ],
+        "post-update-cmd": [
+            "PhantomInstaller\\Installer::installPhantomJS"
+        ]
+    }
+}
