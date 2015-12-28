@@ -6,33 +6,6 @@
  * Time: 23:04
  */
 
-require 'vendor/autoload.php';
-
-use JonnyW\PhantomJs\Client;
-
-$client = Client::getInstance();
-$client->getEngine()->setPath(__DIR__.'/bin/phantomjs.exe');
-
-
-$request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/GitHub/storelocator/');
-$response = $client->getMessageFactory()->createResponse();
-
-$file = 'thumbnails/file5.jpg';
-
-$top    = 0;
-$left   = 0;
-$width  = 1024;
-$height = 768;
-$request->setViewportSize($width, $height);
-$request->setCaptureDimensions($width, $height, $top, $left);
-
-$request->setOutputFile($file);
-
-$client->send($request, $response);
-
-echo $response->getStatus();
-exit;
-
 
 session_start();
 
@@ -44,6 +17,7 @@ include_once "includes/masterpage/header.php"; ?>
 
         <input type="submit" value="Submit">
     </form>
+
 
 
 <?php
