@@ -8,7 +8,7 @@ $( document ).ready(function() {
     });*/
 
     $(".input_range").ionRangeSlider({
-            min: 0,
+            min: 1,
             max: 10,
             from: 5
     });
@@ -16,4 +16,10 @@ $( document ).ready(function() {
     $(".gallery").ionZoom({
         visibleControls: false                  // Disable visual controls
     });
+
+    $("#next_generation").on("click", function() {
+        //console.log($("#form1").serialize());
+        $("#form1").submit();
+    });
+
 });

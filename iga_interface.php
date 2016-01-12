@@ -21,7 +21,7 @@ include_once "includes/masterpage/header.php";
             <ul class="nav navbar-nav pull-right">
 
                 <li class="">
-                    <a href="#">Next Generation</a>
+                    <a id="next_generation" href="#">Next Generation</a>
                 </li>
 
             </ul>
@@ -34,6 +34,11 @@ include_once "includes/masterpage/header.php";
 
 <!-- Page Content -->
 <div class="container">
+
+    <form name="form1" id="form1" method="get" action="test.php">
+
+
+    </form>
 
     <!-- Page Heading -->
     <div class="row">
