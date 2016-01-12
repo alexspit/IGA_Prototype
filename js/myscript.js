@@ -10,9 +10,6 @@ $( document ).ready(function() {
     $(".input_range").ionRangeSlider({
             min: 0,
             max: 10,
-            from: 5,
-            grid: true,
-            grid_num: 10
-
-        });
+            from: 5
+    });
 });

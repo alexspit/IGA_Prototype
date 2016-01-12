@@ -1,14 +1,30 @@
 
-        <footer id="footer" role="contentinfo">
 
 
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+            <!-- /.row -->
         </footer>
 
-        <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-        <script type="text/javascript" language="javascript" src="js/html2canvas.min.js"></script>
+        </div>
+        <!-- /.container -->
+
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/ion.rangeSlider.js"></script>
 
         <script src="js/myscript.js"></script>
 
-    </body>
-</html>
+        </body>
+
+        </html>
