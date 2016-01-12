@@ -54,8 +54,8 @@ $file = 'thumbnails/individual.jpg';
 
 $top    = 0;
 $left   = 0;
-$width  = 1280;
-$height = 1000;
+$width  = 1400;
+$height = 875;
 
 $request->setViewportSize($width, $height);
 $request->setCaptureDimensions($width, $height, $top, $left);
