@@ -1,6 +1,8 @@
 <?php 
 ob_start();
 require_once 'core/init.php';
+
+//require_once 'classes/GeneticAlgorithm.php';
 ?>
 
 <!DOCTYPE html>

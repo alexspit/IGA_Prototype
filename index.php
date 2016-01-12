@@ -7,10 +7,12 @@
  */
 
 
-session_start();
+//session_start();
 
 
-include_once "includes/masterpage/header.php"; ?>
+include_once "includes/masterpage/header.php";
+//require_once "classes/GeneticAlgorithm.php";
+?>
 
     <h1>Give an Aesthetic Rating to each title</h1>
     <form action="test.php" method="post" id="form1">

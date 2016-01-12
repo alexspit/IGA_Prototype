@@ -13,9 +13,11 @@ use JonnyW\PhantomJs\Client;
 $client = Client::getInstance();
 $client->getEngine()->setPath(__DIR__.'/bin/phantomjs.exe');
 
+
+
 for($i=1;$i<=12;$i++){
 //$request  = $client->getMessageFactory()->createCaptureRequest('http://ironsummitmedia.github.io/startbootstrap-shop-homepage/');
-    $request  = $client->getMessageFactory()->createCaptureRequest('http://lorempixel.com/1280/1000/sports/');
+    $request  = $client->getMessageFactory()->createCaptureRequest('file:///C:/Users/Alex/Google%20Drive/Middlesex/Thesis/Templates/startbootstrap-shop-homepage-1.0.4/index.html');
     $response = $client->getMessageFactory()->createResponse();
 
     $file = 'thumbnails/file'.$i.'.jpg';
@@ -27,6 +29,7 @@ for($i=1;$i<=12;$i++){
 
     $request->setViewportSize($width, $height);
     $request->setCaptureDimensions($width, $height, $top, $left);
+   // $request->setDelay(200);
 
     $request->setOutputFile($file);
 
@@ -43,6 +46,5 @@ for($i=1;$i<=12;$i++){
 
 
 }
-
 
 exit;
