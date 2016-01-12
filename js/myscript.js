@@ -12,4 +12,8 @@ $( document ).ready(function() {
             max: 10,
             from: 5
     });
+
+    $(".gallery").ionZoom({
+        visibleControls: false                  // Disable visual controls
+    });
 });

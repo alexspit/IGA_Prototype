@@ -1,8 +1,11 @@
 
 .individual-thumbnail {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
+body{
+    background-color: #d5d5d5 !important;
+}
 
 
 footer {

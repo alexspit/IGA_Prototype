@@ -8,11 +8,12 @@ include_once "includes/masterpage/header.php";
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <a class="navbar-brand" href="#">  Rate each interface on Aesthetic/Visual Appeal </a>
-            <a class=""
+            <a class="navbar-brand" href="#"><small> (1 = Lowest Aesthetic Appeal; 10 = Highest Aesthetic Appeal)</small></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+
                 <li class="hidden">
                     <a href="#">Configuration</a>
                 </li>
@@ -46,87 +47,90 @@ include_once "includes/masterpage/header.php";
     <!-- Projects Row -->
     <div class="row">
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
     </div>
     <!-- /.row -->
+
     <!-- Projects Row -->
     <div class="row">
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
     </div>
     <!-- /.row -->
+
     <!-- Projects Row -->
     <div class="row">
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
         <div class="col-md-3 individual-thumbnail">
-            <a href="#">
-                <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+            <a href="thumbnails/individual.jpg" class="gallery">
+                <img class="img-responsive" src="thumbnails/individual.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
         </div>
     </div>
     <!-- /.row -->
+
 
 
 
