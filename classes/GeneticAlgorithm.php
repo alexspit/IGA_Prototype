@@ -11,9 +11,20 @@
 class GeneticAlgorithm {
 
     private $populationSize;
+    private $mutationOperator;
+    private $selectionOperator;
+    private $crossoverOperator;
     private $mutationRate;
     private $crossoverRate;
     private $elitismCount;
+    private $maxGenerations;
+    private $tournamentSize;
+    private $generationNumber;
+    private $susScore;
+    private $sessionStart;
+    private $sessionEnd;
+
+
 
     const ROULETTE = 1;
     const TOURNAMENT = 2;

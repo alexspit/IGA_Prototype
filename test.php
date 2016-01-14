@@ -7,11 +7,26 @@
  */
 
 
+require "core/init.php";
+
+
+
+$user = new User();
+
+$user->setName("Leli");
+$user->setSurname("Spiteri");
+$user->setAge(29);
+$user->setSex("m");
+
+$user->save();
+
+var_dump($user->get($user->getUserId()));
+
 
 
 ?>
 
-<h1>TESTTTTT</h1>
+
 
 
 

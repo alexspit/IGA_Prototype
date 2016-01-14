@@ -7,6 +7,7 @@
  */
 
 require 'vendor/autoload.php';
+require 'core/init.php';
 
 use JonnyW\PhantomJs\Client;
 
@@ -14,18 +15,18 @@ $client = Client::getInstance();
 $client->getEngine()->setPath(__DIR__.'/bin/phantomjs.exe');
 
 
-/*
+
 for($i=1;$i<=12;$i++){
 //$request  = $client->getMessageFactory()->createCaptureRequest('http://ironsummitmedia.github.io/startbootstrap-shop-homepage/');
-    $request  = $client->getMessageFactory()->createCaptureRequest('file:///C:/Users/Alex/Google%20Drive/Middlesex/Thesis/Templates/startbootstrap-shop-homepage-1.0.4/index.html');
+    $request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/IGA_Prototype/individual_interface.php');
     $response = $client->getMessageFactory()->createResponse();
 
-    $file = 'thumbnails/file'.$i.'.jpg';
+    $file = 'thumbnails/individual'.$i.'.jpg';
 
     $top    = 0;
     $left   = 0;
-    $width  = 1280;
-    $height = 1000;
+    $width  = 1400;
+    $height = 875;
 
     $request->setViewportSize($width, $height);
     $request->setCaptureDimensions($width, $height, $top, $left);
@@ -38,19 +39,25 @@ for($i=1;$i<=12;$i++){
 
 }
 
+
+Redirect::to("iga_interface.php");
+
+/*
 for($i=1;$i<=12;$i++){
 
 
 
-        echo "<img width='250'  src='thumbnails/file".$i.".jpg'>";
+        echo "<img width='250' src='thumbnails/individual".$i.".jpg'>";
 
 
-}*/
+}
+
+
 
 $request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/IGA_Prototype/individual_interface.php');
 $response = $client->getMessageFactory()->createResponse();
 
-$file = 'thumbnails/individual.jpg';
+$file = 'thumbnails/individual1.jpg';
 
 $top    = 0;
 $left   = 0;
@@ -66,5 +73,5 @@ $request->setOutputFile($file);
 $client->send($request, $response);
 
 
-echo '<img src="thumbnails/individual.jpg" />';
-exit;
+echo '<img src="thumbnails/individual1.jpg" />';
+exit;*/
