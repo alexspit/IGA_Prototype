@@ -10,33 +10,149 @@
 
 class GeneticAlgorithm {
 
+    private $session_id;
     private $populationSize;
-    private $mutationOperator;
-    private $selectionOperator;
-    private $crossoverOperator;
-    private $mutationRate;
-    private $crossoverRate;
     private $elitismCount;
     private $maxGenerations;
+
+    private $selectionOperator;
     private $tournamentSize;
+
+    private $crossoverOperator;
+    private $crossoverRate;
+
+    private $mutationOperator;
+    private $mutationRate;
+
+
     private $generationNumber;
     private $susScore;
     private $sessionStart;
     private $sessionEnd;
 
-
-
-    const ROULETTE = 1;
-    const TOURNAMENT = 2;
-
-    function __construct($populationSize, $crossoverRate, $mutationRate, $elitismCount)
+    private $user;
+    private $db;
+/*
+    public function __construct($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user)
     {
-        $this->crossoverRate = $crossoverRate;
-        $this->elitismCount = $elitismCount;
-        $this->mutationRate = $mutationRate;
-        $this->populationSize = $populationSize;
+        $this->db = DB::getInstance();
+
+        $this->sessionStart = date("Y-m-d H:i:s", time());
+
+        $sql = "INSERT INTO session (user_id, selection_operator, crossover_operator, mutation_operator, elitism_count, max_generations, population_size, tournament_size, session_start) VALUES (?,?,?,?,?,?,?,?,?)";
+        $params = [$user->getUserId(), $selectionOperator, $crossoverOperator, $mutationOperator, $elitismCount, $maxGenerations, $populationSize, $tournamentSize, $this->sessionStart];
+
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+
+            throw new Exception("Error adding new GA Session");
+
+        }else{
+
+            $this->session_id = $result->last_inserted_id;
+            $this->generationNumber = 1;
+            $this->user = $user;
+
+            $this->populationSize = $populationSize;
+            $this->elitismCount = $elitismCount;
+            $this->maxGenerations = $maxGenerations;
+            $this->selectionOperator = $selectionOperator;
+            $this->tournamentSize = $tournamentSize;
+            $this->crossoverOperator = $crossoverOperator;
+            $this->crossoverRate = $crossoverRate;
+            $this->mutationOperator = $mutationOperator;
+            $this->mutationRate = $mutationRate;
+
+            $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
+            $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
+
+            $result = $this->db->query($sql, $params);
+
+            if($result->error()){
+                throw new Exception("Error adding new Generation");
+            }
+        }
+
+    }
+*/
+
+    public function __construct($user_id = null)
+    {
+        $this->db = DB::getInstance();
+
+        if (!is_null($user_id)){
+
+            $sql = "SELECT s.population_size, s.elitism_count, s.max_generations, s.selection_operator, s.tournament_size,
+                s.crossover_operator, g.crossover_rate, s.mutation_operator, g.mutation_rate, g.generation_number, s.user_id
+                FROM session s INNER JOIN generation g ON (s.session_id = g.session_id)
+                WHERE s.user_id = ?";
+            $param = [$user_id];
+
+            $pdo = $this->db->query($sql, $param);
+
+            $this->session_id =$pdo->last_inserted_id;
+
+            $this->populationSize = $pdo->result()[0]->population_size;
+            $this->elitismCount = $pdo->result()[0]->elitism_count;
+            $this->maxGenerations = $pdo->result()[0]->max_generations;
+            $this->selectionOperator = $pdo->result()[0]->selection_operator;
+            $this->tournamentSize = $pdo->result()[0]->tournament_size;
+            $this->crossoverOperator = $pdo->result()[0]->crossover_operator;
+            $this->crossoverRate = $pdo->result()[0]->crossover_rate;
+            $this->mutationOperator = $pdo->result()[0]->mutation_operator;
+            $this->mutationRate = $pdo->result()[0]->mutation_rate;
+            $this->generationNumber = $pdo->result()[0]->generation_number;
+
+            $user = new User();
+            $this->user =  $user->get($pdo->result()[0]->user_id);
+
+        }
+
     }
 
+    public function init($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user){
+
+
+        $this->sessionStart = date("Y-m-d H:i:s", time());
+
+        $sql = "INSERT INTO session (user_id, selection_operator, crossover_operator, mutation_operator, elitism_count, max_generations,
+                population_size, tournament_size, session_start) VALUES (?,?,?,?,?,?,?,?,?)";
+        $params = [$user->getUserId(), $selectionOperator, $crossoverOperator, $mutationOperator, $elitismCount, $maxGenerations, $populationSize, $tournamentSize, $this->sessionStart];
+
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+
+            throw new Exception("Error adding new GA Session");
+
+        }else{
+
+            $this->session_id = $result->last_inserted_id;
+            $this->generationNumber = 1;
+            $this->user = $user;
+
+            $this->populationSize = $populationSize;
+            $this->elitismCount = $elitismCount;
+            $this->maxGenerations = $maxGenerations;
+            $this->selectionOperator = $selectionOperator;
+            $this->tournamentSize = $tournamentSize;
+            $this->crossoverOperator = $crossoverOperator;
+            $this->crossoverRate = $crossoverRate;
+            $this->mutationOperator = $mutationOperator;
+            $this->mutationRate = $mutationRate;
+
+            $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
+            $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
+
+            $result = $this->db->query($sql, $params);
+
+            if($result->error()){
+                throw new Exception("Error adding new Generation");
+            }
+        }
+
+    }
 
     public function initPopulation(Element $element){
 
@@ -131,7 +247,7 @@ class GeneticAlgorithm {
 
     }
 
-    public function crossoverUniform(Population $population, Element $element, $selectionMethod = 2, $tournamentSize = 10){
+    public function crossoverUniform(Population $population, Element $element, $selectionMethod = Selection::TOURNAMENT, $tournamentSize = 10){
 
         $newPopulation = new Population($population->size());
 
@@ -142,10 +258,10 @@ class GeneticAlgorithm {
             if($this->crossoverRate > Random::generate() && $populationIndex > $this->elitismCount){
                 $offspring = new Individual($element);
 
-                if($selectionMethod == 1){
+                if($selectionMethod == Selection::ROULETTE){
                     $parent2 = $this->selectParentRoulette($population);
                 }
-                else if($selectionMethod == 2){
+                else if($selectionMethod == Selection::TOURNAMENT){
 
                     if($tournamentSize <= $population->size()){
 
@@ -178,7 +294,7 @@ class GeneticAlgorithm {
         return $newPopulation;
     }
 
-    public function crossoverSinglePoint(Population $population, $selectionMethod = 2, $tournamentSize = 10){
+    public function crossoverSinglePoint(Population $population, $selectionMethod = Selection::TOURNAMENT, $tournamentSize = 10){
 
         $newPopulation = new Population($population->size());
 
@@ -189,10 +305,10 @@ class GeneticAlgorithm {
             if($this->crossoverRate > Random::generate() && $populationIndex >= $this->elitismCount){
                 $offspring = new Individual($parent1->getChromosomeLength());
 
-                if($selectionMethod == 1){
+                if($selectionMethod == Selection::ROULETTE){
                     $parent2 = $this->selectParentRoulette($population);
                 }
-                else if($selectionMethod == 2){
+                else if($selectionMethod == Selection::TOURNAMENT){
 
                     if($tournamentSize <= $population->size()){
 
@@ -226,7 +342,7 @@ class GeneticAlgorithm {
         return $newPopulation;
     }
 
-    public function crossoverTwoPoint(Population $population, $selectionMethod = 2, $tournamentSize = 10){
+    public function crossoverTwoPoint(Population $population, $selectionMethod = Selection::TOURNAMENT, $tournamentSize = 10){
 
         $newPopulation = new Population($population->size());
 
@@ -237,10 +353,10 @@ class GeneticAlgorithm {
             if($this->crossoverRate > Random::generate() && $populationIndex >= $this->elitismCount){
                 $offspring = new Individual($parent1->getChromosomeLength());
 
-                if($selectionMethod == 1){
+                if($selectionMethod == Selection::ROULETTE){
                     $parent2 = $this->selectParentRoulette($population);
                 }
-                else if($selectionMethod == 2){
+                else if($selectionMethod == Selection::TOURNAMENT){
 
                     if($tournamentSize <= $population->size()){
 
@@ -278,7 +394,6 @@ class GeneticAlgorithm {
         return $newPopulation;
     }
 
-
     public function mutateUniform(Population $population, Element $element){
 
         $newPopulation = new Population($population->size());
@@ -305,6 +420,14 @@ class GeneticAlgorithm {
         }
 
         return $newPopulation;
+    }
+
+    public function getGenerationNumber(){
+        return $this->generationNumber;
+    }
+
+    public function getSessionID(){
+        return $this->session_id;
     }
 
 } 

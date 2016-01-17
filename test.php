@@ -10,18 +10,23 @@
 require "core/init.php";
 
 
-
+/*
 $user = new User();
 
 $user->setName("Leli");
 $user->setSurname("Spiteri");
 $user->setAge(29);
-$user->setSex("m");
+$user->setSex(SEX::MALE);
 
 $user->save();
+*/
 
-var_dump($user->get($user->getUserId()));
 
+$ga = new GeneticAlgorithm($_SESSION['gaSession_id']);
+
+echo "<pre>";
+var_dump($ga);
+echo "</pre>";
 
 
 ?>

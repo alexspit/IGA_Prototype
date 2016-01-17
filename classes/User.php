@@ -46,15 +46,6 @@ class User
             }
 
         }
-        else{
-
-            $this->user_id = null;
-            $this->name = null;
-            $this->surname = null;
-            $this->age = null;
-            $this->sex = null;
-
-        }
 
     }
 
@@ -72,6 +63,7 @@ class User
         $params = [$id];
         $user = $this->db->query($sql, $params, 'User');
 
+        $this->user_id = $id;
         $this->name = $user->result()[0]->name;
         $this->surname = $user->result()[0]->surname;
         $this->age = $user->result()[0]->age;

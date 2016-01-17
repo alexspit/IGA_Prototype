@@ -22,4 +22,43 @@ $( document ).ready(function() {
         $("#form1").submit();
     });
 
+
+    //CONFIGURATION.php SETTINGS
+
+    $('.config_range').each(function(i, range){
+
+        var $range = $(range);
+
+        var min = $range.attr("min");
+        var max = $range.attr("max");
+        var val = $range.value;
+        var postfix = "";
+        var step = $range.attr("step");
+
+        if($range.data("postfix") != undefined){
+            postfix = $range.data("postfix");
+        }
+
+
+        $range.ionRangeSlider({
+            min: min,
+            max: max,
+            from: val,
+            postfix: postfix,
+            step: step
+        });
+    });
+
+    /*
+    var $pop_size = $("#pop_size");
+    var min = $pop_size.attr("min");
+    var max = $pop_size.attr("max");
+    var val = $pop_size.value;
+
+    $pop_size.ionRangeSlider({
+        min: min,
+        max: max,
+        from: val
+    });*/
+
 });
