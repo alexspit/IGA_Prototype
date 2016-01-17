@@ -13,13 +13,13 @@ class Population {
 
     public function __construct($populationSize, Element $element = null ){
 
-        $this->population = new SplFixedArray($populationSize);
+        $this->population = [];
 
         if(!is_null($element)){
             for($individualCount = 0; $individualCount < $populationSize; $individualCount++){
 
                 $individual = new Individual($element);
-                $this->population[$individualCount] = $individual;
+                $this->population[] = $individual;
             }
         }
 
@@ -28,14 +28,14 @@ class Population {
 
     public function getIndividuals(){
 
-        return (array) $this->population;
+        return $this->population;
     }
 
     public function getFittestIndividual($offset){
 
-        //IODO
+       //CHECK HERE IF THERE ARE PROBLEMS
 
-        $tmpPopulation = $this->population->toArray();
+        $tmpPopulation = $this->population;
 
         usort($tmpPopulation, function(Individual $individual1, Individual $individual2) { //Returning positive or negative numbers to sort the elements. By putting the 2nd parameter first, we sort in descending order.
             //return $individual2->getFitness() - $individual1->getFitness();
@@ -50,7 +50,7 @@ class Population {
             }
         });
 
-        $this->population = SplFixedArray::fromArray($tmpPopulation);
+        $this->population = $tmpPopulation;
         return $this->population[$offset];
     }
 
@@ -75,6 +75,12 @@ class Population {
         return $this->population[$key] = $individual;
     }
 
+
+    public function addIndividual(Individual $individual){
+
+        $this->population[] = $individual;
+    }
+
     public function getIndividual($key){
 
         return $this->population[$key];
@@ -82,11 +88,7 @@ class Population {
 
     public function shuffle(){
 
-        $tmpPopulation = $this->population->toArray();
-
-        shuffle($tmpPopulation);
-
-        $this->population = SplFixedArray::fromArray($tmpPopulation);
+        shuffle($this->population);
 
     }
 } 
