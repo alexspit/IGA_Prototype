@@ -138,9 +138,9 @@ class GeneticAlgorithm {
             $this->selectionOperator = $selectionOperator;
             $this->tournamentSize = $tournamentSize;
             $this->crossoverOperator = $crossoverOperator;
-            $this->crossoverRate = $crossoverRate;
+            $this->crossoverRate = $crossoverRate/100;
             $this->mutationOperator = $mutationOperator;
-            $this->mutationRate = $mutationRate;
+            $this->mutationRate = $mutationRate/100;
 
             $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
             $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
