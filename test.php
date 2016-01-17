@@ -19,7 +19,6 @@ $user->setAge(29);
 $user->setSex(SEX::MALE);
 
 $user->save();
-*/
 
 
 $ga = new GeneticAlgorithm($_SESSION['gaSession_id']);
@@ -28,6 +27,16 @@ echo "<pre>";
 var_dump($ga);
 echo "</pre>";
 
+
+*/
+
+$i = new Individual(70);
+
+$i->captureImage();
+
+echo "<pre>";
+var_dump($i);
+echo "</pre>";
 
 ?>
 

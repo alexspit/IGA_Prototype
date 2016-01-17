@@ -13,6 +13,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 }
 
+require_once '../vendor/autoload.php';
 //Autoloading classes instead of using require once every time. Only load classes used.
 //Pass a function that runs everytime a class is accessed
 spl_autoload_register(function($class){

@@ -26,12 +26,16 @@ class GeneticAlgorithm {
 
 
     private $generationNumber;
+    private $generation_id;
+
     private $susScore;
     private $sessionStart;
     private $sessionEnd;
 
     private $user;
     private $db;
+
+    private $element;
 /*
     public function __construct($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user)
     {
@@ -81,17 +85,30 @@ class GeneticAlgorithm {
     {
         $this->db = DB::getInstance();
 
+        //OBVIOUSLT TEMP - For testing only
+        $this->element = new Element("h1", 1);
+
+        $this->element->addProperty(new Property(1, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+        $this->element->addProperty(new Property(2, "text-align", ["center", "left", "right", "justified"]));
+        $this->element->addProperty(new Property(3, "text-decoration", ["overline", "underline", "line-through", "none"]));
+        $this->element->addProperty(new Property(4, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
+        $this->element->addProperty(new Property(5, "font-style", ["normal", "italic", "oblique"]));
+        $this->element->addProperty(new Property(6, "font-weight", ["normal", "lighter", "bold"]));
+        $this->element->addProperty(new Property(7, "letter-spacing", ["-3px", "-2px", "-1px", "0px", "1px", "2px", "3px"]));
+        //$this->element->addProperty(new Property(7, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+
+
         if (!is_null($user_id)){
 
             $sql = "SELECT s.population_size, s.elitism_count, s.max_generations, s.selection_operator, s.tournament_size,
-                s.crossover_operator, g.crossover_rate, s.mutation_operator, g.mutation_rate, g.generation_number, s.user_id
+                s.crossover_operator, g.crossover_rate, s.mutation_operator, g.mutation_rate, g.generation_number, s.user_id, s.session_id, g.generation_id
                 FROM session s INNER JOIN generation g ON (s.session_id = g.session_id)
                 WHERE s.user_id = ?";
             $param = [$user_id];
 
             $pdo = $this->db->query($sql, $param);
 
-            $this->session_id =$pdo->last_inserted_id;
+            $this->session_id =$pdo->result()[0]->session_id;
 
             $this->populationSize = $pdo->result()[0]->population_size;
             $this->elitismCount = $pdo->result()[0]->elitism_count;
@@ -103,6 +120,7 @@ class GeneticAlgorithm {
             $this->mutationOperator = $pdo->result()[0]->mutation_operator;
             $this->mutationRate = $pdo->result()[0]->mutation_rate;
             $this->generationNumber = $pdo->result()[0]->generation_number;
+            $this->generation_id = $pdo->result()[0]->generation_id;
 
             $user = new User();
             $this->user =  $user->get($pdo->result()[0]->user_id);
@@ -150,27 +168,30 @@ class GeneticAlgorithm {
             if($result->error()){
                 throw new Exception("Error adding new Generation");
             }
+            else{
+                $this->generation_id = $result->last_inserted_id;
+            }
         }
 
     }
 
-    public function initPopulation(Element $element){
+    public function initPopulation(){
 
-        return new Population($this->populationSize, $element);
+        return new Population($this->populationSize, $this->generation_id, $this->element);
     }
 
-    function decode($id, Individual $individual, Element $element){
+    function decode(Individual $individual){
 
-        $cssCode = "{$element->getCssTag()}#individual{$id} {".PHP_EOL;
-        $chromosome = $individual->getChromosome()->toArray();
+        $cssCode = "{$this->element->getCssTag()} {".PHP_EOL;
+        $chromosome = $individual->getChromosome();
         $geneIndex = 0;
 
-        foreach ($element->getProperties() as $property) {
+        foreach ($this->element->getProperties() as $property) {
 
             if($property->getCssName() == "font-family"){
                 $cssCode .= "{$property->getCssName()} : '{$property->getValue($chromosome[$geneIndex])}', serif; ";
             }else{
-                $cssCode .= "{$property->getCssName()} : {$property->getValue($chromosome[$geneIndex])}; ";
+                $cssCode .= "{$property->getCssName()} : {$property->getValue($chromosome[$geneIndex])} !important; ";
             }
 
             $geneIndex++;
@@ -181,6 +202,27 @@ class GeneticAlgorithm {
 
     }
 
+    public function currentPopulation(){
+
+        $sql = "SELECT i.individual_id FROM individual i
+                INNER JOIN generation g ON (i.generation_id = g.generation_id)
+                INNER JOIN session s ON (g.session_id = s.session_id)
+                INNER JOIN user u ON (s.user_id = u.user_id)
+                WHERE u.user_id = ?";
+        $param = [$this->user->getUserId()];
+
+        $pdo = $this->db->query($sql, $param);
+
+        $currentPopulation = new Population($this->populationSize);
+
+        foreach ($pdo->result() as $i) {
+            $currentPopulation->addIndividual(new Individual($i->individual_id));
+        }
+
+        return $currentPopulation;
+
+    }
+/*
     public function evalPopulation(Population $population){
 
         $populationFitness = 0;
@@ -191,6 +233,28 @@ class GeneticAlgorithm {
 
             $populationFitness += $individual->getFitness();
         }
+
+        $population->setPopulationFitness($populationFitness);
+
+    }*/
+
+    public function evalPopulation(Population $population, array $ratings){
+
+        $populationFitness = 0;
+
+        if(count($ratings) != $population->size()){
+            throw new Exception("Not all individuals have been rated");
+        }
+        else{
+
+            foreach ($population->getIndividuals() as $individual) {
+
+
+
+            }
+        }
+
+
 
         $population->setPopulationFitness($populationFitness);
 
@@ -430,4 +494,7 @@ class GeneticAlgorithm {
         return $this->session_id;
     }
 
+    public function getGenerationID(){
+        return $this->generation_id;
+    }
 } 

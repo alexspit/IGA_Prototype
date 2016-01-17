@@ -1,5 +1,12 @@
 <?php
 include_once "includes/masterpage/header.php";
+
+$user_id = $_SESSION["user_id"];
+
+$ga = new GeneticAlgorithm($user_id);
+
+$currentPopulation = $ga->currentPopulation();
+
 ?>
 
 <!-- Navigation -->
@@ -21,6 +28,9 @@ include_once "includes/masterpage/header.php";
             <ul class="nav navbar-nav pull-right">
 
                 <li class="">
+                    <a id="current_generation" href="#">Generation <?php echo $ga->getGenerationNumber(); ?></a>
+                </li>
+                <li class="">
                     <a id="next_generation" href="#">Next Generation</a>
                 </li>
 
@@ -35,7 +45,7 @@ include_once "includes/masterpage/header.php";
 <!-- Page Content -->
 <div class="container">
 
-    <form name="form1" id="form1" method="get" action="screencapture.php"></form>
+    <form name="form1" id="form1" method="post" action="process/evolve.php"></form>
 
     <!-- Page Heading -->
     <div class="row">
@@ -48,7 +58,20 @@ include_once "includes/masterpage/header.php";
 
     <!-- Projects Row -->
     <div class="row">
-        <div class="col-md-3 individual-thumbnail">
+        <?php
+            $index = 0;
+            for($i=0;$i<4;$i++){
+                echo ' <div class="col-md-3 individual-thumbnail">
+                            <a href="'.$currentPopulation->getIndividual($index)->getImagePath().'" class="gallery">
+                                <img class="img-responsive" src="'.$currentPopulation->getIndividual($index)->getImagePath().'" alt="">
+                            </a>
+                            <input type="text" class="input_range" id="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" form="form1" name="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" value="" />
+                       </div>';
+                $index++;
+            }
+
+        ?>
+       <!-- <div class="col-md-3 individual-thumbnail">
             <a href="thumbnails/individual1.jpg" class="gallery">
                 <img class="img-responsive" src="thumbnails/individual1.jpg" alt="">
             </a>
@@ -71,67 +94,49 @@ include_once "includes/masterpage/header.php";
                 <img class="img-responsive" src="thumbnails/individual4.jpg" alt="">
             </a>
             <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
+        </div>-->
     </div>
     <!-- /.row -->
 
     <!-- Projects Row -->
     <div class="row">
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual5.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual5.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual6.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual6.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual7.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual7.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual8.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual8.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
+        <?php
+
+        for($i=0;$i<4;$i++){
+            echo ' <div class="col-md-3 individual-thumbnail">
+                            <a href="'.$currentPopulation->getIndividual($index)->getImagePath().'" class="gallery">
+                                <img class="img-responsive" src="'.$currentPopulation->getIndividual($index)->getImagePath().'" alt="">
+                            </a>
+                            <input type="text" class="input_range" id="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" form="form1" name="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" value="" />
+                       </div>';
+            $index++;
+        }
+
+        ?>
+
     </div>
     <!-- /.row -->
 
     <!-- Projects Row -->
     <div class="row">
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual9.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual9.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual10.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual10.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual11.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual11.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
-        <div class="col-md-3 individual-thumbnail">
-            <a href="thumbnails/individual12.jpg" class="gallery">
-                <img class="img-responsive" src="thumbnails/individual12.jpg" alt="">
-            </a>
-            <input type="text" class="input_range" id="range_1" form="form1" name="individual_1" value="" />
-        </div>
+        <?php
+
+        for($i=0;$i<4;$i++){
+            echo ' <div class="col-md-3 individual-thumbnail">
+                            <a href="'.$currentPopulation->getIndividual($index)->getImagePath().'" class="gallery">
+                                <img class="img-responsive" src="'.$currentPopulation->getIndividual($index)->getImagePath().'" alt="">
+                            </a>
+                            <input type="text" class="input_range" id="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" form="form1" name="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" value="" />
+                       </div>';
+            $index++;
+        }
+
+        ?>
+
     </div>
     <!-- /.row -->
+
+
 
 
 

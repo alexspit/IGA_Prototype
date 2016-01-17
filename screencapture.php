@@ -14,14 +14,12 @@ use JonnyW\PhantomJs\Client;
 $client = Client::getInstance();
 $client->getEngine()->setPath(__DIR__.'/bin/phantomjs.exe');
 
-
-
-for($i=1;$i<=12;$i++){
-//$request  = $client->getMessageFactory()->createCaptureRequest('http://ironsummitmedia.github.io/startbootstrap-shop-homepage/');
-    $request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/IGA_Prototype/individual_interface.php');
+//for($i=1;$i<=12;$i++){
+    $request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/IGA_Prototype/individual_interface_test.php?id=68');
     $response = $client->getMessageFactory()->createResponse();
 
-    $file = 'thumbnails/individual'.$i.'.jpg';
+    //$file = 'thumbnails/individual'.$i.'.jpg';
+    $file = 'thumbnails/individual_68.jpg';
 
     $top    = 0;
     $left   = 0;
@@ -37,7 +35,7 @@ for($i=1;$i<=12;$i++){
     $client->send($request, $response);
 
 
-}
+//}
 
 
 Redirect::to("iga_interface.php");

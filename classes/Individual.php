@@ -5,55 +5,76 @@
  * Date: 26-Dec-15
  * Time: 18:26
  */
+//require '../vendor/autoload.php';
+
+use JonnyW\PhantomJs\Client;
+
 
 class Individual {
 
 
     private $chromosome;
-    private $fitness = -1;
-    private $elementId;
-    private $elementName;
+    private $fitness;
+    private $individual_id;
+    private $image_path;
+
+    private $db;
 
 
-
-   /* public function __construct($chromosome, Element $element = null)
+    public function __construct($id, Element $element = null)
     {
-       if(is_array($chromosome)){
+        $this->db = DB::getInstance();
 
-           $this->chromosome = $chromosome;
-       }
-       else{
+        if(is_null($element)){
 
-           $this->chromosome = new SplFixedArray($chromosome);
-           for($gene = 0; $gene < $chromosome; $gene++){
-               if(0.5 < Random::generate()){
-                   $this->setGene($gene, 1);
-               }
-               else{
-                   $this->setGene($gene, 0);
-               }
-           }
+            $sql = "SELECT chromosome, image_path, fitness FROM individual WHERE individual_id=?";
+            $params = [$id];
 
-       }
+            $pdo = $this->db->query($sql, $params);
 
-    }*/
+            $this->individual_id = $id;
+            $this->image_path = $pdo->result()[0]->image_path;
+            $this->fitness = $pdo->result()[0]->fitness;
+            $this->chromosome = explode(",", $pdo->result()[0]->chromosome);
 
+        }
+        else{
 
-    public function __construct(Element $element)
-    {
-
+            $this->fitness = -1;
             $this->chromosome = $this->encode($element);
+
+            $sql = "INSERT INTO individual (generation_id, chromosome, fitness) VALUES (?,?,?)";
+            $params = [$id, implode(',',$this->chromosome), $this->fitness];
+            $result = $this->db->query($sql, $params);
+
+            if($result->error()){
+
+                throw new Exception("Error adding new GA Session");
+
+            }else{
+
+                $this->individual_id = $result->last_inserted_id;
+
+                if($this->captureImage()){
+
+                    $sql = "UPDATE individual SET image_path='{$this->image_path}' WHERE individual_id=?";
+                    $params = [$this->individual_id];
+                    $result = $this->db->query($sql, $params);
+
+                    if($result->error()){
+                        throw new Exception("Error updating image_path field in Database");
+                    }
+                }
+            }
+        }
 
     }
 
     private function encode(Element $element){
 
-        $chromosomeLength = count($element->getProperties());
-        $this->elementId = $element->getId();
-        $this->elementName = $element->getCssTag();
+        $newChromosome = [];
 
-        $newChromosome = new SplFixedArray($chromosomeLength);
-
+        //To change chromosomeIndex to reflect the key of the property
         $chromosomeIndex = 0;
         foreach ($element->getProperties() as $property) {
             $newChromosome[$chromosomeIndex] = $property->getRandomValue();
@@ -61,6 +82,36 @@ class Individual {
         }
 
         return $newChromosome;
+
+    }
+
+    public function captureImage(){
+
+        $client = Client::getInstance();
+        $client->getEngine()->setPath('C:/xampp/htdocs/IGA_Prototype/bin/phantomjs.exe');
+
+        $requestPath = 'http://localhost/IGA_Prototype/individual_interface_test.php?id='.$this->individual_id;
+        $request  = $client->getMessageFactory()->createCaptureRequest($requestPath);
+        $response = $client->getMessageFactory()->createResponse();
+
+        $imagePath = '../thumbnails/individual_'.$this->individual_id.'.jpg';
+
+        $top    = 0;
+        $left   = 0;
+        $width  = 1400;
+        $height = 875;
+
+        $request->setViewportSize($width, $height);
+        $request->setCaptureDimensions($width, $height, $top, $left);
+        //$request->setDelay(200);
+
+        $request->setOutputFile($imagePath);
+
+        $response = $client->send($request, $response);
+
+        $this->image_path = 'thumbnails/individual_'.$this->individual_id.'.jpg';
+
+        return $response->getStatus() == 200;
 
     }
 
@@ -104,35 +155,35 @@ class Individual {
     /**
      * @return mixed
      */
-    public function getElementId()
+    public function getIndividualId()
     {
-        return $this->elementId;
+        return $this->individual_id;
     }
 
     /**
-     * @param mixed $elementId
+     * @param mixed $individual_id
      */
-    public function setElementId($elementId)
+    public function setIndividualId($individual_id)
     {
-        $this->elementId = $elementId;
+        $this->individual_id = $individual_id;
     }
-
 
     /**
      * @return mixed
      */
-    public function getElementName()
+    public function getImagePath()
     {
-        return $this->elementName;
+        return $this->image_path;
     }
 
     /**
-     * @param mixed $elementName
+     * @param mixed $image_path
      */
-    public function setElementName($elementName)
+    public function setImagePath($image_path)
     {
-        $this->elementName = $elementName;
+        $this->image_path = $image_path;
     }
+
 
     public function __toString(){
         $output = "";
