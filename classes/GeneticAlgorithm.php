@@ -28,7 +28,6 @@ class GeneticAlgorithm {
     private $generationNumber;
     private $generation_id;
 
-    private $susScore;
     private $sessionStart;
     private $sessionEnd;
 
@@ -257,6 +256,14 @@ class GeneticAlgorithm {
             }
 
             $population->setPopulationFitness($populationFitness);
+
+            $sql = "UPDATE generation SET total_fitness='$populationFitness' WHERE generation_id=?";
+            $params = [$this->generation_id];
+            $result = $this->db->query($sql, $params);
+
+            if($result->error()){
+                throw new Exception("Error updating total fitness field in Generation Table");
+            }
 
             return $population;
         }
@@ -525,4 +532,8 @@ class GeneticAlgorithm {
     public function getGenerationID(){
         return $this->generation_id;
     }
-} 
+
+    public function incrementGeneration(){
+        $this->generationNumber++;
+    }
+}

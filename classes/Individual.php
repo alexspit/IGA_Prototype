@@ -153,12 +153,18 @@ class Individual {
         return $this->fitness;
     }
 
-    /**
-     * @param int $fitness
-     */
+
     public function setFitness($fitness)
     {
         $this->fitness = $fitness;
+
+        $sql = "UPDATE individual SET fitness='{$this->fitness}' WHERE individual_id=?";
+        $params = [$this->individual_id];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+            throw new Exception("Error updating fitness field for Individual");
+        }
     }
 
 
