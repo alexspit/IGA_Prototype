@@ -295,17 +295,9 @@ class GeneticAlgorithm {
 
     }
 
-    public function isTerminationConditionMet(Population $population){
+    public function terminationConditionMet(){
 
-        foreach ($population->getIndividuals() as $individual) {
-
-            if($individual->getFitness() == 1){
-
-                return true;
-            }
-        }
-
-        return false;
+        return $this->generationNumber == $this->maxGenerations;
     }
 
     public function crossover(Population $population){
@@ -460,10 +452,13 @@ class GeneticAlgorithm {
 
         $newPopulation = new Population($population->size());
 
+        $population->orderedByFittest();
+
         for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
 
             //TODO: FIX getFittestIndividual()
-            $parent1 = $population->getFittestIndividual($populationIndex);
+           // $parent1 = $population->getFittestIndividual($populationIndex);
+            $parent1 = $population->getIndividual($populationIndex);
 
             if($this->crossoverRate > Random::generate() && $populationIndex >= $this->elitismCount){
 
@@ -519,10 +514,14 @@ class GeneticAlgorithm {
 
         $newPopulation = new Population($population->size());
 
+        $population->orderedByFittest();
+
         for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
 
+            //echo $population."<br>--------------------------<br>";
             //TODO: FIX getFittestIndividual()
-            $parent1 = $population->getFittestIndividual($populationIndex);
+            //$parent1 = $population->getFittestIndividual($populationIndex);
+            $parent1 = $population->getIndividual($populationIndex);
 
             if($this->crossoverRate > Random::generate() && $populationIndex >= $this->elitismCount){
 

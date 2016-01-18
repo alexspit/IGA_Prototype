@@ -15,20 +15,29 @@ if($_POST) {
     $user_id = $_SESSION['user_id'];
     $ga = new GeneticAlgorithm($user_id);
 
-
-
     $currentPopulation = $ga->currentPopulation();
 
     $evaluatedPopulation = $ga->evalPopulation($currentPopulation, $ratings);
 
-    $crossedPopulation = $ga->crossover($evaluatedPopulation);
-    //$crossedPopulation = $ga->crossoverSinglePoint($evaluatedPopulation, Selection::ROULETTE);
+    if($ga->terminationConditionMet()){
 
-    $mutatedPopulation = $ga->mutate($crossedPopulation);
-    //$mutatedPopulation = $ga->mutateUniform($crossedPopulation);
+        $fittestIndividual = $currentPopulation->getFittestIndividual(0);
 
-    $ga->nextGeneration($mutatedPopulation);
+        Redirect::to("../individual_interface_test.php?id=".$fittestIndividual->getIndividualId());
+    }
+    else{
 
-    Redirect::to("../iga_interface.php");
+
+        $crossedPopulation = $ga->crossover($evaluatedPopulation);
+        //$crossedPopulation = $ga->crossoverSinglePoint($evaluatedPopulation, Selection::ROULETTE);
+
+        $mutatedPopulation = $ga->mutate($crossedPopulation);
+        //$mutatedPopulation = $ga->mutateUniform($crossedPopulation);
+
+        //$ga->nextGeneration($mutatedPopulation);
+
+        //Redirect::to("../iga_interface.php");
+    }
+
 
 }
