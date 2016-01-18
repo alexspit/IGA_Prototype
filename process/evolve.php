@@ -21,9 +21,11 @@ if($_POST) {
 
     $evaluatedPopulation = $ga->evalPopulation($currentPopulation, $ratings);
 
-    $crossedPopulation = $ga->crossoverSinglePoint($evaluatedPopulation, Selection::ROULETTE);
+    $crossedPopulation = $ga->crossover($evaluatedPopulation);
+    //$crossedPopulation = $ga->crossoverSinglePoint($evaluatedPopulation, Selection::ROULETTE);
 
-    $mutatedPopulation = $ga->mutateUniform($crossedPopulation);
+    $mutatedPopulation = $ga->mutate($crossedPopulation);
+    //$mutatedPopulation = $ga->mutateUniform($crossedPopulation);
 
 
 

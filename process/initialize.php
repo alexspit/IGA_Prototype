@@ -63,9 +63,10 @@ if($_POST){
 
         $ga = new GeneticAlgorithm();
 
+        $clean["tournament_size"] = round(($clean["tournament_size"]/100) * $clean["population_size"] );
+
         $ga->init($clean["population_size"], $clean["elitism_count"], $clean["max_generations"], $clean["selection_operator"], $clean["tournament_size"],
             $clean["crossover_operator"], $clean["crossover_rate"], $clean["mutation_operator"], $clean["mutation_rate"], $user);
-
 
         $currentPopulation = $ga->initPopulation();
 

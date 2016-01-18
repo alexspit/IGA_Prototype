@@ -209,7 +209,9 @@ class Individual {
             $output .= $this->getChromosome()[$gene].", ";
         }
 
-        return $output;
+
+
+        return "$output ID: {$this->getIndividualId()} Fitness: {$this->getFitness()}";
     }
 
 

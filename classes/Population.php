@@ -54,6 +54,29 @@ class Population {
         return $this->population[$offset];
     }
 
+    public function orderedByFittest(){
+
+        //CHECK HERE IF THERE ARE PROBLEMS
+
+        $tmpPopulation = $this->population;
+
+        usort($tmpPopulation, function(Individual $individual1, Individual $individual2) { //Returning positive or negative numbers to sort the elements. By putting the 2nd parameter first, we sort in descending order.
+            //return $individual2->getFitness() - $individual1->getFitness();
+            if($individual1->getFitness() > $individual2->getFitness()){
+                return -1;
+            }
+            else if($individual1->getFitness() < $individual2->getFitness()){
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        });
+
+        $this->population = $tmpPopulation;
+
+    }
+
     public function setPopulationFitness($fitness){
 
         //$this->populationFitness = (float)$fitness;
@@ -90,5 +113,15 @@ class Population {
 
         shuffle($this->population);
 
+    }
+
+    public function __toString(){
+        $output = "";
+
+        foreach ($this->getIndividuals() as $key => $i) {
+           $output .= $key.": ".$i."<br>";
+        }
+
+        return $output;
     }
 } 
