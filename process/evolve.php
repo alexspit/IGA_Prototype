@@ -27,6 +27,8 @@ if($_POST) {
     $mutatedPopulation = $ga->mutate($crossedPopulation);
     //$mutatedPopulation = $ga->mutateUniform($crossedPopulation);
 
+    $ga->nextGeneration($mutatedPopulation);
 
+    Redirect::to("../iga_interface.php");
 
 }

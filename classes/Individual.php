@@ -52,7 +52,7 @@ class Individual {
 
             if($result->error()){
 
-                throw new Exception("Error adding new GA Session");
+                throw new Exception("Error adding new Individual");
 
             }else{
 
@@ -87,6 +87,32 @@ class Individual {
 
         return $newChromosome;
 
+    }
+
+    public function save($generation_id){
+        $sql = "INSERT INTO individual (generation_id, chromosome) VALUES (?,?)";
+        $params = [$generation_id, implode(',',$this->chromosome)];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+
+            throw new Exception("Error adding new Individual");
+
+        }else{
+
+            $this->individual_id = $result->last_inserted_id;
+
+            if($this->captureImage()){
+
+                $sql = "UPDATE individual SET image_path='{$this->image_path}' WHERE individual_id=?";
+                $params = [$this->individual_id];
+                $result = $this->db->query($sql, $params);
+
+                if($result->error()){
+                    throw new Exception("Error updating image_path field in Database");
+                }
+            }
+        }
     }
 
     public function generateRandom(){
