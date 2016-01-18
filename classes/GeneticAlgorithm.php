@@ -249,14 +249,17 @@ class GeneticAlgorithm {
 
             foreach ($population->getIndividuals() as $individual) {
 
+                $individualName = "individual_".$individual->getIndividualId();
+                $individual->setFitness($ratings[$individualName]/10);
 
+                $populationFitness += $individual->getFitness();
 
             }
+
+            $population->setPopulationFitness($populationFitness);
+
+            return $population;
         }
-
-
-
-        $population->setPopulationFitness($populationFitness);
 
     }
 
@@ -311,7 +314,13 @@ class GeneticAlgorithm {
 
     }
 
-    public function crossoverUniform(Population $population, Element $element, $selectionMethod = Selection::TOURNAMENT, $tournamentSize = 10){
+    public function crossoverUniform(Population $population, $selectionMethod = Selection::TOURNAMENT, $tournamentSize = 10){
+
+        echo "<pre>";
+        var_dump($population->getIndividual(0));
+        var_dump($population->getIndividual(2));
+        var_dump($population->getIndividual(4));
+        echo "</pre>";
 
         $newPopulation = new Population($population->size());
 
@@ -320,7 +329,7 @@ class GeneticAlgorithm {
             $parent1 = $population->getFittestIndividual($populationIndex);
 
             if($this->crossoverRate > Random::generate() && $populationIndex > $this->elitismCount){
-                $offspring = new Individual($element);
+                $offspring = new Individual();
 
                 if($selectionMethod == Selection::ROULETTE){
                     $parent2 = $this->selectParentRoulette($population);
@@ -354,6 +363,12 @@ class GeneticAlgorithm {
                 $newPopulation->setIndividual($populationIndex, $parent1);
             }
         }
+        echo "--------------------------------------------------------";
+        echo "<pre>";
+        var_dump($newPopulation->getIndividual(0));
+        var_dump($newPopulation->getIndividual(2));
+        var_dump($newPopulation->getIndividual(4));
+        echo "</pre>";
 
         return $newPopulation;
     }
@@ -367,7 +382,9 @@ class GeneticAlgorithm {
             $parent1 = $population->getFittestIndividual($populationIndex);
 
             if($this->crossoverRate > Random::generate() && $populationIndex >= $this->elitismCount){
-                $offspring = new Individual($parent1->getChromosomeLength());
+
+
+                $offspring = new Individual();
 
                 if($selectionMethod == Selection::ROULETTE){
                     $parent2 = $this->selectParentRoulette($population);
@@ -384,9 +401,13 @@ class GeneticAlgorithm {
 
                 }
 
-                $swapPoint = (int) Random::generate() * ($parent1->getChromosomeLength() + 1);
+                echo "Parent 1: $parent1<br>";
+                echo "Parent 2: $parent2<br>";
 
-                for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+                //FIX THIS!!
+                $swapPoint = (int) rand(0,$parent1->getChromosomeLength());
+
+                for($geneIndex = 0; $geneIndex < 7; $geneIndex++){
 
                     if($geneIndex < $swapPoint){
                         $offspring->setGene($geneIndex, $parent1->getGene($geneIndex));
@@ -395,12 +416,16 @@ class GeneticAlgorithm {
                         $offspring->setGene($geneIndex, $parent2->getGene($geneIndex));
                     }
                 }
+                echo "Offspring: $offspring<br>";
+
 
                 $newPopulation->setIndividual($populationIndex, $offspring);
             }
             else{
                 $newPopulation->setIndividual($populationIndex, $parent1);
+                echo "Offspring Unchanged: $parent1<br>";
             }
+            echo "-------------------------------------<br>";
         }
 
         return $newPopulation;
@@ -458,7 +483,7 @@ class GeneticAlgorithm {
         return $newPopulation;
     }
 
-    public function mutateUniform(Population $population, Element $element){
+    public function mutateUniform(Population $population){
 
         $newPopulation = new Population($population->size());
 
@@ -466,7 +491,10 @@ class GeneticAlgorithm {
 
             $individual = $population->getFittestIndividual($populationIndex);
 
-            $randomIndividual = new Individual($element);
+
+            $randomIndividual = new Individual(null, $this->element);
+            $randomIndividual->generateRandom();
+
 
             for($geneIndex = 0; $geneIndex < $individual->getChromosomeLength(); $geneIndex++){
 

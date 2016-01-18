@@ -17,15 +17,18 @@ class Individual {
     private $fitness;
     private $individual_id;
     private $image_path;
+    private $element;
 
     private $db;
 
 
-    public function __construct($id, Element $element = null)
+    public function __construct($id = null, Element $element = null)
     {
         $this->db = DB::getInstance();
+        $this->chromosome = [];
+        $this->element = $element;
 
-        if(is_null($element)){
+        if(is_null($element) && !is_null($id)){
 
             $sql = "SELECT chromosome, image_path, fitness FROM individual WHERE individual_id=?";
             $params = [$id];
@@ -38,7 +41,7 @@ class Individual {
             $this->chromosome = explode(",", $pdo->result()[0]->chromosome);
 
         }
-        else{
+        else if (!is_null($id)){
 
             $this->fitness = -1;
             $this->chromosome = $this->encode($element);
@@ -68,6 +71,7 @@ class Individual {
             }
         }
 
+
     }
 
     private function encode(Element $element){
@@ -82,6 +86,12 @@ class Individual {
         }
 
         return $newChromosome;
+
+    }
+
+    public function generateRandom(){
+
+        $this->chromosome = $this->encode($this->element);
 
     }
 
@@ -190,7 +200,7 @@ class Individual {
 
         for($gene = 0; $gene< $this->getChromosomeLength(); $gene++){
 
-            $output .= $this->getChromosome()[$gene];
+            $output .= $this->getChromosome()[$gene].", ";
         }
 
         return $output;

@@ -67,7 +67,7 @@ class Population {
 
     public function size(){
 
-        return $this->population->count();
+        return count($this->population);
     }
 
     public function setIndividual($key, Individual $individual){
