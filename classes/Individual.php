@@ -102,7 +102,7 @@ class Individual {
 
             $this->individual_id = $result->last_inserted_id;
 
-            if($this->captureImage()){
+            if($statusCode = $this->captureImage()){
 
                 $sql = "UPDATE individual SET image_path='{$this->image_path}' WHERE individual_id=?";
                 $params = [$this->individual_id];
@@ -111,6 +111,9 @@ class Individual {
                 if($result->error()){
                     throw new Exception("Error updating image_path field in Database");
                 }
+            }
+            else{
+                throw new Exception("Error capturing screenshot of individual");
             }
         }
     }
@@ -147,7 +150,7 @@ class Individual {
 
         $this->image_path = 'thumbnails/individual_'.$this->individual_id.'.jpg';
 
-        return $response->getStatus() == 200;
+        return $response->getStatus() >= 200 && $response->getStatus() < 300;
 
     }
 

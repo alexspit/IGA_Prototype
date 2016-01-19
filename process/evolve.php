@@ -21,6 +21,7 @@ if($_POST) {
 
     if($ga->terminationConditionMet()){
 
+        $ga->setSessionEnd();
         $fittestIndividual = $currentPopulation->getFittestIndividual(0);
 
         Redirect::to("../individual_interface_test.php?id=".$fittestIndividual->getIndividualId());
@@ -34,9 +35,9 @@ if($_POST) {
         $mutatedPopulation = $ga->mutate($crossedPopulation);
         //$mutatedPopulation = $ga->mutateUniform($crossedPopulation);
 
-        //$ga->nextGeneration($mutatedPopulation);
+        $ga->nextGeneration($mutatedPopulation);
 
-        //Redirect::to("../iga_interface.php");
+        Redirect::to("../iga_interface.php");
     }
 
 

@@ -61,9 +61,15 @@ $currentPopulation = $ga->currentPopulation();
         <?php
             $index = 0;
             for($i=0;$i<4;$i++){
-                echo ' <div class="col-md-3 individual-thumbnail">
+             /*   echo ' <div class="col-md-3 individual-thumbnail">
                             <a href="'.$currentPopulation->getIndividual($index)->getImagePath().'" class="gallery">
                                 <img class="img-responsive" src="'.$currentPopulation->getIndividual($index)->getImagePath().'" alt="">
+                            </a>
+                            <input type="text" class="input_range" id="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" form="form1" name="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" value="" />
+                       </div>';*/
+                echo ' <div class="col-md-3 individual-thumbnail">
+                            <a href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" class="gallery">
+                                <img class="img-responsive" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
                             </a>
                             <input type="text" class="input_range" id="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" form="form1" name="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" value="" />
                        </div>';
@@ -102,7 +108,7 @@ $currentPopulation = $ga->currentPopulation();
     <div class="row">
         <?php
 
-        for($i=0;$i<4;$i++){
+     /*   for($i=0;$i<4;$i++){
             echo ' <div class="col-md-3 individual-thumbnail">
                             <a href="'.$currentPopulation->getIndividual($index)->getImagePath().'" class="gallery">
                                 <img class="img-responsive" src="'.$currentPopulation->getIndividual($index)->getImagePath().'" alt="">
@@ -111,7 +117,7 @@ $currentPopulation = $ga->currentPopulation();
                        </div>';
             $index++;
         }
-
+*/
         ?>
 
     </div>
@@ -121,7 +127,7 @@ $currentPopulation = $ga->currentPopulation();
     <div class="row">
         <?php
 
-        for($i=0;$i<4;$i++){
+     /*   for($i=0;$i<4;$i++){
             echo ' <div class="col-md-3 individual-thumbnail">
                             <a href="'.$currentPopulation->getIndividual($index)->getImagePath().'" class="gallery">
                                 <img class="img-responsive" src="'.$currentPopulation->getIndividual($index)->getImagePath().'" alt="">
@@ -129,7 +135,7 @@ $currentPopulation = $ga->currentPopulation();
                             <input type="text" class="input_range" id="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" form="form1" name="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" value="" />
                        </div>';
             $index++;
-        }
+        }*/
 
         ?>
 

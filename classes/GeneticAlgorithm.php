@@ -159,8 +159,8 @@ class GeneticAlgorithm {
             $this->mutationOperator = $mutationOperator;
             $this->mutationRate = $mutationRate/100;
 
-            $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
-            $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
+            $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate, start_time) VALUES (?,?,?,?,?)";
+            $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate, $this->sessionStart];
 
             $result = $this->db->query($sql, $params);
 
@@ -273,19 +273,32 @@ class GeneticAlgorithm {
 
     public function nextGeneration(Population $population){
 
+            //Updating end time of current generation
+            $endTime = date("Y-m-d H:i:s", time());
+            $sql = "UPDATE generation SET end_time='$endTime' WHERE generation_id=?";
+            $params = [$this->generation_id];
+            $result = $this->db->query($sql, $params);
+
+            if($result->error()){
+                throw new Exception("Error updating generation end time field in Generation Table");
+            }
+
+            //Incrementing the generation number
             $this->incrementGeneration();
 
-            $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
-            $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
-
+            //Adding new generation in DB
+            $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate, start_time) VALUES (?,?,?,?,?)";
+            $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate, date("Y-m-d H:i:s", time())];
             $result = $this->db->query($sql, $params);
 
             if($result->error()){
                 throw new Exception("Error adding new Generation");
             }
             else{
+                //Storing last inserted id as the new generation_id
                 $this->generation_id = $result->last_inserted_id;
 
+                //Storing each new individual in the database
                 foreach ($population->getIndividuals() as $individual) {
                     $individual->save($this->generation_id);
                 }
@@ -623,5 +636,27 @@ class GeneticAlgorithm {
 
     public function incrementGeneration(){
         $this->generationNumber++;
+    }
+
+    public function setSessionEnd(){
+
+        $this->sessionEnd = date("Y-m-d H:i:s", time());
+
+        $sql = "UPDATE session SET session_end='$this->sessionEnd' WHERE session_id=?";
+        $params = [$this->session_id];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+            throw new Exception("Error updating session end time field in Session Table");
+        }
+
+        $sql = "UPDATE generation SET end_time='$this->sessionEnd' WHERE generation_id=?";
+        $params = [$this->generation_id];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+            throw new Exception("Error updating generation end time field in Generation Table");
+        }
+
     }
 }
