@@ -516,7 +516,7 @@ class GeneticAlgorithm {
 
     public function crossoverUniformPool(Population $population){
 
-
+        //TODO: Fix 12 individuals in pop not 13
         $newPopulation = new Population($population->size());
 
         $individuals = $population->getIndividuals();
@@ -528,7 +528,7 @@ class GeneticAlgorithm {
 
         }
 
-        for($populationIndex = 0; $populationIndex < $population->size() - $this->elitismCount ; $populationIndex++){
+        for($populationIndex = 0; $populationIndex < ($population->size() - $this->elitismCount)/2 ; $populationIndex++){
 
 
             if (count($individuals) == 1){
