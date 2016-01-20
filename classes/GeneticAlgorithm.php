@@ -375,6 +375,58 @@ class GeneticAlgorithm {
 
     }
 
+    public function selectParentRoulettePool(Population $population){
+
+        //Getting all individuals in given population
+        $individuals = $population->getIndividuals();
+
+        //Storing the total population fitness
+        $populationFitness = $population->getPopulationFitness();
+
+        //Creating a new mating pool population to store the selected individuals for breeding
+        $matingPool = new Population($population->size());
+
+        //Adding the fittest individuals according to elitism count
+        for($i = 0; $i<$this->elitismCount; $i++){
+
+            $matingPool->addIndividual( $population->getFittestIndividual($i));
+            echo $population->getFittestIndividual($i)." added to mating pool (Elitism)<br>";
+        }
+
+        echo $population;
+        echo $populationFitness."<br>";
+
+        //Selecting the rest of the individuals for the mating pool
+        for ($i = 0; $i< $population->size() - $this->elitismCount; $i++){
+
+            $tmpFitness= 0;
+            $rouletteWheelPosition = rand(0, ($populationFitness*1000))/1000;
+
+
+            echo "Position: $rouletteWheelPosition<br>";
+
+            foreach ($individuals as $individual) {
+                $tmpFitness += $individual->getFitness();
+
+                echo $individual."<br>";
+
+                if($tmpFitness >= $rouletteWheelPosition){
+                    $matingPool->addIndividual($individual);
+                    echo $individual." added to mating pool <br>";
+                    break;
+                }
+            }
+
+        }
+
+        echo "Original Population:<br> $population";
+        echo "Mating Pool:<br> $matingPool";
+
+        return $matingPool;
+
+    }
+
+
     public function selectParentTournament(Population $population, $tournamentSize){
 
         //echo "Tournament Selection...<br>";
@@ -457,6 +509,88 @@ class GeneticAlgorithm {
             //echo "--------------------------------------------------------<br>";
         }
 
+
+        return $newPopulation;
+    }
+
+
+    public function crossoverUniformPool(Population $population){
+
+
+        $newPopulation = new Population($population->size());
+
+        $individuals = $population->getIndividuals();
+
+        for($i = 0; $i<$this->elitismCount; $i++){
+
+            $newPopulation->addIndividual( $population->getFittestIndividual($i));
+            echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
+
+        }
+
+        for($populationIndex = 0; $populationIndex < $population->size() - $this->elitismCount ; $populationIndex++){
+
+
+            if (count($individuals) == 1){
+
+                $oddIndividual = array_pop($individuals);
+
+                echo "Added remainder odd individual: ".$oddIndividual."<br>";
+                $newPopulation->addIndividual($oddIndividual);
+
+            }
+
+            if(count($individuals) <= 0){
+
+
+                echo "Original Population:<br> $population";
+                echo "Crossed Population:<br> $newPopulation";
+
+                return $newPopulation;
+            }
+
+            shuffle($individuals);
+
+            $parent1 = array_pop($individuals);
+            $parent2 = array_pop($individuals);
+
+            echo "Parent 1: ".$parent1."<br>";
+            echo "Parent 2: ".$parent2."<br>";
+
+            if($this->crossoverRate > Random::generate()){
+
+                $offspring1 = new Individual();
+                $offspring2 = new Individual();
+
+                for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                    if(0.5 > Random::generate()){
+                        $offspring1->setGene($geneIndex, $parent1->getGene($geneIndex));
+                        $offspring2->setGene($geneIndex, $parent2->getGene($geneIndex));
+                    }
+                    else{
+                        $offspring1->setGene($geneIndex, $parent2->getGene($geneIndex));
+                        $offspring2->setGene($geneIndex, $parent1->getGene($geneIndex));
+                    }
+                }
+
+                echo "Added offspring ".$offspring1."<br>";
+                echo "Added offspring ".$offspring2."<br>";
+                $newPopulation->addIndividual($offspring1);
+                $newPopulation->addIndividual($offspring2);
+
+            }
+            else{
+                echo "Added parent: ".$parent1."<br>";
+                echo "Added parent: ".$parent2."<br>";
+                $newPopulation->addIndividual($parent1);
+                $newPopulation->addIndividual($parent2);
+            }
+
+        }
+
+        echo "Original Population:<br> $population";
+        echo "Mating Pool:<br> $newPopulation";
 
         return $newPopulation;
     }

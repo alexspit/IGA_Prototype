@@ -28,16 +28,21 @@ if($_POST) {
     }
     else{
 
+        $matingPool = $ga->selectParentRoulettePool($evaluatedPopulation);
+
+        echo "<br>----------------------------<br>";
+        $crossedPopulation = $ga->crossoverUniformPool($matingPool);
+
+
+        exit;
 
         $crossedPopulation = $ga->crossover($evaluatedPopulation);
-        //$crossedPopulation = $ga->crossoverSinglePoint($evaluatedPopulation, Selection::ROULETTE);
 
         $mutatedPopulation = $ga->mutate($crossedPopulation);
-        //$mutatedPopulation = $ga->mutateUniform($crossedPopulation);
 
-        $ga->nextGeneration($mutatedPopulation);
+        //$ga->nextGeneration($mutatedPopulation);
 
-        Redirect::to("../iga_interface.php");
+        //Redirect::to("../iga_interface.php");
     }
 
 
