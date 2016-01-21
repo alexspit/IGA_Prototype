@@ -28,17 +28,25 @@ if($_POST) {
     }
     else{
 
+       $ga->stochasticUniversalSampling($evaluatedPopulation);
+
+
         $matingPool = $ga->selectParentRoulettePool($evaluatedPopulation);
+
+        echo "$matingPool<br>";
 
         echo "<br>----------------------------<br>";
         $crossedPopulation = $ga->crossoverUniformPool($matingPool);
 
+        echo "$crossedPopulation<br>";
 
-        exit;
+        //exit;
 
-        $crossedPopulation = $ga->crossover($evaluatedPopulation);
+       // $crossedPopulation = $ga->crossover($evaluatedPopulation);
 
         $mutatedPopulation = $ga->mutate($crossedPopulation);
+
+        echo $mutatedPopulation."<br>";
 
         //$ga->nextGeneration($mutatedPopulation);
 

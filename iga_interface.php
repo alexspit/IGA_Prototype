@@ -5,8 +5,11 @@ $user_id = $_SESSION["user_id"];
 
 $ga = new GeneticAlgorithm($user_id);
 
-$currentPopulation = $ga->currentPopulation();
+if(is_null($ga->getSessionID())){
+    Redirect::to("consent.php");
+}
 
+$currentPopulation = $ga->currentPopulation();
 ?>
 
 <!-- Navigation -->

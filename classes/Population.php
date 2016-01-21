@@ -54,6 +54,15 @@ class Population {
         return $this->population[$offset];
     }
 
+    public function getClone(){
+        $tmpPop = new Population($this->size());
+        foreach ($this->getIndividuals() as $individual) {
+            $tmpPop->addIndividual(clone $individual);
+        }
+        return $tmpPop;
+    }
+
+
     public function orderedByFittest(){
 
         //CHECK HERE IF THERE ARE PROBLEMS

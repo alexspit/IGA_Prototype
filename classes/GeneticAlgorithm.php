@@ -88,7 +88,7 @@ class GeneticAlgorithm {
         $this->element = new Element("h1", 1);
 
         $this->element->addProperty(new Property(1, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-        $this->element->addProperty(new Property(2, "text-align", ["center", "left", "right", "justified"]));
+        $this->element->addProperty(new Property(2, "text-align", ["center", "left", "right"]));
         $this->element->addProperty(new Property(3, "text-decoration", ["overline", "underline", "line-through", "none"]));
         $this->element->addProperty(new Property(4, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
         $this->element->addProperty(new Property(5, "font-style", ["normal", "italic", "oblique"]));
@@ -107,23 +107,25 @@ class GeneticAlgorithm {
 
             $pdo = $this->db->query($sql, $param);
 
-            $this->session_id =$pdo->result()[0]->session_id;
+            if($pdo->count() > 0){
+                $this->session_id =$pdo->result()[0]->session_id;
 
-            $this->populationSize = $pdo->result()[0]->population_size;
-            $this->elitismCount = $pdo->result()[0]->elitism_count;
-            $this->maxGenerations = $pdo->result()[0]->max_generations;
-            $this->selectionOperator = $pdo->result()[0]->selection_operator;
-            $this->tournamentSize = $pdo->result()[0]->tournament_size;
-            $this->crossoverOperator = $pdo->result()[0]->crossover_operator;
-            $this->crossoverRate = $pdo->result()[0]->crossover_rate;
-            $this->mutationOperator = $pdo->result()[0]->mutation_operator;
-            $this->mutationRate = $pdo->result()[0]->mutation_rate;
-            $this->generationNumber = $pdo->result()[0]->generation_number;
-            $this->generation_id = $pdo->result()[0]->generation_id;
+                $this->populationSize = $pdo->result()[0]->population_size;
+                $this->elitismCount = $pdo->result()[0]->elitism_count;
+                $this->maxGenerations = $pdo->result()[0]->max_generations;
+                $this->selectionOperator = $pdo->result()[0]->selection_operator;
+                $this->tournamentSize = $pdo->result()[0]->tournament_size;
+                $this->crossoverOperator = $pdo->result()[0]->crossover_operator;
+                $this->crossoverRate = $pdo->result()[0]->crossover_rate;
+                $this->mutationOperator = $pdo->result()[0]->mutation_operator;
+                $this->mutationRate = $pdo->result()[0]->mutation_rate;
+                $this->generationNumber = $pdo->result()[0]->generation_number;
+                $this->generation_id = $pdo->result()[0]->generation_id;
 
-            $user = new User();
-            $this->user =  $user->get($pdo->result()[0]->user_id);
+                $user = new User();
+                $this->user =  $user->get($pdo->result()[0]->user_id);
 
+            }
         }
 
     }
@@ -249,7 +251,7 @@ class GeneticAlgorithm {
             foreach ($population->getIndividuals() as $individual) {
 
                 $individualName = "individual_".$individual->getIndividualId();
-                $individual->setFitness($ratings[$individualName]/10);
+                $individual->setFitness($ratings[$individualName]/10, true);
 
                 $populationFitness += $individual->getFitness();
 
@@ -390,11 +392,11 @@ class GeneticAlgorithm {
         for($i = 0; $i<$this->elitismCount; $i++){
 
             $matingPool->addIndividual( $population->getFittestIndividual($i));
-            echo $population->getFittestIndividual($i)." added to mating pool (Elitism)<br>";
+           // echo $population->getFittestIndividual($i)." added to mating pool (Elitism)<br>";
         }
 
-        echo $population;
-        echo $populationFitness."<br>";
+        //echo $population;
+       // echo $populationFitness."<br>";
 
         //Selecting the rest of the individuals for the mating pool
         for ($i = 0; $i< $population->size() - $this->elitismCount; $i++){
@@ -403,25 +405,99 @@ class GeneticAlgorithm {
             $rouletteWheelPosition = rand(0, ($populationFitness*1000))/1000;
 
 
-            echo "Position: $rouletteWheelPosition<br>";
+            //echo "Position: $rouletteWheelPosition<br>";
 
             foreach ($individuals as $individual) {
                 $tmpFitness += $individual->getFitness();
 
-                echo $individual."<br>";
+                //echo $individual."<br>";
 
                 if($tmpFitness >= $rouletteWheelPosition){
                     $matingPool->addIndividual($individual);
-                    echo $individual." added to mating pool <br>";
+                   // echo $individual." added to mating pool <br>";
                     break;
                 }
             }
 
         }
 
-        echo "Original Population:<br> $population";
-        echo "Mating Pool:<br> $matingPool";
+        //echo "Original Population:<br> $population";
+        //echo "Mating Pool:<br> $matingPool";
 
+        return $matingPool;
+
+    }
+
+    public function stochasticUniversalSampling(Population $population){
+
+        //Cloning population
+        $tmpPopulation = $population->getClone();
+        $pointers = [];
+        $matingPool = new Population($population->size());
+
+        //Setting the fitness relative to a total of 1.0
+        foreach ($tmpPopulation->getIndividuals() as $individual) {
+
+            $individual->setFitness($individual->getFitness()/$population->getPopulationFitness(), false);
+        }
+
+        echo $population;
+        echo $tmpPopulation;
+
+        //Creating array of pointers
+
+        //Size of pointer
+        $pointerSize = 1/$tmpPopulation->size();
+        //Starting pointer position
+       // $rndStartingPoint = rand(0, $pointerSize*1000)/1000;
+        $rndStartingPoint = 0;
+
+        echo "Pointer Start: $rndStartingPoint<br>";
+        echo "Space: $pointerSize<br>";
+
+        //Adding first pointer
+        $pointers[] = $rndStartingPoint;
+
+        //Adding the rest of the pointers
+        for($i = 0; $i < $tmpPopulation->size()-1; $i++){
+
+            $rndStartingPoint += $pointerSize;
+            $pointers[] = $rndStartingPoint;
+        }
+
+        echo "<pre>";
+        print_r($pointers);
+        echo "</pre>";
+
+
+        $fitnessCount = 0;
+        foreach ($tmpPopulation->getIndividuals() as $individual) {
+
+            echo "Individual: ".$individual."<br>----------------------<br>";
+
+            foreach ($pointers as $key => $pointer) {
+                echo "Pointer: ".$pointer."<br>";
+                echo "Lower Bound: $fitnessCount<br>";
+                echo "Upper bound: ".($individual->getFitness() + $fitnessCount)."<br>------------------------<br>";
+
+                if($pointer >= $fitnessCount && $pointer < ($individual->getFitness() + $fitnessCount)){
+                    $matingPool->addIndividual($individual);
+
+                    echo "Added $individual to mating pool<br>------------------<br>";
+                }
+
+
+            }
+
+            $fitnessCount += $individual->getFitness();
+
+
+           // echo "------------------------<br>".$matingPool."---------------------<br>";
+
+        }
+
+        echo $matingPool;
+        exit;
         return $matingPool;
 
     }
@@ -447,6 +523,32 @@ class GeneticAlgorithm {
         $population->orderedByFittest();
 
         return $tournament->getFittestIndividual(0);
+
+
+    }
+
+    public function selectTournamentPool(Population $population){
+        //TODO: TEST THIS!
+        $tmpPopulation = $population->getClone();
+        $matingPool = new Population($population->size());
+        $tournamentPopulation = new Population($this->tournamentSize);
+
+        for($i = 0; $i < $tmpPopulation->size(); $i++) {
+
+            $tmpPopulation->shuffle();
+
+            //echo $tournamentSize."<br>";
+
+            for ($i = 0; $i < $this->tournamentSize; $i++) {
+
+                $tournamentIndividual = $tmpPopulation->getIndividual($i);
+                $tournamentPopulation->addIndividual($tournamentIndividual);
+            }
+
+            $matingPool->addIndividual($tournamentPopulation->getFittestIndividual(0));
+        }
+
+        return $matingPool;
 
 
     }
@@ -524,27 +626,34 @@ class GeneticAlgorithm {
         for($i = 0; $i<$this->elitismCount; $i++){
 
             $newPopulation->addIndividual( $population->getFittestIndividual($i));
-            echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
+            //echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
 
         }
 
-        for($populationIndex = 0; $populationIndex < ($population->size() - $this->elitismCount)/2 ; $populationIndex++){
+        //for($populationIndex = 0; $populationIndex < ($population->size() - $this->elitismCount)/2 ; $populationIndex++){
+        while ($newPopulation->size() < $this->populationSize){
 
+            //echo $newPopulation->size()."<br>";
 
-            if (count($individuals) == 1){
+            if ($newPopulation->size() == $this->populationSize-1){
 
                 $oddIndividual = array_pop($individuals);
 
-                echo "Added remainder odd individual: ".$oddIndividual."<br>";
+                //echo "Added remainder odd individual: ".$oddIndividual."<br>";
                 $newPopulation->addIndividual($oddIndividual);
+
+                //echo "Original Population:<br> $population";
+               // echo "Crossed Population:<br> $newPopulation";
+
+                return $newPopulation;
 
             }
 
             if(count($individuals) <= 0){
 
 
-                echo "Original Population:<br> $population";
-                echo "Crossed Population:<br> $newPopulation";
+                //echo "Original Population:<br> $population";
+                //echo "Crossed Population:<br> $newPopulation";
 
                 return $newPopulation;
             }
@@ -554,8 +663,8 @@ class GeneticAlgorithm {
             $parent1 = array_pop($individuals);
             $parent2 = array_pop($individuals);
 
-            echo "Parent 1: ".$parent1."<br>";
-            echo "Parent 2: ".$parent2."<br>";
+           // echo "Parent 1: ".$parent1."<br>";
+            //echo "Parent 2: ".$parent2."<br>";
 
             if($this->crossoverRate > Random::generate()){
 
@@ -574,23 +683,23 @@ class GeneticAlgorithm {
                     }
                 }
 
-                echo "Added offspring ".$offspring1."<br>";
-                echo "Added offspring ".$offspring2."<br>";
+                //echo "Added offspring ".$offspring1."<br>";
+                //echo "Added offspring ".$offspring2."<br>";
                 $newPopulation->addIndividual($offspring1);
                 $newPopulation->addIndividual($offspring2);
 
             }
             else{
-                echo "Added parent: ".$parent1."<br>";
-                echo "Added parent: ".$parent2."<br>";
+               // echo "Added parent: ".$parent1."<br>";
+               // echo "Added parent: ".$parent2."<br>";
                 $newPopulation->addIndividual($parent1);
                 $newPopulation->addIndividual($parent2);
             }
 
         }
 
-        echo "Original Population:<br> $population";
-        echo "Mating Pool:<br> $newPopulation";
+        //echo "Original Population:<br> $population";
+        //echo "Mating Pool:<br> $newPopulation";
 
         return $newPopulation;
     }
