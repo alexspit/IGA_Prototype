@@ -62,6 +62,9 @@ class Population {
         return $tmpPop;
     }
 
+    public function clear(){
+        $this->population = [];
+    }
 
     public function orderedByFittest(){
 

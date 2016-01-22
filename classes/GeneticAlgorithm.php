@@ -300,6 +300,7 @@ class GeneticAlgorithm {
                 //Storing last inserted id as the new generation_id
                 $this->generation_id = $result->last_inserted_id;
 
+                $population->shuffle();
                 //Storing each new individual in the database
                 foreach ($population->getIndividuals() as $individual) {
                     $individual->save($this->generation_id);
@@ -313,6 +314,28 @@ class GeneticAlgorithm {
     public function terminationConditionMet(){
 
         return $this->generationNumber == $this->maxGenerations;
+    }
+
+    public function selection(Population $population){
+
+        switch($this->selectionOperator){
+
+            case Selection::ROULETTE:
+                $matingPool = $this->selectParentRoulettePool($population);
+                break;
+            case Selection::TOURNAMENT:
+                $matingPool = $this->selectTournamentPool($population);
+                break;
+            case Selection::STOCHASTIC_UNIVERSAL_SAMPLING:
+                $matingPool = $this->stochasticUniversalSampling($population);
+                break;
+            default:
+                $matingPool = null;
+                break;
+        }
+
+        return $matingPool;
+
     }
 
     public function crossover(Population $population){
@@ -476,9 +499,9 @@ class GeneticAlgorithm {
             echo "Individual: ".$individual."<br>----------------------<br>";
 
             foreach ($pointers as $key => $pointer) {
-                echo "Pointer: ".$pointer."<br>";
-                echo "Lower Bound: $fitnessCount<br>";
-                echo "Upper bound: ".($individual->getFitness() + $fitnessCount)."<br>------------------------<br>";
+               // echo "Pointer: ".$pointer."<br>";
+               // echo "Lower Bound: $fitnessCount<br>";
+               // echo "Upper bound: ".($individual->getFitness() + $fitnessCount)."<br>------------------------<br>";
 
                 if($pointer >= $fitnessCount && $pointer < ($individual->getFitness() + $fitnessCount)){
                     $matingPool->addIndividual($individual);
@@ -496,8 +519,8 @@ class GeneticAlgorithm {
 
         }
 
-        echo $matingPool;
-        exit;
+       // echo $matingPool;
+       // exit;
         return $matingPool;
 
     }
@@ -529,25 +552,37 @@ class GeneticAlgorithm {
 
     public function selectTournamentPool(Population $population){
         //TODO: TEST THIS!
+
         $tmpPopulation = $population->getClone();
         $matingPool = new Population($population->size());
         $tournamentPopulation = new Population($this->tournamentSize);
 
+
+
         for($i = 0; $i < $tmpPopulation->size(); $i++) {
 
             $tmpPopulation->shuffle();
+            $tournamentPopulation->clear();
 
-            //echo $tournamentSize."<br>";
 
-            for ($i = 0; $i < $this->tournamentSize; $i++) {
+            for ($z = 0; $z < $this->tournamentSize; $z++) {
 
-                $tournamentIndividual = $tmpPopulation->getIndividual($i);
+                $tournamentIndividual = $tmpPopulation->getIndividual($z);
                 $tournamentPopulation->addIndividual($tournamentIndividual);
+
             }
 
-            $matingPool->addIndividual($tournamentPopulation->getFittestIndividual(0));
+            echo "Tourny Population: <br>$tournamentPopulation<br> -------------------------------<br>";
+
+
+            $tournamentPopulation->orderedByFittest();
+
+
+            $matingPool->addIndividual($tournamentPopulation->getIndividual(0));
+            echo "Added: {$tournamentPopulation->getIndividual(0)} ";
         }
 
+        //echo "<br>$matingPool";
         return $matingPool;
 
 
@@ -618,7 +653,6 @@ class GeneticAlgorithm {
 
     public function crossoverUniformPool(Population $population){
 
-        //TODO: Fix 12 individuals in pop not 13
         $newPopulation = new Population($population->size());
 
         $individuals = $population->getIndividuals();
@@ -626,24 +660,24 @@ class GeneticAlgorithm {
         for($i = 0; $i<$this->elitismCount; $i++){
 
             $newPopulation->addIndividual( $population->getFittestIndividual($i));
-            //echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
+            echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
 
         }
 
         //for($populationIndex = 0; $populationIndex < ($population->size() - $this->elitismCount)/2 ; $populationIndex++){
         while ($newPopulation->size() < $this->populationSize){
 
-            //echo $newPopulation->size()."<br>";
+            echo $newPopulation->size()."<br>";
 
             if ($newPopulation->size() == $this->populationSize-1){
 
                 $oddIndividual = array_pop($individuals);
 
-                //echo "Added remainder odd individual: ".$oddIndividual."<br>";
+                echo "Added remainder odd individual: ".$oddIndividual."<br>";
                 $newPopulation->addIndividual($oddIndividual);
 
-                //echo "Original Population:<br> $population";
-               // echo "Crossed Population:<br> $newPopulation";
+                echo "Original Population:<br> $population";
+                echo "Crossed Population:<br> $newPopulation";
 
                 return $newPopulation;
 
@@ -652,8 +686,8 @@ class GeneticAlgorithm {
             if(count($individuals) <= 0){
 
 
-                //echo "Original Population:<br> $population";
-                //echo "Crossed Population:<br> $newPopulation";
+                echo "Original Population:<br> $population";
+                echo "Crossed Population:<br> $newPopulation";
 
                 return $newPopulation;
             }
@@ -663,8 +697,8 @@ class GeneticAlgorithm {
             $parent1 = array_pop($individuals);
             $parent2 = array_pop($individuals);
 
-           // echo "Parent 1: ".$parent1."<br>";
-            //echo "Parent 2: ".$parent2."<br>";
+            echo "Parent 1: ".$parent1."<br>";
+            echo "Parent 2: ".$parent2."<br>";
 
             if($this->crossoverRate > Random::generate()){
 
@@ -683,23 +717,23 @@ class GeneticAlgorithm {
                     }
                 }
 
-                //echo "Added offspring ".$offspring1."<br>";
-                //echo "Added offspring ".$offspring2."<br>";
+                echo "Added offspring ".$offspring1."<br>";
+                echo "Added offspring ".$offspring2."<br>";
                 $newPopulation->addIndividual($offspring1);
                 $newPopulation->addIndividual($offspring2);
 
             }
             else{
-               // echo "Added parent: ".$parent1."<br>";
-               // echo "Added parent: ".$parent2."<br>";
+                echo "Added parent: ".$parent1."<br>";
+                echo "Added parent: ".$parent2."<br>";
                 $newPopulation->addIndividual($parent1);
                 $newPopulation->addIndividual($parent2);
             }
 
         }
 
-        //echo "Original Population:<br> $population";
-        //echo "Mating Pool:<br> $newPopulation";
+        echo "Original Population:<br> $population";
+        echo "Mating Pool:<br> $newPopulation";
 
         return $newPopulation;
     }
@@ -759,6 +793,94 @@ class GeneticAlgorithm {
             else{
                 $newPopulation->setIndividual($populationIndex, $parent1);
                 echo "Offspring Unchanged: $parent1<br>";
+            }
+            echo "-------------------------------------<br>";
+        }
+
+        return $newPopulation;
+    }
+
+    public function crossoverSinglePointPool(Population $population){
+
+        echo "Starting Single Point Crossover...<br>";
+
+        $newPopulation = new Population($population->size());
+
+        $individuals = $population->getIndividuals();
+
+        for($i = 0; $i<$this->elitismCount; $i++){
+
+            $newPopulation->addIndividual( $population->getFittestIndividual($i));
+            echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
+
+        }
+
+        //for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
+        while ($newPopulation->size() < $this->populationSize){
+
+            if ($newPopulation->size() == $this->populationSize-1){
+
+                $oddIndividual = array_pop($individuals);
+
+                echo "Added remainder odd individual: ".$oddIndividual."<br>";
+                $newPopulation->addIndividual($oddIndividual);
+
+                echo "Original Population:<br> $population";
+                echo "Crossed Population:<br> $newPopulation";
+
+                return $newPopulation;
+
+            }
+
+            if(count($individuals) <= 0){
+
+                echo "Original Population:<br> $population";
+                echo "Crossed Population:<br> $newPopulation";
+
+                return $newPopulation;
+            }
+
+            shuffle($individuals);
+
+            $parent1 = array_pop($individuals);
+            $parent2 = array_pop($individuals);
+
+            echo "Parent 1: ".$parent1."<br>";
+            echo "Parent 2: ".$parent2."<br>";
+
+            if($this->crossoverRate > Random::generate()){
+
+                $offspring1 = new Individual();
+                $offspring2 = new Individual();
+
+                $swapPoint = rand(1,$parent1->getChromosomeLength()-1);
+
+                echo "Swap Point: $swapPoint<br>";
+
+                for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                    if($geneIndex < $swapPoint){
+                        $offspring1->setGene($geneIndex, $parent1->getGene($geneIndex));
+                        $offspring2->setGene($geneIndex, $parent2->getGene($geneIndex));
+                    }
+                    else{
+                        $offspring1->setGene($geneIndex, $parent2->getGene($geneIndex));
+                        $offspring2->setGene($geneIndex, $parent1->getGene($geneIndex));
+
+                    }
+                }
+                echo "Offspring1: $offspring1<br>";
+                echo "Offspring2: $offspring2<br>";
+
+
+                $newPopulation->addIndividual($offspring1);
+                $newPopulation->addIndividual($offspring2);
+            }
+            else{
+                echo "Added offspring unchanged: ".$parent1."<br>";
+                echo "Added offsping unchanged: ".$parent2."<br>";
+                $newPopulation->addIndividual($parent1);
+                $newPopulation->addIndividual($parent2);
             }
             echo "-------------------------------------<br>";
         }
@@ -832,6 +954,223 @@ class GeneticAlgorithm {
 
         return $newPopulation;
     }
+
+    public function crossoverTwoPointPool(Population $population){
+
+    echo "Starting Two Point Crossover...<br>";
+
+    $newPopulation = new Population($population->size());
+
+    $individuals = $population->getIndividuals();
+
+    for($i = 0; $i<$this->elitismCount; $i++){
+
+        $newPopulation->addIndividual( $population->getFittestIndividual($i));
+        echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
+
+    }
+
+    while ($newPopulation->size() < $this->populationSize){
+
+        if ($newPopulation->size() == $this->populationSize-1){
+
+            $oddIndividual = array_pop($individuals);
+
+            echo "Added remainder odd individual: ".$oddIndividual."<br>";
+            $newPopulation->addIndividual($oddIndividual);
+
+            echo "Original Population:<br> $population";
+            echo "Crossed Population:<br> $newPopulation";
+
+            return $newPopulation;
+
+        }
+
+        if(count($individuals) <= 0){
+
+            echo "Original Population:<br> $population";
+            echo "Crossed Population:<br> $newPopulation";
+
+            return $newPopulation;
+        }
+
+        shuffle($individuals);
+
+        $parent1 = array_pop($individuals);
+        $parent2 = array_pop($individuals);
+        echo "Parent 1: $parent1<br>";
+        echo "Parent 2: $parent2<br>";
+
+
+        if($this->crossoverRate > Random::generate() ){
+
+            $offspring1 = new Individual();
+            $offspring2 = new Individual();
+
+            $swapPoint1 = rand(0,$parent1->getChromosomeLength()-2);
+            $swapPoint2 = rand($swapPoint1+1, $parent1->getChromosomeLength()-1);
+
+            echo "Swap Points: $swapPoint1, $swapPoint2<br>";
+
+            for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                if($geneIndex < $swapPoint1 || $geneIndex > $swapPoint2 ){
+                    $offspring1->setGene($geneIndex, $parent1->getGene($geneIndex));
+                    $offspring2->setGene($geneIndex, $parent2->getGene($geneIndex));
+                }
+                else{
+                    $offspring1->setGene($geneIndex, $parent2->getGene($geneIndex));
+                    $offspring2->setGene($geneIndex, $parent1->getGene($geneIndex));
+                }
+            }
+
+            echo "Offspring1: $offspring1<br>";
+            echo "Offspring2: $offspring2<br>";
+
+
+            $newPopulation->addIndividual($offspring1);
+            $newPopulation->addIndividual($offspring2);
+        }
+        else{
+            echo "Added offspring unchanged: ".$parent1."<br>";
+            echo "Added offsping unchanged: ".$parent2."<br>";
+            $newPopulation->addIndividual($parent1);
+            $newPopulation->addIndividual($parent2);
+        }
+
+        echo "----------------------------------------<br>";
+    }
+
+    return $newPopulation;
+}
+
+    public function crossoverMultiPointPool(Population $population, $numberOfSwapPoints){
+
+    echo "Starting $numberOfSwapPoints Point Crossover...<br>";
+
+    $newPopulation = new Population($population->size());
+
+    $individuals = $population->getIndividuals();
+
+    for($i = 0; $i<$this->elitismCount; $i++){
+
+        $newPopulation->addIndividual( $population->getFittestIndividual($i));
+        echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
+
+    }
+
+    while ($newPopulation->size() < $this->populationSize){
+
+        if ($newPopulation->size() == $this->populationSize-1){
+
+            $oddIndividual = array_pop($individuals);
+
+            echo "Added remainder odd individual: ".$oddIndividual."<br>";
+            $newPopulation->addIndividual($oddIndividual);
+
+            echo "Original Population:<br> $population";
+            echo "Crossed Population:<br> $newPopulation";
+
+            return $newPopulation;
+
+        }
+
+        if(count($individuals) <= 0){
+
+            echo "Original Population:<br> $population";
+            echo "Crossed Population:<br> $newPopulation";
+
+            return $newPopulation;
+        }
+
+        shuffle($individuals);
+
+        $parent1 = array_pop($individuals);
+        $parent2 = array_pop($individuals);
+        echo "Parent 1: $parent1<br>";
+        echo "Parent 2: $parent2<br>";
+
+
+        if($this->crossoverRate > Random::generate() ){
+
+            $offspring1 = new Individual();
+            $offspring2 = new Individual();
+
+            $swapPoints = [0, $parent1->getChromosomeLength()];
+
+            for($i=0; $i < $numberOfSwapPoints; $i++){
+
+                $swapPoint = rand(1,$parent1->getChromosomeLength()-1);
+
+                while (in_array($swapPoint, $swapPoints)){
+                    $swapPoint = rand(1,$parent1->getChromosomeLength()-1);
+                }
+
+                $swapPoints[] = $swapPoint;
+            }
+
+            sort($swapPoints);
+
+
+            echo "Swap Points:<br>";
+
+            echo "<pre>";
+            var_dump($swapPoints);
+            echo "</pre>";
+
+            $segments = [];
+
+            for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                for($i = 0; $i < count($swapPoints); $i++){
+
+                    if($geneIndex >= $swapPoints[$i] && $geneIndex <= $swapPoints[$i+1]){
+
+                        $segments[$i][] = $parent1->getGene($geneIndex);
+                        break;
+                    }
+                }
+            }
+
+            echo "<pre>";
+            var_dump($segments);
+            echo "</pre>";
+
+
+
+            exit;
+
+            for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                if($geneIndex < $swapPoint1 || $geneIndex > $swapPoint2 ){
+                    $offspring1->setGene($geneIndex, $parent1->getGene($geneIndex));
+                    $offspring2->setGene($geneIndex, $parent2->getGene($geneIndex));
+                }
+                else{
+                    $offspring1->setGene($geneIndex, $parent2->getGene($geneIndex));
+                    $offspring2->setGene($geneIndex, $parent1->getGene($geneIndex));
+                }
+            }
+
+            echo "Offspring1: $offspring1<br>";
+            echo "Offspring2: $offspring2<br>";
+
+
+            $newPopulation->addIndividual($offspring1);
+            $newPopulation->addIndividual($offspring2);
+        }
+        else{
+            echo "Added offspring unchanged: ".$parent1."<br>";
+            echo "Added offsping unchanged: ".$parent2."<br>";
+            $newPopulation->addIndividual($parent1);
+            $newPopulation->addIndividual($parent2);
+        }
+
+        echo "----------------------------------------<br>";
+    }
+
+    return $newPopulation;
+}
 
     public function mutateUniform(Population $population){
 
