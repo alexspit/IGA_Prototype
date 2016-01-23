@@ -25,37 +25,23 @@ if($_POST) {
         $fittestIndividual = $currentPopulation->getFittestIndividual(0);
 
         Redirect::to("../individual_interface_test.php?id=".$fittestIndividual->getIndividualId());
+
     }
     else{
 
-       $matingPool = $ga->stochasticUniversalSampling($evaluatedPopulation);
-
-
-        //$matingPool = $ga->selectTournamentPool($evaluatedPopulation);
-       // $matingPool = $ga->selectParentRoulettePool($evaluatedPopulation);
-
+        $matingPool = $ga->selection($evaluatedPopulation);
         echo "Mating Pool: $matingPool<br>";
 
-
-       // echo "<br>----------------------------<br>";
-       // $crossedPopulation = $ga->crossoverUniformPool($matingPool);
-       // $crossedPopulation = $ga->crossoverSinglePointPool($matingPool);
-        //$crossedPopulation = $ga->crossoverTwoPointPool($matingPool);
-        $crossedPopulation = $ga->crossoverMultiPointPool($matingPool, 2);
-
+        $crossedPopulation = $ga->crossover($matingPool);
         echo "Crossed Population: $crossedPopulation<br>";
 
-        exit;
-
-       // $crossedPopulation = $ga->crossover($evaluatedPopulation);
-
         $mutatedPopulation = $ga->mutate($crossedPopulation);
-
         echo "Mutated Populations: ".$mutatedPopulation."<br>";
 
-        //$ga->nextGeneration($mutatedPopulation);
+        $ga->nextGeneration($mutatedPopulation);
 
-        //Redirect::to("../iga_interface.php");
+        Redirect::to("../iga_interface.php");
+
     }
 
 

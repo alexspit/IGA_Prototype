@@ -17,8 +17,15 @@ $( document ).ready(function() {
         visibleControls: false                  // Disable visual controls
     });
 
+    $("#loader").hide();
+
     $("#next_generation").on("click", function() {
         //console.log($("#form1").serialize());
+
+       // $("#interface_thumbnails").html("<img src='img/ion.zoom.preloader.gif'>");
+        $("#interface_thumbnails").hide();
+        $("#loader").show();
+        $("#instructions").text("Please Wait: Generating new population of interfaces...").css("text-align", "center").css("margin-top", "100px");
         $("#form1").submit();
     });
 
@@ -48,6 +55,8 @@ $( document ).ready(function() {
             step: step
         });
     });
+
+
 
     /*
     var $pop_size = $("#pop_size");

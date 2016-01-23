@@ -38,6 +38,7 @@ require_once "includes/masterpage/header.php";
     <select name="crossover_operator">
         <option value="<?php echo Crossover::SINGLE_POINT; ?>">Single Point</option>
         <option value="<?php echo Crossover::TWO_POINT; ?>">Two Point</option>
+        <option value="<?php echo Crossover::MULTI_POINT; ?>">Multi Point</option>
         <option value="<?php echo Crossover::UNIFORM; ?>" selected>Uniform</option>
     </select>
     <br><br>

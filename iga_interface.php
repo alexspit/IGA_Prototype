@@ -13,12 +13,12 @@ $currentPopulation = $ga->currentPopulation();
 ?>
 
 <!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse" role="navigation">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">  Rate each interface on Aesthetic/Visual Appeal </a>
-            <a class="navbar-brand" href="#"><small> (1 = Lowest Aesthetic Appeal; 10 = Highest Aesthetic Appeal)</small></a>
+            <a class="navbar-brand" href="#"> Web Interface Evaluation </a>
+
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -34,7 +34,7 @@ $currentPopulation = $ga->currentPopulation();
                     <a id="current_generation" href="#">Generation <?php echo $ga->getGenerationNumber(); ?></a>
                 </li>
                 <li class="">
-                    <a id="next_generation" href="#">Next Generation</a>
+                    <a id="next_generation" class="active" href="#">Next Generation</a>
                 </li>
 
             </ul>
@@ -53,11 +53,21 @@ $currentPopulation = $ga->currentPopulation();
     <!-- Page Heading -->
     <div class="row">
         <div class="col-lg-12">
-            <h1> Rate each interface on Aesthetic/Visual Appeal  <small> 1 = Lowest Aesthetic Appeal; 10 = Highest Aesthetic Appeal</small></h1>
+            <h1 id="instructions"> Rate each interface on Aesthetic/Visual Appeal  <small> 1 = Lowest Aesthetic Appeal; 10 = Highest Aesthetic Appeal</small></h1>
 
         </div>
     </div>
     <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-5"></div>
+        <div class="col-lg-2">
+            <i id="loader" class="fa fa-cog fa-spin pull-right"></i>
+        </div>
+        <div class="col-lg-5"></div>
+    </div>
+
+    <div id="interface_thumbnails">
 
     <!-- Projects Row -->
     <div class="row">
@@ -145,6 +155,7 @@ $currentPopulation = $ga->currentPopulation();
     </div>
     <!-- /.row -->
 
+    </div>
 
 
 

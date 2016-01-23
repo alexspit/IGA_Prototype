@@ -15,5 +15,34 @@ footer {
 .page-header{
 
     margin: 0px 0px 20px;
+}
 
+.navbar {
+    border-radius: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+#loader{
+    font-size: 300px;
+    text-align: center;
+    margin-bottom: 140px;
+}
+
+#instructions{
+    margin-top: 10px;
+}
+
+
+::selection {
+    background: #737373;
+}
+::-moz-selection {
+    background: #737373;
+}
+
+small::selection {
+    background: #262626;
+}
+small::-moz-selection {
+    background: #262626;
 }

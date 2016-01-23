@@ -18,6 +18,7 @@ require_once 'core/init.php';
         <!--Main CSS-->
         <link rel='stylesheet' type='text/css' href='css/iga_style.css' />
         <link rel='stylesheet' type='text/css' href='css/bootstrap.css' />
+        <link rel='stylesheet' type='text/css' href='css/font-awesome.css' />
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine:i|Tangerine:b|Inconsolata|Droid+Sans">
         <link rel='stylesheet' type='text/css' href='css/normalize.css' />
         <link rel='stylesheet' type='text/css' href='css/ion.rangeSlider.css' />
