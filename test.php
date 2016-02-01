@@ -49,7 +49,7 @@ foreach ($GLOBALS["interface"] as $section => $sections) {
     }
 }
 
-echo $i;
+echo $i."<br>";
 
 
 
