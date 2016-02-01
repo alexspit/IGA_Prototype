@@ -8,24 +8,19 @@
 
 class Property {
 
-    private $id;
     private $cssName;
     private $values;
 
-    function __construct($id, $cssName = null, array $values = null)
+    function __construct($cssName, array $values = null)
     {
         $this->cssName = $cssName;
-        $this->id = $id;
 
         if(!is_null($values)){
-
             $this->values = $values;
         }
         else{
-
             $this->values = array();
         }
-
     }
 
     public function getValue($id){
@@ -59,21 +54,6 @@ class Property {
         $this->cssName = $cssName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return mixed

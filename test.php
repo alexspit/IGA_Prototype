@@ -30,12 +30,26 @@ echo "</pre>";
 
 */
 
-echo "<pre>";
-echo var_dump($GLOBALS["interface"]);
-echo "</pre>";exit;
 
-?>
+$locus = 0;
 
+$i = new Individual();
+
+foreach ($GLOBALS["interface"] as $section => $sections) {
+
+    foreach ($sections as $selector => $selectors) {
+
+        foreach ($selectors as $property => $properties) {
+
+            $randomIndex = rand(0,count($properties));
+            $i->setGene($locus, $randomIndex);
+            echo "Chromosome[$locus] = $randomIndex ($selector: $property, Total properties = ".count($properties).")<br>";
+            $locus++;
+        }
+    }
+}
+
+echo $i;
 
 
 

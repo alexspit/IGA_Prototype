@@ -80,7 +80,7 @@ if($_GET){
 
             <div class="col-md-5">
 
-                <form method="get" action="individual_interface.php" class="navbar-form" role="search">
+                <form method="get" action="individual_interface_test.php" class="navbar-form" role="search">
                     <div class="form-group">
                         <input type="search" name="search" class="form-control" placeholder="Search">
                     </div>
@@ -189,7 +189,7 @@ if($_GET){
                             <h4 class="pull-right">$24.99</h4>
                             <h4><a href="#">First Product</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...You should definitly buy this product!</p>
+                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
                             <button class="btn btn-default pull-right">Add to Cart</button>
                             <button class="btn btn-default pull-left">Add to Wishlist</button>
                         </div>
@@ -203,7 +203,7 @@ if($_GET){
                             <h4 class="pull-right">$15.99</h4>
                             <h4><a href="#">Second Product</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...You should definitely buy this product!</p>
+                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
                             <button class="btn btn-default pull-right">Add to Cart</button>
                             <button class="btn btn-default pull-left">Add to Wishlist</button>
                         </div>
@@ -217,7 +217,7 @@ if($_GET){
                             <h4 class="pull-right">$50.99</h4>
                             <h4><a href="#">Third Product</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...You should definitly buy this product!</p>
+                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
                             <button class="btn btn-default pull-right">Add to Cart</button>
                             <button class="btn btn-default pull-left">Add to Wishlist</button>
                         </div>
@@ -243,8 +243,30 @@ if($_GET){
     <!-- Footer -->
     <footer>
         <div class="row">
-            <div class="col-lg-12">
-                <p>Copyright &copy; Your Website 2014</p>
+            <div class="col-lg-3 col-lg-offset-2">
+                <dl>
+                    <dt><h4>Information</h4></dt>
+                    <dd><a href="">Delivery Information</a></dd>
+                    <dd><a href="">Return a product</a></dd>
+                    <dd><a href="">Terms and Conditions</a></dd>
+                    <dd><a href="">Privacy Policy</a></dd>
+                </dl>
+            </div>
+            <div class="col-lg-3">
+                <dl>
+                    <dt><h4>Customer Service</h4></dt>
+                    <dd><a href="">Contact Us</a></dd>
+                    <dd><a href="">About Us</a></dd>
+                    <dd><a href="">Sign up for Newsletter</a></dd>
+                    <dd><a href="">Sitemap</a></dd>
+                </dl>
+            </div>
+            <div class="col-lg-3" id="social_icons">
+                <a href=""><span class="fa fa-facebook"></span></a>
+                <a href=""> <span class="fa fa-twitter"></span></a>
+                <a href=""> <span class="fa fa-google-plus"></span></a>
+                <a href=""> <span class="fa fa-youtube"></span></a>
+                <a href=""> <span class="fa fa-pinterest"></span></a>
             </div>
         </div>
     </footer>

@@ -90,12 +90,40 @@ class Individual {
 
         }
 
-
-
-
         return $newChromosome;
 
     }
+
+  /*  private function encode(){
+
+        $newChromosome = [];
+        $chromosomeIndex = 0;
+
+
+        foreach ($GLOBALS["interface"] as $section) {
+
+            foreach ($section as $selector) {
+
+                foreach ($selector as $property) {
+
+                    foreach ($property as $key => $value) {
+
+                        echo ""
+                    }
+                }
+            }
+
+            //To change chromosomeIndex to reflect the key of the property
+            foreach ($element->getProperties() as $property) {
+                $newChromosome[$chromosomeIndex] = $property->getRandomValue();
+                $chromosomeIndex++;
+            }
+
+        }
+
+        return $newChromosome;
+
+    }*/
 
     public function save($generation_id){
         $sql = "INSERT INTO individual (generation_id, chromosome) VALUES (?,?)";

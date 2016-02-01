@@ -51,7 +51,7 @@
 }
 
 footer {
-    margin: 50px 0;
+    margin: 20px 0;
 
 }
 
@@ -61,5 +61,19 @@ footer {
 
 #footer{
     background-color: #1b6d85;
+}
+
+#social_icons{
+    margin-top: 20px;
+    font-size: 40px;
+}
+
+#footer a, #footer h4{
+    color: #262626;
+}
+
+#footer a:hover{
+    color: #888888;
+    text-decoration: none;
 }
 
