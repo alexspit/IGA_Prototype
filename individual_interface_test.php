@@ -33,6 +33,7 @@ if($_GET){
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="css/individual_style.css" rel="stylesheet">
@@ -55,8 +56,8 @@ if($_GET){
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-inverse " role="navigation">
-    <div class="container">
+<nav class="navbar navbar-inverse" id="top_nav" role="navigation">
+    <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -77,30 +78,30 @@ if($_GET){
                 </ul>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-5">
 
                 <form method="get" action="individual_interface.php" class="navbar-form" role="search">
                     <div class="form-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search">
+                        <input type="search" name="search" class="form-control" placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-default">Search</button>
                 </form>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <ul class="nav navbar-nav navbar-right">
 
                     <li >
                         <a href="#">Currency</a>
                     </li>
                     <li class="active">
-                        <a href="#">$</a>
+                        <a href="#">&dollar;</a>
                     </li>
                     <li >
-                        <a href="#">€</a>
+                        <a href="#">&euro;</a>
                     </li>
                     <li >
-                        <a href="#">£</a>
+                        <a href="#">&pound;</i></a>
                     </li>
                 </ul>
 
@@ -116,7 +117,7 @@ if($_GET){
 </nav>
 
 <!-- Page Content -->
-<div class="container">
+<div class="container" id="content">
 
     <div class="row" id="logo">
 
@@ -136,7 +137,7 @@ if($_GET){
 
     </div>
 
-    <div class="row carousel-holder" id="banner">
+    <div class="row carousel-holder">
 
         <div class="col-md-12">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -145,15 +146,15 @@ if($_GET){
                     <li data-target="#carousel-example-generic" data-slide-to="1"></li>
                     <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                 </ol>
-                <div class="carousel-inner">
+                <div class="carousel-inner" id="banner">
                     <div class="item active">
-                        <img class="slide-image" src="http://lorempixel.com/800/200/sports/" alt="">
+                        <img class="slide-image" src="http://lorempixel.com/800/400/sports/" alt="">
                     </div>
                     <div class="item">
-                        <img class="slide-image" src="http://lorempixel.com/800/200/sports/" alt="">
+                        <img class="slide-image" src="http://lorempixel.com/800/400/sports/" alt="">
                     </div>
                     <div class="item">
-                        <img class="slide-image" src="http://lorempixel.com/800/200/sports/" alt="">
+                        <img class="slide-image" src="http://lorempixel.com/800/400/sports/" alt="">
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -188,7 +189,7 @@ if($_GET){
                             <h4 class="pull-right">$24.99</h4>
                             <h4><a href="#">First Product</a>
                             </h4>
-                            <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                            <p>Description of product goes here. Bla bla this product is so cool becuase...You should definitly buy this product!</p>
                             <button class="btn btn-default pull-right">Add to Cart</button>
                             <button class="btn btn-default pull-left">Add to Wishlist</button>
                         </div>
@@ -199,10 +200,10 @@ if($_GET){
                     <div class="thumbnail">
                         <img src="http://lorempixel.com/320/150/sports/" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$24.99</h4>
-                            <h4><a href="#">First Product</a>
+                            <h4 class="pull-right">$15.99</h4>
+                            <h4><a href="#">Second Product</a>
                             </h4>
-                            <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                            <p>Description of product goes here. Bla bla this product is so cool becuase...You should definitely buy this product!</p>
                             <button class="btn btn-default pull-right">Add to Cart</button>
                             <button class="btn btn-default pull-left">Add to Wishlist</button>
                         </div>
@@ -213,10 +214,10 @@ if($_GET){
                     <div class="thumbnail">
                         <img src="http://lorempixel.com/320/150/sports/" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$24.99</h4>
-                            <h4><a href="#">First Product</a>
+                            <h4 class="pull-right">$50.99</h4>
+                            <h4><a href="#">Third Product</a>
                             </h4>
-                            <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                            <p>Description of product goes here. Bla bla this product is so cool becuase...You should definitly buy this product!</p>
                             <button class="btn btn-default pull-right">Add to Cart</button>
                             <button class="btn btn-default pull-left">Add to Wishlist</button>
                         </div>
@@ -236,9 +237,8 @@ if($_GET){
 </div>
 <!-- /.container -->
 
-<div class="container">
+<div class="container-fluid" id="footer">
 
-    <hr>
 
     <!-- Footer -->
     <footer>

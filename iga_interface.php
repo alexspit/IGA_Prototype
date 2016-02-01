@@ -10,6 +10,11 @@ if(is_null($ga->getSessionID())){
 }
 
 $currentPopulation = $ga->currentPopulation();
+
+$currentPopulation->shuffle();
+
+
+
 ?>
 
 <!-- Navigation -->

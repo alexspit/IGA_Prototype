@@ -9,7 +9,9 @@
 .navbar{
 
     border-radius: 0;
+    border-width: 0;
     margin-bottom: 0;
+
 }
 
 .slide-image {
@@ -50,4 +52,14 @@
 
 footer {
     margin: 50px 0;
+
 }
+
+#content{
+    margin-bottom: 30px;
+}
+
+#footer{
+    background-color: #1b6d85;
+}
+

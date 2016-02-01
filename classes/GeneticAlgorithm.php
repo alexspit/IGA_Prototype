@@ -5,8 +5,6 @@
  * Date: 27-Dec-15
  * Time: 02:16
  */
-//require_once "Population.php";
-//require_once "Individual.php";
 
 class GeneticAlgorithm {
 
@@ -24,7 +22,6 @@ class GeneticAlgorithm {
     private $mutationOperator;
     private $mutationRate;
 
-
     private $generationNumber;
     private $generation_id;
 
@@ -35,55 +32,57 @@ class GeneticAlgorithm {
     private $db;
 
     private $element;
-/*
-    public function __construct($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user)
-    {
-        $this->db = DB::getInstance();
+    private $elements;
 
-        $this->sessionStart = date("Y-m-d H:i:s", time());
+    /*
+        public function __construct($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user)
+        {
+            $this->db = DB::getInstance();
 
-        $sql = "INSERT INTO session (user_id, selection_operator, crossover_operator, mutation_operator, elitism_count, max_generations, population_size, tournament_size, session_start) VALUES (?,?,?,?,?,?,?,?,?)";
-        $params = [$user->getUserId(), $selectionOperator, $crossoverOperator, $mutationOperator, $elitismCount, $maxGenerations, $populationSize, $tournamentSize, $this->sessionStart];
+            $this->sessionStart = date("Y-m-d H:i:s", time());
 
-        $result = $this->db->query($sql, $params);
-
-        if($result->error()){
-
-            throw new Exception("Error adding new GA Session");
-
-        }else{
-
-            $this->session_id = $result->last_inserted_id;
-            $this->generationNumber = 1;
-            $this->user = $user;
-
-            $this->populationSize = $populationSize;
-            $this->elitismCount = $elitismCount;
-            $this->maxGenerations = $maxGenerations;
-            $this->selectionOperator = $selectionOperator;
-            $this->tournamentSize = $tournamentSize;
-            $this->crossoverOperator = $crossoverOperator;
-            $this->crossoverRate = $crossoverRate;
-            $this->mutationOperator = $mutationOperator;
-            $this->mutationRate = $mutationRate;
-
-            $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
-            $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
+            $sql = "INSERT INTO session (user_id, selection_operator, crossover_operator, mutation_operator, elitism_count, max_generations, population_size, tournament_size, session_start) VALUES (?,?,?,?,?,?,?,?,?)";
+            $params = [$user->getUserId(), $selectionOperator, $crossoverOperator, $mutationOperator, $elitismCount, $maxGenerations, $populationSize, $tournamentSize, $this->sessionStart];
 
             $result = $this->db->query($sql, $params);
 
             if($result->error()){
-                throw new Exception("Error adding new Generation");
-            }
-        }
 
-    }
-*/
+                throw new Exception("Error adding new GA Session");
+
+            }else{
+
+                $this->session_id = $result->last_inserted_id;
+                $this->generationNumber = 1;
+                $this->user = $user;
+
+                $this->populationSize = $populationSize;
+                $this->elitismCount = $elitismCount;
+                $this->maxGenerations = $maxGenerations;
+                $this->selectionOperator = $selectionOperator;
+                $this->tournamentSize = $tournamentSize;
+                $this->crossoverOperator = $crossoverOperator;
+                $this->crossoverRate = $crossoverRate;
+                $this->mutationOperator = $mutationOperator;
+                $this->mutationRate = $mutationRate;
+
+                $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
+                $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
+
+                $result = $this->db->query($sql, $params);
+
+                if($result->error()){
+                    throw new Exception("Error adding new Generation");
+                }
+            }
+
+        }
+    */
 
     public function __construct($user_id = null)
     {
         $this->db = DB::getInstance();
-
+                /*
         //OBVIOUSLT TEMP - For testing only
         $this->element = new Element("h1", 1);
 
@@ -95,6 +94,49 @@ class GeneticAlgorithm {
         $this->element->addProperty(new Property(6, "font-weight", ["normal", "lighter", "bold"]));
         $this->element->addProperty(new Property(7, "letter-spacing", ["-3px", "-2px", "-1px", "0px", "1px", "2px", "3px"]));
         //$this->element->addProperty(new Property(7, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+*/
+        $logo = new Element("h1", 1);
+
+        $logo->addProperty(new Property(1, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+        $logo->addProperty(new Property(2, "text-align", ["center", "left", "right"]));
+        $logo->addProperty(new Property(3, "text-decoration", ["overline", "underline", "line-through", "none"]));
+        $logo->addProperty(new Property(4, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
+        $logo->addProperty(new Property(5, "font-style", ["normal", "italic", "oblique"]));
+        $logo->addProperty(new Property(6, "font-weight", ["normal", "lighter", "bold"]));
+        $logo->addProperty(new Property(7, "letter-spacing", ["-3px", "-2px", "-1px", "0px", "1px", "2px", "3px"]));
+
+        $banner = new Element("#banner", 2);
+
+        $heightRange = range(150, 400, 10);
+
+        foreach ($heightRange as &$range) {
+            $range .= "px";
+        }
+
+        $banner->addProperty(new Property(1, "height", $heightRange));
+
+        /*
+        $topNav = new Element("#top_nav", 3);
+
+        $topNav->addProperty(new Property(1, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+        $topNav->addProperty(new Property(2, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
+
+
+        $categoryNav = new Element(".nav-pills > li > a", 4);
+
+        $categoryNav->addProperty(new Property(2, "margin-bottom", ["0px", "2px", "4px", "6px", "8px", "10px"]));
+        $categoryNav->addProperty(new Property(3, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
+        $categoryNav->addProperty(new Property(4, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+        $categoryNav->addProperty(new Property(5, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+
+        $categoryNavActive = new Element(".nav-pills > li.active > a", 5);
+
+        $categoryNavActive->addProperty(new Property(11, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+        $categoryNavActive->addProperty(new Property(22, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
+        */
+
+
+        $this->elements = [$logo, $banner];
 
 
         if (!is_null($user_id)){
@@ -178,26 +220,34 @@ class GeneticAlgorithm {
 
     public function initPopulation(){
 
-        return new Population($this->populationSize, $this->generation_id, $this->element);
+        return new Population($this->populationSize, $this->generation_id, $this->elements);
     }
 
     function decode(Individual $individual){
 
-        $cssCode = "{$this->element->getCssTag()} {".PHP_EOL;
-        $chromosome = $individual->getChromosome();
-        $geneIndex = 0;
+        $cssCode = "";
 
-        foreach ($this->element->getProperties() as $property) {
+        foreach ($this->elements as $element) {
 
-            if($property->getCssName() == "font-family"){
-                $cssCode .= "{$property->getCssName()} : '{$property->getValue($chromosome[$geneIndex])}', serif; ";
-            }else{
-                $cssCode .= "{$property->getCssName()} : {$property->getValue($chromosome[$geneIndex])} !important; ";
+            $cssCode .= "{$element->getCssTag()} {".PHP_EOL;
+
+            $chromosome = $individual->getChromosome();
+            $geneIndex = 0;
+
+            foreach ($element->getProperties() as $property) {
+
+                if($property->getCssName() == "font-family"){
+                    $cssCode .= "            {$property->getCssName()} : '{$property->getValue($chromosome[$geneIndex])}', serif; ".PHP_EOL;
+                }else{
+                    $cssCode .= "            {$property->getCssName()} : {$property->getValue($chromosome[$geneIndex])} !important; ".PHP_EOL;
+                }
+
+                $geneIndex++;
             }
+            $cssCode .= "}".PHP_EOL;
 
-            $geneIndex++;
         }
-        $cssCode .= "}";
+
 
         return $cssCode;
 
@@ -244,6 +294,7 @@ class GeneticAlgorithm {
         $populationFitness = 0;
 
         if(count($ratings) != $population->size()){
+            //echo count($ratings)." ".$population->size();
             throw new Exception("Not all individuals have been rated");
         }
         else{
@@ -555,24 +606,24 @@ class GeneticAlgorithm {
         for($i = 0; $i<$this->elitismCount; $i++){
 
             $newPopulation->addIndividual( $population->getFittestIndividual($i));
-            echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
+            //echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
 
         }
 
         //for($populationIndex = 0; $populationIndex < ($population->size() - $this->elitismCount)/2 ; $populationIndex++){
         while ($newPopulation->size() < $this->populationSize){
 
-            echo $newPopulation->size()."<br>";
+            //echo $newPopulation->size()."<br>";
 
             if ($newPopulation->size() == $this->populationSize-1){
 
                 $oddIndividual = array_pop($individuals);
 
-                echo "Added remainder odd individual: ".$oddIndividual."<br>";
+                //echo "Added remainder odd individual: ".$oddIndividual."<br>";
                 $newPopulation->addIndividual($oddIndividual);
 
-                echo "Original Population:<br> $population";
-                echo "Crossed Population:<br> $newPopulation";
+                //echo "Original Population:<br> $population";
+                //echo "Crossed Population:<br> $newPopulation";
 
                 return $newPopulation;
 
@@ -581,8 +632,8 @@ class GeneticAlgorithm {
             if(count($individuals) <= 0){
 
 
-                echo "Original Population:<br> $population";
-                echo "Crossed Population:<br> $newPopulation";
+                //echo "Original Population:<br> $population";
+                //echo "Crossed Population:<br> $newPopulation";
 
                 return $newPopulation;
             }
@@ -592,8 +643,8 @@ class GeneticAlgorithm {
             $parent1 = array_pop($individuals);
             $parent2 = array_pop($individuals);
 
-            echo "Parent 1: ".$parent1."<br>";
-            echo "Parent 2: ".$parent2."<br>";
+           // echo "Parent 1: ".$parent1."<br>";
+           // echo "Parent 2: ".$parent2."<br>";
 
             if($this->crossoverRate > Random::generate()){
 
@@ -612,23 +663,23 @@ class GeneticAlgorithm {
                     }
                 }
 
-                echo "Added offspring ".$offspring1."<br>";
-                echo "Added offspring ".$offspring2."<br>";
+                //echo "Added offspring ".$offspring1."<br>";
+                //echo "Added offspring ".$offspring2."<br>";
                 $newPopulation->addIndividual($offspring1);
                 $newPopulation->addIndividual($offspring2);
 
             }
             else{
-                echo "Added parent: ".$parent1."<br>";
-                echo "Added parent: ".$parent2."<br>";
+                //echo "Added parent: ".$parent1."<br>";
+                //echo "Added parent: ".$parent2."<br>";
                 $newPopulation->addIndividual($parent1);
                 $newPopulation->addIndividual($parent2);
             }
 
         }
 
-        echo "Original Population:<br> $population";
-        echo "Mating Pool:<br> $newPopulation";
+       // echo "Original Population:<br> $population";
+       // echo "Mating Pool:<br> $newPopulation";
 
         return $newPopulation;
     }
@@ -967,7 +1018,7 @@ class GeneticAlgorithm {
             $individual = $population->getFittestIndividual($populationIndex);
 
 
-            $randomIndividual = new Individual(null, $this->element);
+            $randomIndividual = new Individual(null, $this->elements);
             $randomIndividual->generateRandom();
 
 

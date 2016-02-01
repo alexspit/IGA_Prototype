@@ -30,13 +30,9 @@ echo "</pre>";
 
 */
 
-$i = new Individual(70);
-
-$i->captureImage();
-
 echo "<pre>";
-var_dump($i);
-echo "</pre>";
+echo var_dump($GLOBALS["interface"]);
+echo "</pre>";exit;
 
 ?>
 

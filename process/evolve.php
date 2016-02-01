@@ -11,6 +11,7 @@ require_once "../core/init_process.php";
 
 if($_POST) {
 
+
     $ratings = $_POST;
     $user_id = $_SESSION['user_id'];
     $ga = new GeneticAlgorithm($user_id);
@@ -30,13 +31,13 @@ if($_POST) {
     else{
 
         $matingPool = $ga->selection($evaluatedPopulation);
-        echo "Mating Pool: $matingPool<br>";
+        //echo "Mating Pool: $matingPool<br>";
 
         $crossedPopulation = $ga->crossover($matingPool);
-        echo "Crossed Population: $crossedPopulation<br>";
+        //echo "Crossed Population: $crossedPopulation<br>";
 
         $mutatedPopulation = $ga->mutate($crossedPopulation);
-        echo "Mutated Populations: ".$mutatedPopulation."<br>";
+        //echo "Mutated Populations: ".$mutatedPopulation."<br>";
 
         $ga->nextGeneration($mutatedPopulation);
 

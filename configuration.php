@@ -24,24 +24,34 @@ require_once "includes/masterpage/header.php";
     <br>
 
     <p>Selection Operator</p>
-    <select name="selection_operator">
-        <option value="<?php echo Selection::ROULETTE; ?>">Roulette Wheel</option>
-        <option value="<?php echo Selection::TOURNAMENT; ?>" selected>Tournament</option>
+    <select id="selection_operator" name="selection_operator">
+        <option value="<?php echo Selection::ROULETTE; ?>" selected>Roulette Wheel</option>
+        <option value="<?php echo Selection::TOURNAMENT; ?>" >Tournament</option>
         <option value="<?php echo Selection::STOCHASTIC_UNIVERSAL_SAMPLING; ?>">Stochastic Universal Sampling</option>
     </select><br><br>
 
-    <p>Tournament Size </p>
-    <input type="text" class="config_range" id="tourny_size" name="tournament_size" min="0" max="100" value="20" step="5" data-postfix="%"/>
-    <br>
+    <div id="tournament_size_container">
+        <p>Tournament Size </p>
+        <input type="text" class="config_range" id="tourny_size" name="tournament_size" disabled min="0" max="100" value="20" step="5" data-postfix="%"/>
+        <br>
+    </div>
+
 
     <p>Crossover Operator</p>
-    <select name="crossover_operator">
+    <select id="crossover_operator" name="crossover_operator">
         <option value="<?php echo Crossover::SINGLE_POINT; ?>">Single Point</option>
         <option value="<?php echo Crossover::TWO_POINT; ?>">Two Point</option>
         <option value="<?php echo Crossover::MULTI_POINT; ?>">Multi Point</option>
         <option value="<?php echo Crossover::UNIFORM; ?>" selected>Uniform</option>
     </select>
     <br><br>
+
+    <div id="number_of_swap_points">
+        <p>Number of Swap Points </p>
+        <input type="text" class="config_range" id="swap_point_count" name="swap_point_count" disabled min="1" max="10" value="3" step="1" />
+        <br>
+    </div>
+
 
     <p>Crossover Rate</p>
     <input type="text" class="config_range" id="xover_rate" name="crossover_rate" min="0" max="100" value="85" data-postfix="%"/>

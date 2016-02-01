@@ -30,7 +30,7 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse " role="navigation">
-    <div class="container">
+    <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -55,7 +55,7 @@
 
                 <form method="get" action="individual_interface.php" class="navbar-form" role="search">
                     <div class="form-group">
-                        <input type="text" name="search" class="form-control" placeholder="Search">
+                        <input type="text" name="search" id="search_input" class="form-control" placeholder="Search">
                     </div>
                     <button type="submit" class="btn btn-default">Search</button>
                 </form>
@@ -110,7 +110,7 @@
 
     </div>
 
-    <div class="row carousel-holder" id="banner">
+    <div class="row carousel-holder">
 
         <div class="col-md-12">
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -119,15 +119,15 @@
                     <li data-target="#carousel-example-generic" data-slide-to="1"></li>
                     <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                 </ol>
-                <div class="carousel-inner">
+                <div class="carousel-inner" id="banner">
                     <div class="item active">
-                        <img class="slide-image" src="http://lorempixel.com/800/200/sports/" alt="">
+                        <img class="slide-image" src="http://placehold.it/1600x600" alt="">
                     </div>
                     <div class="item">
-                        <img class="slide-image" src="http://lorempixel.com/800/200/sports/" alt="">
+                        <img class="slide-image" src="http://placehold.it/1600x600" alt="">
                     </div>
                     <div class="item">
-                        <img class="slide-image" src="http://lorempixel.com/800/200/sports/" alt="">
+                        <img class="slide-image" src="http://placehold.it/1600x600" alt="">
                     </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">

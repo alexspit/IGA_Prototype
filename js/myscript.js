@@ -46,7 +46,6 @@ $( document ).ready(function() {
             postfix = $range.data("postfix");
         }
 
-
         $range.ionRangeSlider({
             min: min,
             max: max,
@@ -55,6 +54,35 @@ $( document ).ready(function() {
             step: step
         });
     });
+
+    $("#tournament_size_container").hide();
+
+    $("#selection_operator").on("change", function() {
+
+
+        if($(this).val() == 2){
+            $("#tournament_size_container").show();
+        }
+        else{
+            $("#tournament_size_container").hide();
+        }
+
+    });
+
+    $("#number_of_swap_points").hide();
+
+    $("#crossover_operator").on("change", function() {
+
+
+        if($(this).val() == 4){
+            $("#number_of_swap_points").show();
+        }
+        else{
+            $("#number_of_swap_points").hide();
+        }
+
+    });
+
 
 
 

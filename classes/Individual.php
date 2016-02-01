@@ -17,18 +17,18 @@ class Individual {
     private $fitness;
     private $individual_id;
     private $image_path;
-    private $element;
+    private $elements;
 
     private $db;
 
 
-    public function __construct($id = null, Element $element = null)
+    public function __construct($id = null, array $elements = null)
     {
         $this->db = DB::getInstance();
         $this->chromosome = [];
-        $this->element = $element;
+        $this->elements = $elements;
 
-        if(is_null($element) && !is_null($id)){
+        if(is_null($elements) && !is_null($id)){
 
             $sql = "SELECT chromosome, image_path, fitness FROM individual WHERE individual_id=?";
             $params = [$id];
@@ -44,7 +44,7 @@ class Individual {
         else if (!is_null($id)){
 
             $this->fitness = -1;
-            $this->chromosome = $this->encode($element);
+            $this->chromosome = $this->encode($elements);
 
             $sql = "INSERT INTO individual (generation_id, chromosome, fitness) VALUES (?,?,?)";
             $params = [$id, implode(',',$this->chromosome), $this->fitness];
@@ -74,16 +74,24 @@ class Individual {
 
     }
 
-    private function encode(Element $element){
+    private function encode(array $elements){
 
         $newChromosome = [];
-
-        //To change chromosomeIndex to reflect the key of the property
         $chromosomeIndex = 0;
-        foreach ($element->getProperties() as $property) {
-            $newChromosome[$chromosomeIndex] = $property->getRandomValue();
-            $chromosomeIndex++;
+
+
+        foreach ($elements as $element) {
+
+            //To change chromosomeIndex to reflect the key of the property
+            foreach ($element->getProperties() as $property) {
+                $newChromosome[$chromosomeIndex] = $property->getRandomValue();
+                $chromosomeIndex++;
+            }
+
         }
+
+
+
 
         return $newChromosome;
 
@@ -120,7 +128,7 @@ class Individual {
 
     public function generateRandom(){
 
-        $this->chromosome = $this->encode($this->element);
+        $this->chromosome = $this->encode($this->elements);
 
     }
 
