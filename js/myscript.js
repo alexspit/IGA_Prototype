@@ -7,30 +7,26 @@ $( document ).ready(function() {
         value.html(this.value);
     });*/
 
-    $(".input_range").ionRangeSlider({
-            min: 1,
-            max: 10,
-            from: 5
+    //-------CONSENT.php----------//
+
+    $("#submit_consent_form").on("click", function(e){
+        e.preventDefault();
+        $("#submit_btn").click();
     });
 
-    $(".gallery").ionZoom({
-        visibleControls: false                  // Disable visual controls
-    });
+    //-------CONFIGURATION.php-------//
 
-    $("#loader").hide();
 
-    $("#next_generation").on("click", function() {
-        //console.log($("#form1").serialize());
-
-       // $("#interface_thumbnails").html("<img src='img/ion.zoom.preloader.gif'>");
-        $("#interface_thumbnails").hide();
+    $("#submit_config_form").on("click", function(e){
+        e.preventDefault();
+        $("#configuration_form").hide();
         $("#loader").show();
-        $("#instructions").text("Please Wait: Generating new population of interfaces...").css("text-align", "center").css("margin-top", "100px");
-        $("#form1").submit();
+        $("#config_title").text("Please Wait: Applying configuration settings and initializing algorithm...").css("text-align", "center").css("margin-top", "100px");
+        $("#config_submit_btn").click();
     });
 
 
-    //CONFIGURATION.php SETTINGS
+
 
     $('.config_range').each(function(i, range){
 
@@ -81,6 +77,50 @@ $( document ).ready(function() {
             $("#number_of_swap_points").hide();
         }
 
+    });
+
+
+    //-------IGA_INTERFACE.php-----//
+
+    $(".fancybox").fancybox({
+        fitToView	: true,
+        width		: '100%',
+        height		: '90%',
+        autoSize	: true,
+        padding : 0,
+        openEffect: 'elastic',
+        closeEffect: 'elastic',
+
+    });
+
+    $('.img-responsive').contenthover({
+        overlay_height:65,
+        effect:'slide',
+        slide_speed:150,
+        overlay_background:'#000',
+        overlay_opacity:0.5
+    });
+
+    $(".input_range").ionRangeSlider({
+            min: 1,
+            max: 10,
+            from: 5
+    });
+
+    $(".gallery").ionZoom({
+        visibleControls: false                  // Disable visual controls
+    });
+
+    $("#loader").hide();
+
+    $("#next_generation").on("click", function() {
+        //console.log($("#form1").serialize());
+
+       // $("#interface_thumbnails").html("<img src='img/ion.zoom.preloader.gif'>");
+        $("#interface_thumbnails").hide();
+        $("#loader").show();
+        $("#instructions").text("Please Wait: Generating new population of interfaces...").css("text-align", "center").css("margin-top", "100px");
+        $("#form1").submit();
     });
 
 

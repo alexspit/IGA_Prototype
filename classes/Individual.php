@@ -17,18 +17,18 @@ class Individual {
     private $fitness;
     private $individual_id;
     private $image_path;
-    private $elements;
+   // private $elements;
 
     private $db;
 
 
-    public function __construct($id = null, array $elements = null)
+    public function __construct($id = null, $new = false, $user_id = null)
     {
         $this->db = DB::getInstance();
         $this->chromosome = [];
-        $this->elements = $elements;
+        //$this->elements = $elements;
 
-        if(is_null($elements) && !is_null($id)){
+        if(!$new && !is_null($id)){
 
             $sql = "SELECT chromosome, image_path, fitness FROM individual WHERE individual_id=?";
             $params = [$id];
@@ -41,40 +41,54 @@ class Individual {
             $this->chromosome = explode(",", $pdo->result()[0]->chromosome);
 
         }
-        else if (!is_null($id)){
+        else if ($new && !is_null($id)){
 
-            $this->fitness = -1;
-            $this->chromosome = $this->encode($elements);
 
-            $sql = "INSERT INTO individual (generation_id, chromosome, fitness) VALUES (?,?,?)";
-            $params = [$id, implode(',',$this->chromosome), $this->fitness];
-            $result = $this->db->query($sql, $params);
+            $sql = "SELECT sc.section FROM session s INNER JOIN section sc ON (s.session_id=sc.session_id) WHERE s.user_id = ? ORDER BY sc.section DESC LIMIT 1 ";
+            $params = [$user_id];
 
-            if($result->error()){
+            $pdo = $this->db->query($sql, $params);
 
-                throw new Exception("Error adding new Individual");
+            if(!$pdo->error()){
 
-            }else{
+                $this->fitness = -1;
+                $this->chromosome = $this->encode($pdo->result()[0]->section);
+                //TODO: Find way to pass user_id like in save method
+                $sql = "INSERT INTO individual (generation_id, chromosome, fitness) VALUES (?,?,?)";
+                $params = [$id, implode(',',$this->chromosome), $this->fitness];
+                $result = $this->db->query($sql, $params);
 
-                $this->individual_id = $result->last_inserted_id;
+                if($result->error()){
 
-                if($this->captureImage()){
+                    throw new Exception("Error adding new Individual");
 
-                    $sql = "UPDATE individual SET image_path='{$this->image_path}' WHERE individual_id=?";
-                    $params = [$this->individual_id];
-                    $result = $this->db->query($sql, $params);
+                }else{
 
-                    if($result->error()){
-                        throw new Exception("Error updating image_path field in Database");
+                    $this->individual_id = $result->last_inserted_id;
+
+
+                    if($this->captureImage($user_id)){
+
+                        $sql = "UPDATE individual SET image_path='{$this->image_path}' WHERE individual_id=?";
+                        $params = [$this->individual_id];
+                        $result = $this->db->query($sql, $params);
+
+                        if($result->error()){
+                            throw new Exception("Error updating image_path field in Database");
+                        }
                     }
                 }
             }
+            else{
+                throw new Exception("Error getting current section");
+            }
+
         }
 
 
     }
 
-    private function encode(array $elements){
+   /* private function encode(array $elements){
 
         $newChromosome = [];
         $chromosomeIndex = 0;
@@ -92,40 +106,47 @@ class Individual {
 
         return $newChromosome;
 
-    }
-
-  /*  private function encode(){
-
-        $newChromosome = [];
-        $chromosomeIndex = 0;
-
-
-        foreach ($GLOBALS["interface"] as $section) {
-
-            foreach ($section as $selector) {
-
-                foreach ($selector as $property) {
-
-                    foreach ($property as $key => $value) {
-
-                        echo ""
-                    }
-                }
-            }
-
-            //To change chromosomeIndex to reflect the key of the property
-            foreach ($element->getProperties() as $property) {
-                $newChromosome[$chromosomeIndex] = $property->getRandomValue();
-                $chromosomeIndex++;
-            }
-
-        }
-
-        return $newChromosome;
-
     }*/
 
-    public function save($generation_id){
+    private function encode($section){
+
+        $locus = 0;
+
+        $i = new Individual();
+
+        $interface = $GLOBALS["interface"];
+
+        switch ($section){
+            case Section::HEADER:
+                $interface = [$interface[Section::HEADER]];
+                break;
+            case Section::BODY:
+                $interface = [$interface[Section::BODY]];
+                break;
+            case Section::FOOTER:
+                $interface = [$interface[Section::FOOTER]];
+                break;
+        }
+
+        foreach ($interface as $section => $sections) {
+
+            foreach ($sections as $selector => $selectors) {
+
+                foreach ($selectors as $property => $properties) {
+
+                    $randomIndex = rand(0,count($properties)-1);
+                    $i->setGene($locus, $randomIndex);
+                    //echo "Chromosome[$locus] = $randomIndex ($selector: $property, Total properties = ".count($properties).")<br>";
+                    $locus++;
+                }
+            }
+        }
+
+        return $i->getChromosome();
+    }
+
+
+    public function save($generation_id, $user_id = null){
         $sql = "INSERT INTO individual (generation_id, chromosome) VALUES (?,?)";
         $params = [$generation_id, implode(',',$this->chromosome)];
         $result = $this->db->query($sql, $params);
@@ -138,7 +159,7 @@ class Individual {
 
             $this->individual_id = $result->last_inserted_id;
 
-            if($statusCode = $this->captureImage()){
+            if($this->captureImage($user_id) || file_exists(__DIR__."/thumbnails/individual_".$this->individual_id.".jpg")){
 
                 $sql = "UPDATE individual SET image_path='{$this->image_path}' WHERE individual_id=?";
                 $params = [$this->individual_id];
@@ -154,18 +175,22 @@ class Individual {
         }
     }
 
-    public function generateRandom(){
+    public function generateRandom($section){
 
-        $this->chromosome = $this->encode($this->elements);
+        $this->chromosome = $this->encode($section);
 
     }
 
-    public function captureImage(){
+    public function captureImage($user_id = null){
 
         $client = Client::getInstance();
         $client->getEngine()->setPath('C:/xampp/htdocs/IGA_Prototype/bin/phantomjs.exe');
 
         $requestPath = 'http://localhost/IGA_Prototype/individual_interface_test.php?id='.$this->individual_id;
+        if(!is_null($user_id)){
+            $requestPath .= "&user_id=$user_id";
+        }
+
         $request  = $client->getMessageFactory()->createCaptureRequest($requestPath);
         $response = $client->getMessageFactory()->createResponse();
 
@@ -173,8 +198,8 @@ class Individual {
 
         $top    = 0;
         $left   = 0;
-        $width  = 1400;
-        $height = 875;
+        $width  = 1600;
+        $height = 1050;
 
         $request->setViewportSize($width, $height);
         $request->setCaptureDimensions($width, $height, $top, $left);
@@ -235,6 +260,10 @@ class Individual {
         }
 
 
+    }
+
+    public function setChromosome(array $chromosome){
+        $this->chromosome = $chromosome;
     }
 
 

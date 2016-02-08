@@ -7,7 +7,7 @@
 function escape($string)
 {
     $string = trim($string);//Removes spaces from front and back of string
-    $string = stripslashes($string); //Removes backslashes which can be used to maliciausly alter the data
+    $string = stripslashes($string); //Removes backslashes which can be used to maliciously alter the data
     $string = strip_tags($string);//Removes tabs
     
     //htmlentities is identical to htmlspecialchars, but it supports HTML characters

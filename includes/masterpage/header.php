@@ -24,6 +24,9 @@ require_once 'core/init.php';
         <link rel='stylesheet' type='text/css' href='css/ion.rangeSlider.css' />
         <link rel='stylesheet' type='text/css' href='css/ion.rangeSlider.skinHTML5.css' />
         <link rel="stylesheet" type='text/css' href="css/ion.zoom.css"/>
+        <link rel="stylesheet" type="text/css" href="js/fancybox/jquery.fancybox.css"/>
+        <link rel="stylesheet" type="text/css" href="css/hover.css"/>
+
 
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->

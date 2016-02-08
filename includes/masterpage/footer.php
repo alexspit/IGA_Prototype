@@ -7,7 +7,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Alexander Spiteri 2016</p>
+                    <p class="pull-right">Copyright &copy; Alexander Spiteri 2016</p>
                 </div>
             </div>
             <!-- /.row -->
@@ -23,6 +23,9 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/ion.rangeSlider.js"></script>
         <script src="js/ion.zoom.js"></script>
+        <script src="js/contentHover.js"></script>
+        <script src="js/fancybox/jquery.fancybox.js"></script>
+
 
         <script src="js/myscript.js"></script>
 

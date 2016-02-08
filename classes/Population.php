@@ -11,14 +11,14 @@ class Population {
     private $population;
     private $populationFitness = -1;
 
-    public function __construct($populationSize, $generation_id = null, array $elements = null ){
+    public function __construct($populationSize, $generation_id = null, $user_id = null){
 
         $this->population = [];
 
-        if(!is_null($elements)){
+        if(!is_null($generation_id)){
             for($individualCount = 0; $individualCount < $populationSize; $individualCount++){
 
-                $individual = new Individual($generation_id, $elements);
+                $individual = new Individual($generation_id, true, $user_id);
                 $this->population[] = $individual;
             }
         }

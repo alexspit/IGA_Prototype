@@ -9,23 +9,47 @@
 require_once "../core/init_process.php";
 
 
-if($_POST) {
+if(Input::exists()) {
 
 
     $ratings = $_POST;
-    $user_id = $_SESSION['user_id'];
+    $user_id = Session::get("user_id");
     $ga = new GeneticAlgorithm($user_id);
 
     $currentPopulation = $ga->currentPopulation();
 
     $evaluatedPopulation = $ga->evalPopulation($currentPopulation, $ratings);
 
+
     if($ga->terminationConditionMet()){
 
-        $ga->setSessionEnd();
-        $fittestIndividual = $currentPopulation->getFittestIndividual(0);
+        if($ga->getCurrentSection() == Section::FOOTER){
 
-        Redirect::to("../individual_interface_test.php?id=".$fittestIndividual->getIndividualId());
+            $ga->setSessionEnd();
+            $fittestIndividual = $currentPopulation->getFittestIndividual(0);
+            $ga->setSectionChromosome($fittestIndividual);
+
+            Redirect::to("../individual_interface_test.php?id=".$fittestIndividual->getIndividualId());
+        }
+        else if($ga->getCurrentSection() == Section::HEADER){
+
+            $ga->setGenerationEnd();
+            $fittestIndividual = $currentPopulation->getFittestIndividual(0);
+            $ga->setSectionChromosome($fittestIndividual);
+
+            $ga->setSection(Section::BODY);
+
+            Redirect::to("initialize_section.php");
+        }
+        else if ($ga->getCurrentSection() == Section::BODY){
+
+            $ga->setGenerationEnd();
+            $fittestIndividual = $currentPopulation->getFittestIndividual(0);
+            $ga->setSectionChromosome($fittestIndividual);
+            $ga->setSection(Section::FOOTER);
+            Redirect::to("initialize_section.php");
+        }
+
 
     }
     else{
@@ -38,6 +62,7 @@ if($_POST) {
 
         $mutatedPopulation = $ga->mutate($crossedPopulation);
         //echo "Mutated Populations: ".$mutatedPopulation."<br>";
+
 
         $ga->nextGeneration($mutatedPopulation);
 

@@ -36,9 +36,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse">
 
-            <div class="col-md-4">
+            <div class="col-md-4 ">
 
-                <ul class="nav navbar-nav navbar-left">
+                <ul class="nav navbar-nav">
                     <li>
                         <a href="#">Home</a>
                     </li>
@@ -51,18 +51,10 @@
                 </ul>
             </div>
 
-            <div class="col-md-4">
 
-                <form method="get" action="individual_interface.php" class="navbar-form" role="search">
-                    <div class="form-group">
-                        <input type="text" name="search" id="search_input" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Search</button>
-                </form>
-            </div>
 
-            <div class="col-md-4">
-                <ul class="nav navbar-nav navbar-right">
+            <div class="col-md-4 ">
+                <ul class="nav navbar-nav ">
 
                     <li >
                         <a href="#">Currency</a>
@@ -80,7 +72,15 @@
 
             </div>
 
+            <div class="col-md-4 ">
 
+                <form method="get" action="individual_interface.php" class="navbar-form" role="search">
+                    <div class="form-group">
+                        <input type="text" name="search" id="search_input" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form>
+            </div>
 
 
         </div>
