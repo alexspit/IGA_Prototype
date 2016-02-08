@@ -141,7 +141,6 @@ class GeneticAlgorithm {
 
         if (!is_null($user_id)){
 
-            //TODO: Add support for multi sections
             $sql = "SELECT sc.section, s.population_size, s.elitism_count, s.max_generations, s.selection_operator, s.tournament_size,
                 s.crossover_operator, g.crossover_rate, s.mutation_operator, g.mutation_rate, g.generation_number, s.user_id, s.session_id, g.generation_id
                 FROM session s INNER JOIN generation g ON (s.session_id = g.session_id) INNER JOIN section sc ON (s.session_id = sc.session_id)

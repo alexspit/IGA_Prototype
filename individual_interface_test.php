@@ -43,7 +43,7 @@ if(Input::exists('get')){
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine:i|Tangerine:b|Inconsolata|Droid+Sans">
+    <!--<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine:i|Tangerine:b|Inconsolata|Droid+Sans">-->
 
 
     <!-- Custom CSS -->
@@ -216,7 +216,7 @@ if(Input::exists('get')){
 
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
+                        <img src="img/320x150.png" alt="">
                         <div class="caption">
                             <h4 class="pull-right">$24.99</h4>
                             <h4><a href="#">First Product</a>
@@ -230,7 +230,7 @@ if(Input::exists('get')){
                 </div>
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
+                        <img src="img/320x150.png" alt="">
                         <div class="caption">
                             <h4 class="pull-right">$15.99</h4>
                             <h4><a href="#">Second Product</a>
@@ -244,7 +244,7 @@ if(Input::exists('get')){
                 </div>
                 <div class="col-sm-4 col-lg-4 col-md-4">
                     <div class="thumbnail">
-                        <img src="http://placehold.it/320x150" alt="">
+                        <img src="img/320x150.png" alt="">
                         <div class="caption">
                             <h4 class="pull-right">$50.99</h4>
                             <h4><a href="#">Third Product</a>

@@ -14,6 +14,8 @@ include_once "includes/masterpage/header.php";
 //require_once "classes/GeneticAlgorithm.php";
 
 Redirect::to("consent.php");
+
+
 ?>
 
     <h1>Give an Aesthetic Rating to each title</h1>
@@ -21,9 +23,6 @@ Redirect::to("consent.php");
 
         <input type="submit" value="Submit">
     </form>
-
-
-
 
 <?php
 

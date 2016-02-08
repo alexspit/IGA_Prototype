@@ -87,11 +87,33 @@ foreach ($GLOBALS["interface"] as $section => $sections) {
     }
 }
 
-echo $css;*/
+echo $css;
 
-$json = file_get_contents("data.json");
+
+
+$task = new Task(1, 1);
+$task->setEndTime(microtime(true));
+
+echo "Start: {$task->getStartTime()}<br>End: {$task->getEndTime()}<br>";
+
+echo $task->getTotalTime();*/
+
+
+$user = new User();
+$user->get(Session::get("user_id"));
+/*
+$evaluation = new Evaluation();
+
+$evaluation->init($user, Evaluation::ORIGINAL);
+
+$evaluation->addTask(1);
+
+echo $evaluation->getTask(1)->getQuestion();
+*/
+
+$eval = new Evaluation($user->getUserId(), Evaluation::ORIGINAL);
 echo "<pre>";
-var_dump(json_decode($json, true));
-var_dump($GLOBALS['interface']);
+var_dump($eval);
 echo "</pre>";
+
 
