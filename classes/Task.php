@@ -40,12 +40,12 @@ class Task
 
             if(!is_null($evaluation_id)){
 
-                $this->startTime = microtime(true);
+               // $this->startTime = microtime(true);
 
                // echo $this->startTime."<br>";
                 $this->evaluation_id = $evaluation_id;
-                $sql = "INSERT INTO evaluation_task (task_id, evaluation_id, start_time) VALUES (?,?,?)";
-                $params = [$this->task_id, $this->evaluation_id, $this->startTime];
+                $sql = "INSERT INTO evaluation_task (task_id, evaluation_id) VALUES (?,?)";
+                $params = [$this->task_id, $this->evaluation_id];
                 $result = $this->db->query($sql, $params);
 
                 if($result->error()){

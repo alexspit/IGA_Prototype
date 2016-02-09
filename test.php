@@ -106,14 +106,20 @@ $evaluation = new Evaluation();
 
 $evaluation->init($user, Evaluation::ORIGINAL);
 
-$evaluation->addTask(1);
+$evaluation->saveTask(1);
+$evaluation->saveTask(2);
+$evaluation->saveTask(3);
+$evaluation->saveTask(4);
+$evaluation->saveTask(5);
+$evaluation->saveTask(6);
 
 echo $evaluation->getTask(1)->getQuestion();
-*/
 
+*/
 $eval = new Evaluation($user->getUserId(), Evaluation::ORIGINAL);
 echo "<pre>";
 var_dump($eval);
 echo "</pre>";
+
 
 

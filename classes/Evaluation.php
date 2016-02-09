@@ -11,8 +11,8 @@
 class Evaluation
 {
 
-    const ORIGINAL = 0;
-    const EVOLVED = 1;
+    const ORIGINAL = 'original';
+    const EVOLVED = 'evolved';
 
     private $db, $evaluation_id, $type, $user, $sessionStart, $sessionEnd, $susScore, $sumScore, $chromosome, $tasks;
 
@@ -107,14 +107,39 @@ class Evaluation
             $this->type = $type;
             $this->user = $user;
 
+            return true;
         }
 
     }
 
     public function saveTask($number){
 
-        $this->tasks[$number] = new Task($number, $this->evaluation_id);
+        if($number >= 1 && $number <= $this->getTaskCount()){
 
+            $sql = 'SELECT et.task_id FROM evaluation_task et INNER JOIN evaluation e ON (e.evaluation_id = et.evaluation_id) INNER JOIN user u ON (u.user_id = e.user_id) INNER JOIN task t ON (t.task_id = et.task_id) WHERE u.user_id = ? AND t.task_number = ? ';
+            $params = [$this->user->getUserId(), $number];
+            $pdo = $this->db->query($sql, $params);
+
+            if($pdo->count() == 0){
+                $this->tasks[$number] = new Task($number, $this->evaluation_id);
+            }else{
+                throw new Exception("Task Already Exitsts");
+            }
+        }
+        else{
+            throw new Exception("Invalid Task Number");
+        }
+    }
+
+    public function getTaskCount(){
+
+        $sql = 'SELECT COUNT(task_id) as task_count FROM task';
+        $params = [];
+        $pdo = $this->db->query($sql, $params);
+
+        if($pdo->count() > 0){
+            return $pdo->result()[0]->task_count;
+        }
     }
 
     public function addTask($number){

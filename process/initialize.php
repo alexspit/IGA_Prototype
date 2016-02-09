@@ -78,6 +78,7 @@ if(Input::exists()){
             else{
                 Session::flash("init-error", "Error Generating new Population, please re-enter configuration settings");
                 Redirect::to("../configuration.php");
+
             }
         }
         else{
