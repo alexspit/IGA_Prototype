@@ -12,7 +12,7 @@ class Task
     private $db, $task_id, $number, $question, $description, $maxTimeout, $targetID, $evaluation_id;
 
     //Eval Task
-    private $startTime, $endTime, $totalTime, $shortestDistance, $travelledDistance, $seqScore, $completed, $errorCount, $wrongClicks;
+    private $totalTime, $shortestDistance, $travelledDistance, $seqScore, $completed, $errorCount, $wrongClicks, $targetWidth;
 
     /**
      * Task constructor.
@@ -122,48 +122,6 @@ class Task
         $this->evaluation_id = $evaluation_id;
     }
 
-    /**
-     * @return bool|string
-     */
-    public function getStartTime()
-    {
-        return $this->startTime;
-    }
-
-    /**
-     * @param bool|string $startTime
-     */
-    public function setStartTime($startTime)
-    {
-        $this->startTime = $startTime;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEndTime()
-    {
-        return $this->endTime;
-    }
-
-    /**
-     * @param mixed $endTime
-     */
-    public function setEndTime($endTime)
-    {
-        $this->endTime = $endTime;
-
-        $sql = "UPDATE evaluation_task SET end_time='{$this->endTime}' WHERE task_id=? AND evaluation_id=?";
-        $params = [$this->task_id, $this->evaluation_id];
-        $result = $this->db->query($sql, $params);
-
-        if($result->error()){
-            throw new Exception("Error updating end time in Eval_Task");
-        }
-        else{
-            $this->setTotalTime();
-        }
-    }
 
     /**
      * @return mixed
@@ -241,6 +199,24 @@ class Task
     /**
      * @return mixed
      */
+    public function getTargetWidth()
+    {
+        return $this->targetWidth;
+    }
+
+    /**
+     * @param mixed $targetWidth
+     */
+    public function setTargetWidth($targetWidth)
+    {
+        $this->targetWidth = $targetWidth;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
     public function getCompleted()
     {
         return $this->completed;
@@ -288,26 +264,7 @@ class Task
        return $this->totalTime;
     }
 
-    private function setTotalTime(){
 
-        if(isset($this->endTime) && isset($this->startTime)){
-
-            $this->totalTime =  ($this->endTime - $this->startTime) * 1000;
-
-            $sql = "UPDATE evaluation_task SET total_time='{$this->totalTime}' WHERE task_id=? AND evaluation_id=?";
-            $params = [$this->task_id, $this->evaluation_id];
-            $result = $this->db->query($sql, $params);
-
-            if($result->error()){
-                throw new Exception("Error updating total time in Eval_Task");
-            }else{
-                return true;
-            }
-
-        }
-
-
-    }
 
     public function getErrorCount(){
         return $this->errorCount;
@@ -318,6 +275,30 @@ class Task
 
             $this->errorCount = ((int) (($this->travelledDistance - $this->shortestDistance) - 1) + $this->wrongClicks);
         }
+    }
+
+    public function update($totalTime, $shortestDist, $travelledDist, $seqScore, $completed, $wrongClicks, $targetWidth){
+
+        $this->totalTime = $totalTime;
+        $this->shortestDistance = $shortestDist;
+        $this->travelledDistance = $travelledDist;
+        $this->seqScore = $seqScore;
+        $this->completed = $completed;
+        $this->wrongClicks = $wrongClicks;
+
+        $this->setErrorCount();
+
+        $sql = "UPDATE evaluation_task SET total_time='$totalTime', shortest_distance='$shortestDist', travelled_distance='$travelledDist', seq_score='$seqScore', completed='$completed', wrong_clicks='$wrongClicks', target_width='$targetWidth' WHERE task_id=? AND evaluation_id=?";
+        $params = [$this->task_id, $this->evaluation_id];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+            throw new Exception("Error updating Eval_Task");
+        }
+        else{
+            return true;
+        }
+
     }
 
 }

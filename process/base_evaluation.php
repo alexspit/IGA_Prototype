@@ -16,7 +16,7 @@ if(Session::exists('user_id')){
     $evaluation = new Evaluation();
 
     if($evaluation->init($user, Evaluation::ORIGINAL)){
-        $evaluation->saveTask(1);
+        //$evaluation->saveTask(1);
         Redirect::to("../individual_evaluation.php?type=".Evaluation::ORIGINAL."&task=1");
 
     }

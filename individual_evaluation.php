@@ -80,7 +80,7 @@ if(Input::exists('get') && Session::exists('user_id')){
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">Genetic Algorithm Configuration</h4>
+                <h4 class="modal-title" id="gridSystemModalLabel">Task <?php echo $currentTask->getNumber();?></h4>
             </div>
             <div class="modal-body">
 
@@ -92,6 +92,33 @@ if(Input::exists('get') && Session::exists('user_id')){
             </div>
             <div class="modal-footer">
                 <button type="button" id="start" class="btn btn-primary" data-dismiss="modal">Start Task</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!--Satisfaction Modal -->
+<div class="modal fade" id="seqModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Task <?php echo $currentTask->getNumber();?> Satisfaction</h4>
+            </div>
+            <div class="modal-body">
+
+                <p>How easy was the task?</p>
+                <select name="seq_score" id="seq_score">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="nextTask" class="btn btn-primary" data-dismiss="modal">Next Task</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -139,7 +166,7 @@ if(Input::exists('get') && Session::exists('user_id')){
                 <ul class="nav navbar-nav">
 
                     <li >
-                        <a id="product_1" href="#">Currency</a>
+                        <a href="#">Currency</a>
                     </li>
                     <li>
                         <a href="#">&dollar;</a>
@@ -243,7 +270,7 @@ if(Input::exists('get') && Session::exists('user_id')){
                             <h4><a href="#">First Product</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
-                            <button class="btn btn-default pull-right">Add to Cart</button>
+                            <button id="product_1" class="btn btn-default pull-right">Add to Cart</button>
                             <button class="btn btn-default pull-left">Add to Wishlist</button>
                         </div>
 
@@ -369,6 +396,12 @@ if(Input::exists('get') && Session::exists('user_id')){
 
 </script>
 
+<form action="process/task.php" method="post" id="taskForm">
+
+    <input type="hidden" name="task" value="<?php echo Input::get('task'); ?>">
+    <input type="hidden" name="type" value="<?php echo Input::get('type'); ?>">
+    <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
+</form>
 
 <script src="js/evaluation_tracking.js"></script>
 

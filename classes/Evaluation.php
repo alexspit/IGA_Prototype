@@ -19,6 +19,7 @@ class Evaluation
     /**
      * Evaluation constructor.
      * @param $user_id
+     * @param $type
      */
     public function __construct($user_id = null, $type = null)
     {
@@ -107,6 +108,10 @@ class Evaluation
             $this->type = $type;
             $this->user = $user;
 
+            for($i = 1; $i <= $this->getTaskCount(); $i++){
+                $this->saveTask($i);
+            }
+
             return true;
         }
 
@@ -151,5 +156,9 @@ class Evaluation
     public function getTask($number){
 
         return $this->tasks[$number];
+    }
+
+    public function getEvaluationID(){
+        return $this->evaluation_id;
     }
 }
