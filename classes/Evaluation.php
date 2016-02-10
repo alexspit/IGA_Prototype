@@ -121,14 +121,14 @@ class Evaluation
 
         if($number >= 1 && $number <= $this->getTaskCount()){
 
-            $sql = 'SELECT et.task_id FROM evaluation_task et INNER JOIN evaluation e ON (e.evaluation_id = et.evaluation_id) INNER JOIN user u ON (u.user_id = e.user_id) INNER JOIN task t ON (t.task_id = et.task_id) WHERE u.user_id = ? AND t.task_number = ? ';
-            $params = [$this->user->getUserId(), $number];
+            $sql = 'SELECT et.task_id FROM evaluation_task et INNER JOIN evaluation e ON (e.evaluation_id = et.evaluation_id) INNER JOIN user u ON (u.user_id = e.user_id) INNER JOIN task t ON (t.task_id = et.task_id) WHERE u.user_id = ? AND t.task_number = ? AND e.eval_type = ? ';
+            $params = [$this->user->getUserId(), $number, $this->type];
             $pdo = $this->db->query($sql, $params);
 
             if($pdo->count() == 0){
                 $this->tasks[$number] = new Task($number, $this->evaluation_id);
             }else{
-                throw new Exception("Task Already Exitsts");
+                throw new Exception("Task Already Exists");
             }
         }
         else{
@@ -161,4 +161,91 @@ class Evaluation
     public function getEvaluationID(){
         return $this->evaluation_id;
     }
+
+    public function getType(){
+        return $this->type;
+    }
+
+    private function getChromosome(){
+        $sql = 'SELECT chromosome FROM evaluation WHERE evaluation_id=?';
+        $params = [$this->evaluation_id];
+        $pdo = $this->db->query($sql, $params);
+
+        if($pdo->count() > 0){
+            return explode(",", $pdo->result()[0]->chromosome);
+        }
+    }
+
+    public function setSessionEnd(){
+
+        $this->sessionEnd = date("Y-m-d H:i:s", time());
+
+        $sql = "UPDATE evaluation SET session_end='$this->sessionEnd' WHERE user_id=? AND evaluation_id=?";
+
+        $params = [$this->user->getUserId(), $this->evaluation_id];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+            throw new Exception("Error updating session end time in evaluation");
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    function decode(&$headerOrder = null, &$categoryPosition = null, &$footerOrder = null){
+
+        $css = "";
+        $geneIndex = 0;
+
+        $i = new Individual();
+        $i->setChromosome($this->getChromosome());
+
+        $interface = $GLOBALS["interface"];
+
+
+        foreach ($interface as $section => $sections) {
+
+
+            foreach ($sections as $selector => $selectors) {
+
+                $css .= "$selector {".PHP_EOL;
+
+                foreach ($selectors as $property => $properties) {
+
+
+                    foreach ($properties as $key => $value) {
+
+                        if($key == $i->getGene($geneIndex)){
+
+                            if($property == "order" || $property == "position"){
+
+                                if($section == Section::HEADER){
+                                    $headerOrder = explode(",", $value);
+                                }
+                                if($section == Section::BODY){
+                                    $categoryPosition = $value;
+                                }
+                                if($section == Section::FOOTER){
+                                    $footerOrder = explode(",", $value);
+                                }
+                                break;
+                            }
+                            //echo "Match!<br>";
+                            $css .= "$property : $value !important;".PHP_EOL;
+                            break;
+                        }
+                    }
+                    $geneIndex++;
+                }
+                $css .= "}".PHP_EOL;
+            }
+        }
+
+        return $css;
+
+    }
+
+
 }

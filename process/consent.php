@@ -43,7 +43,7 @@ if(Input::exists()){
             $user = new User($clean["name"], $clean["surname"], $clean["age"], $clean["sex"]);
             Session::put("user_id", $user->getUserId());
             //Redirect::to("../configuration.php");
-            Redirect::to("base_evaluation.php");
+            Redirect::to("original_evaluation.php");
         }
         else{
             Session::flash("consent-error","Please give consent to proceed");

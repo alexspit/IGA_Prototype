@@ -16,8 +16,15 @@ $( document ).ready(function() {
                 start=false;
                 endTime = Date.now();
                 totalTime = endTime - startTime;
-                travelledDist = travelledDistance();
-                straightDist = straightDistance();
+                if(points.length > 0){
+                    travelledDist = travelledDistance();
+                    straightDist = straightDistance();
+                }
+                else{
+                    travelledDist = 0;
+                    straightDist = 0;
+                }
+
                 completed = 0;
                 width = $(finish).outerWidth();
 
@@ -33,6 +40,9 @@ $( document ).ready(function() {
                 console.log(maxTimeOut);
                 console.log(finish);
                 console.log(completed);
+
+                $("#seqModalHeader").append(" Failed to complete task in pre-determined time-frame");
+
 
                 $("#seqModal").modal('show');
             }
@@ -92,6 +102,9 @@ $( document ).ready(function() {
             console.log(finish);
             console.log(completed);
 
+
+            $("#seqModalHeader").append("Completed Successfully");
+
             $("#seqModal").modal('show');
 
 
@@ -117,7 +130,7 @@ $( document ).ready(function() {
         taskForm.submit();
     });
 
-    $(document).on("mousedown", function(e){
+    $(document).on("click", function(e){
         if(start){
             wrongClicks++;
         }
@@ -152,6 +165,31 @@ $( document ).ready(function() {
 
         return Math.round(Math.sqrt(Math.pow(end_point[0] - start_point[0], 2) + Math.pow(end_point[1] - start_point[1], 2)));
     }
+
+
+    $("#currency_pound").on('click', function(e){
+        e.preventDefault();
+
+        $(".currency").html("&pound;");
+        $(".price").html("20.99");
+
+    });
+
+    $("#currency_euro").on('click', function(e){
+        e.preventDefault();
+
+        $(".currency").html("&euro;");
+        $(".price").html("25.99");
+
+    });
+
+    $("#currency_dollar").on('click', function(e){
+        e.preventDefault();
+
+        $(".currency").html("&dollar;");
+        $(".price").html("28.99");
+
+    });
 
 
 });

@@ -29,7 +29,7 @@ if(Input::exists()) {
             $fittestIndividual = $currentPopulation->getFittestIndividual(0);
             $ga->setSectionChromosome($fittestIndividual);
 
-            Redirect::to("../individual_interface_test.php?id=".$fittestIndividual->getIndividualId());
+            Redirect::to("evolved_evaluation.php");
         }
         else if($ga->getCurrentSection() == Section::HEADER){
 

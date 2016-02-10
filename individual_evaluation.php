@@ -14,6 +14,9 @@ if(Input::exists('get') && Session::exists('user_id')){
     }
     else if(Input::get('type') == Evaluation::EVOLVED){
 
+        $evaluation = new Evaluation(Session::get('user_id'), Evaluation::EVOLVED);
+
+        $currentTask = $evaluation->getTask(Input::get('task'));
 
     }
 
@@ -75,11 +78,10 @@ if(Input::exists('get') && Session::exists('user_id')){
 
 <body>
 
-<div class="modal fade" id="taskModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="taskModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="gridSystemModalLabel">Task <?php echo $currentTask->getNumber();?></h4>
             </div>
             <div class="modal-body">
@@ -98,12 +100,11 @@ if(Input::exists('get') && Session::exists('user_id')){
 </div><!-- /.modal -->
 
 <!--Satisfaction Modal -->
-<div class="modal fade" id="seqModal" tabindex="-1" role="dialog">
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="seqModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">Task <?php echo $currentTask->getNumber();?> Satisfaction</h4>
+                <h4 class="modal-title" id="seqModalHeader">Task <?php echo $currentTask->getNumber();?> </h4>
             </div>
             <div class="modal-body">
 
@@ -156,7 +157,7 @@ if(Input::exists('get') && Session::exists('user_id')){
 
                 <form method="post" action="" class="navbar-form" role="search">
                     <div class="form-group">
-                        <input type="search" name="search" class="form-control" placeholder="Search">
+                        <input type="search" name="search" class="form-control" id="search_bar" placeholder="Search">
                     </div>
                     <button type="submit" disabled class="btn btn-default">Search</button>
                 </form>
@@ -169,13 +170,13 @@ if(Input::exists('get') && Session::exists('user_id')){
                         <a href="#">Currency</a>
                     </li>
                     <li>
-                        <a href="#">&dollar;</a>
+                        <a id="currency_dollar" href="#">&dollar;</a>
                     </li>
                     <li >
-                        <a href="#">&euro;</a>
+                        <a id="currency_euro" href="#">&euro;</a>
                     </li>
                     <li >
-                        <a href="#">&pound;</a>
+                        <a id="currency_pound" href="#">&pound;</a>
                     </li>
                 </ul>
 
@@ -252,7 +253,7 @@ if(Input::exists('get') && Session::exists('user_id')){
         <div class="col-md-<?php if($categoryPosition == "top") { echo "offset-3 col-md-6"; } else if ($categoryPosition == "top-right") { echo "12"; } else if ($categoryPosition == "top-left") { echo "12"; } else { echo "2"; }?> pull-<?php echo $categoryPosition; ?>">
             <ul class="nav nav-pills <?php if($categoryPosition == "right" || $categoryPosition == "left") { echo "nav-stacked"; } else { echo "nav-not-stacked";}  if ($categoryPosition == "top-right") { echo " pull-right"; } ?> nav-jusified">
                 <li class="active"><a href="#">Category 1</a></li>
-                <li><a href="#">Category 2</a></li>
+                <li><a id="category_2" href="#">Category 2</a></li>
                 <li><a href="#">Category 3</a></li>
                 <li><a href="#">Category 4</a></li>
                 <li><a href="#">Category 5</a></li>
@@ -266,7 +267,7 @@ if(Input::exists('get') && Session::exists('user_id')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$24.99</h4>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">24.99</span></h4>
                             <h4><a href="#">First Product</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
@@ -280,7 +281,7 @@ if(Input::exists('get') && Session::exists('user_id')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$15.99</h4>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">15.99</span></h4>
                             <h4><a href="#">Second Product</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
@@ -294,7 +295,7 @@ if(Input::exists('get') && Session::exists('user_id')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$50.99</h4>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">50.99</span></h4>
                             <h4><a href="#">Third Product</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
@@ -323,7 +324,7 @@ if(Input::exists('get') && Session::exists('user_id')){
 
     $info = '<dl>
                     <dt><h4>Information</h4></dt>
-                    <dd><a href="">Delivery Information</a></dd>
+                    <dd><a id="footer_shipping" href="#">Shipping Information</a></dd>
                     <dd><a href="">Return a product</a></dd>
                     <dd><a href="">Terms and Conditions</a></dd>
                     <dd><a href="">Privacy Policy</a></dd>
@@ -338,8 +339,8 @@ if(Input::exists('get') && Session::exists('user_id')){
               </dl>';
 
     $social = '<div id="social_icons">
-                    <a href=""> <span class="fa fa-facebook"></span></a>
-                    <a href=""> <span class="fa fa-twitter"></span></a>
+                    <a id="social_icons_facebook" href="#"> <span class="fa fa-facebook"></span></a>
+                    <a href="#"> <span class="fa fa-twitter"></span></a>
                     <a href=""> <span class="fa fa-google-plus"></span></a>
                     <a href=""> <span class="fa fa-youtube"></span></a>
                     <a href=""> <span class="fa fa-pinterest"></span></a>

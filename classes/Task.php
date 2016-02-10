@@ -273,7 +273,7 @@ class Task
     private function setErrorCount(){
         if(isset($this->travelledDistance) && isset($this->shortestDistance) && isset($this->wrongClicks)){
 
-            $this->errorCount = ((int) (($this->travelledDistance - $this->shortestDistance) - 1) + $this->wrongClicks);
+            $this->errorCount = ((int) (($this->travelledDistance / $this->shortestDistance) - 1) + $this->wrongClicks);
         }
     }
 
@@ -288,7 +288,8 @@ class Task
 
         $this->setErrorCount();
 
-        $sql = "UPDATE evaluation_task SET total_time='$totalTime', shortest_distance='$shortestDist', travelled_distance='$travelledDist', seq_score='$seqScore', completed='$completed', wrong_clicks='$wrongClicks', target_width='$targetWidth' WHERE task_id=? AND evaluation_id=?";
+        $sql = "UPDATE evaluation_task SET total_time='$totalTime', shortest_distance='$shortestDist', travelled_distance='$travelledDist', seq_score='$seqScore', completed='$completed', wrong_clicks='$wrongClicks', target_width='$targetWidth', error_count='$this->errorCount' WHERE task_id=? AND evaluation_id=?";
+
         $params = [$this->task_id, $this->evaluation_id];
         $result = $this->db->query($sql, $params);
 
