@@ -12,7 +12,7 @@ class Task
     private $db, $task_id, $number, $question, $description, $maxTimeout, $targetID, $evaluation_id;
 
     //Eval Task
-    private $totalTime, $shortestDistance, $travelledDistance, $seqScore, $completed, $errorCount, $wrongClicks, $targetWidth;
+    private $totalTime, $shortestDistance, $travelledDistance, $satScore, $diffScore, $timeScore, $completed, $errorCount, $wrongClicks, $targetWidth;
 
     /**
      * Task constructor.
@@ -173,28 +173,6 @@ class Task
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSeqScore()
-    {
-        return $this->seqScore;
-    }
-
-    /**
-     * @param mixed $seqScore
-     */
-    public function setSeqScore($seqScore)
-    {
-        $this->seqScore = $seqScore;
-        $sql = "UPDATE evaluation_task SET seq_score'$seqScore' WHERE task_id=? AND evaluation_id=?";
-        $params = [$this->task_id, $this->evaluation_id];
-        $result = $this->db->query($sql, $params);
-
-        if($result->error()){
-            throw new Exception("Error updating SEQ in Eval_Task");
-        }
-    }
 
     /**
      * @return mixed
@@ -277,18 +255,20 @@ class Task
         }
     }
 
-    public function update($totalTime, $shortestDist, $travelledDist, $seqScore, $completed, $wrongClicks, $targetWidth){
+    public function update($totalTime, $shortestDist, $travelledDist, $satScore, $diffScore, $timeScore, $completed, $wrongClicks, $targetWidth){
 
         $this->totalTime = $totalTime;
         $this->shortestDistance = $shortestDist;
         $this->travelledDistance = $travelledDist;
-        $this->seqScore = $seqScore;
+        $this->satScore = $satScore;
+        $this->diffScore = $diffScore;
+        $this->timeScore = $timeScore;
         $this->completed = $completed;
         $this->wrongClicks = $wrongClicks;
 
         $this->setErrorCount();
 
-        $sql = "UPDATE evaluation_task SET total_time='$totalTime', shortest_distance='$shortestDist', travelled_distance='$travelledDist', seq_score='$seqScore', completed='$completed', wrong_clicks='$wrongClicks', target_width='$targetWidth', error_count='$this->errorCount' WHERE task_id=? AND evaluation_id=?";
+        $sql = "UPDATE evaluation_task SET total_time='$totalTime', shortest_distance='$shortestDist', travelled_distance='$travelledDist', sat_score='$satScore', diff_score='$diffScore', time_score='$timeScore', completed='$completed', wrong_clicks='$wrongClicks', target_width='$targetWidth', error_count='$this->errorCount' WHERE task_id=? AND evaluation_id=?";
 
         $params = [$this->task_id, $this->evaluation_id];
         $result = $this->db->query($sql, $params);

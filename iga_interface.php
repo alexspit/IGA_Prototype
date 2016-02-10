@@ -150,7 +150,7 @@ $currentPopulation->shuffle();
                             <a class="fancybox" href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg">
                                 <i class="fa fa-search-plus hvr-grow" title="Zoom Image"></i>
                             </a>
-                            <a class="fancybox" data-fancybox-type="iframe" href="http://localhost/IGA_Prototype/individual_interface_test.php?id='.$currentPopulation->getIndividual($index)->getIndividualId().'">
+                            <a class="fancybox" data-fancybox-type="iframe" href="http://localhost/IGA_Prototype/individual_interface.php?id='.$currentPopulation->getIndividual($index)->getIndividualId().'">
                                 <i class="fa fa-code hvr-skew" title="View HTML version"></i>
                             </a>
                         </div>
@@ -172,7 +172,7 @@ $currentPopulation->shuffle();
                             <a class="fancybox" href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg">
                                 <i class="fa fa-search-plus hvr-grow" title="Zoom Image"></i>
                             </a>
-                            <a class="fancybox" data-fancybox-type="iframe" href="http://localhost/IGA_Prototype/individual_interface_test.php?id='.$currentPopulation->getIndividual($index)->getIndividualId().'">
+                            <a class="fancybox" data-fancybox-type="iframe" href="http://localhost/IGA_Prototype/individual_interface.php?id='.$currentPopulation->getIndividual($index)->getIndividualId().'">
                                 <i class="fa fa-code hvr-skew" title="View HTML version"></i>
                             </a>
                         </div>
@@ -194,7 +194,7 @@ $currentPopulation->shuffle();
                             <a class="fancybox" href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg">
                                 <i class="fa fa-search-plus hvr-grow" title="Zoom Image"></i>
                             </a>
-                            <a class="fancybox" data-fancybox-type="iframe" href="http://localhost/IGA_Prototype/individual_interface_test.php?id='.$currentPopulation->getIndividual($index)->getIndividualId().'">
+                            <a class="fancybox" data-fancybox-type="iframe" href="http://localhost/IGA_Prototype/individual_interface.php?id='.$currentPopulation->getIndividual($index)->getIndividualId().'">
                                 <i class="fa fa-code hvr-skew" title="View HTML version"></i>
                             </a>
                         </div>

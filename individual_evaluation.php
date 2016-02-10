@@ -78,6 +78,7 @@ if(Input::exists('get') && Session::exists('user_id')){
 
 <body>
 
+<!--Task Modal -->
 <div class="modal fade" id="taskModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -104,18 +105,125 @@ if(Input::exists('get') && Session::exists('user_id')){
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="seqModalHeader">Task <?php echo $currentTask->getNumber();?> </h4>
+                <h4 class="modal-title" id="seqModalHeader">Task <?php echo $currentTask->getNumber()." of ".$evaluation->getTaskCount()." - ";?> </h4>
             </div>
             <div class="modal-body">
 
-                <p>How easy was the task?</p>
+               <!-- <p>Overall, how difficult or easy did you find this task?</p>
                 <select name="seq_score" id="seq_score">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                     <option value="4">4</option>
                     <option value="5">5</option>
-                </select>
+                </select>-->
+
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <p>How would you describe how difficult or easy it was to complete this task?</p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <p class="pull-right" style="padding-top: 5px;">Difficult</p>
+                    </div>
+
+                    <div id="difficulty_group" class="btn-group col-sm-4" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="radio"  name="difficulty" value="1" /> 1
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="difficulty" value="2" /> 2
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="difficulty" checked="checked" value="3" /> 3
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio"  name="difficulty" value="4" /> 4
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="difficulty" value="5" /> 5
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3" style="padding-left: 4px;">
+                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Easy</p>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <p>How satisfied are you with using this interface to complete this task?</p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <p class="pull-right" style="padding-top: 5px;">Very Unsatisfied</p>
+                    </div>
+
+                    <div id="satisfaction_group" class="btn-group col-sm-4" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="radio"  name="satisfaction" value="1" /> 1
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="satisfaction" value="2" /> 2
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="satisfaction" checked="checked" value="3" /> 3
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio"  name="satisfaction" value="4" /> 4
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="satisfaction" value="5" /> 5
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3" style="padding-left: 4px;">
+                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Satisfied</p>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row" style="text-align: center">
+                    <div class="col-sm-12">
+                        <p>How would you rate the amount of time it took to complete this task? </p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <p class="pull-right" style="padding-top: 5px;">Too Much Time</p>
+                    </div>
+
+                    <div id="time_group" class="btn-group col-sm-4" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="radio"  name="time" value="1" /> 1
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="time" value="2" /> 2
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="time" checked="checked" value="3" /> 3
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio"  name="time" value="4" /> 4
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="time" value="5" /> 5
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3" style="padding-left: 4px;">
+                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Little Time</p>
+                    </div>
+
+                </div>
+
+
+
+
 
             </div>
             <div class="modal-footer">
@@ -124,6 +232,127 @@ if(Input::exists('get') && Session::exists('user_id')){
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<!--SUS Modal -->
+<div class="modal fade" data-backdrop="static" data-keyboard="false" id="susModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="susModalHeader"> Standard Usability Scale </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <p>How would you describe how difficult or easy it was to complete this task?</p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <p class="pull-right" style="padding-top: 5px;">Difficult</p>
+                    </div>
+
+                    <div id="difficulty_group" class="btn-group col-sm-4" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="radio"  name="difficulty" value="1" /> 1
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="difficulty" value="2" /> 2
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="difficulty" checked="checked" value="3" /> 3
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio"  name="difficulty" value="4" /> 4
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="difficulty" value="5" /> 5
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3" style="padding-left: 4px;">
+                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Easy</p>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col-sm-12" style="text-align: center">
+                        <p>How satisfied are you with using this interface to complete this task?</p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <p class="pull-right" style="padding-top: 5px;">Very Unsatisfied</p>
+                    </div>
+
+                    <div id="satisfaction_group" class="btn-group col-sm-4" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="radio"  name="satisfaction" value="1" /> 1
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="satisfaction" value="2" /> 2
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="satisfaction" checked="checked" value="3" /> 3
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio"  name="satisfaction" value="4" /> 4
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="satisfaction" value="5" /> 5
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3" style="padding-left: 4px;">
+                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Satisfied</p>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row" style="text-align: center">
+                    <div class="col-sm-12">
+                        <p>How would you rate the amount of time it took to complete this task? </p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <p class="pull-right" style="padding-top: 5px;">Too Much Time</p>
+                    </div>
+
+                    <div id="time_group" class="btn-group col-sm-4" data-toggle="buttons">
+                        <label class="btn btn-default">
+                            <input type="radio"  name="time" value="1" /> 1
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="time" value="2" /> 2
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="time" checked="checked" value="3" /> 3
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio"  name="time" value="4" /> 4
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="time" value="5" /> 5
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3" style="padding-left: 4px;">
+                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Little Time</p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="nextTask" class="btn btn-primary" data-dismiss="modal">Next Task</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 
 <!-- Navigation -->

@@ -6,8 +6,7 @@ $( document ).ready(function() {
 
     $("#taskModal").modal('show');
 
-
-    var start = false, startTimer, startTime, endTime, wrongClicks = 0, totalTime, points = [], straightDist, travelledDist, completed, seqScore;
+    var start = false, startTimer, startTime, endTime, wrongClicks = 0, totalTime, points = [], straightDist, travelledDist, completed, diffScore, timeScore, satScore;
 
     function startTimer(){
 
@@ -55,7 +54,6 @@ $( document ).ready(function() {
     function stopTime() {
         clearInterval(startTimer);
     }
-
 
     $("#start").on("click", function(e){
         start = true;
@@ -113,23 +111,6 @@ $( document ).ready(function() {
 
     });
 
-    $("#nextTask").on("click", function(e){
-
-        seqScore = $("#seq_score").val();
-
-        var taskForm = $("#taskForm");
-
-        taskForm.append('<input type="hidden" name="total_time" value="'+totalTime+'">');
-        taskForm.append('<input type="hidden" name="wrong_clicks" value="'+wrongClicks+'">');
-        taskForm.append('<input type="hidden" name="straight_dist" value="'+straightDist+'">');
-        taskForm.append('<input type="hidden" name="travelled_dist" value="'+travelledDist+'">');
-        taskForm.append('<input type="hidden" name="completed" value="'+completed+'">');
-        taskForm.append('<input type="hidden" name="seq_score" value="'+seqScore+'">');
-        taskForm.append('<input type="hidden" name="width" value="'+width+'">');
-
-        taskForm.submit();
-    });
-
     $(document).on("click", function(e){
         if(start){
             wrongClicks++;
@@ -166,7 +147,28 @@ $( document ).ready(function() {
         return Math.round(Math.sqrt(Math.pow(end_point[0] - start_point[0], 2) + Math.pow(end_point[1] - start_point[1], 2)));
     }
 
+    $("#nextTask").on("click", function(e){
 
+        diffScore = $("input:radio[name='difficulty']:checked").val();
+        satScore = $("input:radio[name='satisfaction']:checked").val();
+        timeScore = $("input:radio[name='time']:checked").val();
+
+        var taskForm = $("#taskForm");
+
+        taskForm.append('<input type="hidden" name="total_time" value="'+totalTime+'">');
+        taskForm.append('<input type="hidden" name="wrong_clicks" value="'+wrongClicks+'">');
+        taskForm.append('<input type="hidden" name="straight_dist" value="'+straightDist+'">');
+        taskForm.append('<input type="hidden" name="travelled_dist" value="'+travelledDist+'">');
+        taskForm.append('<input type="hidden" name="completed" value="'+completed+'">');
+        taskForm.append('<input type="hidden" name="diff_score" value="'+diffScore+'">');
+        taskForm.append('<input type="hidden" name="sat_score" value="'+satScore+'">');
+        taskForm.append('<input type="hidden" name="time_score" value="'+timeScore+'">');
+        taskForm.append('<input type="hidden" name="width" value="'+width+'">');
+
+        taskForm.submit();
+    });
+
+    //----Change currency----//
     $("#currency_pound").on('click', function(e){
         e.preventDefault();
 

@@ -25,6 +25,14 @@ $( document ).ready(function() {
         $("#config_submit_btn").click();
     });
 
+    //-------SUS.php-------------//
+
+    $("#submit_sus_form").on("click", function(e){
+        e.preventDefault();
+        $("#sus_btn").click();
+    });
+
+
 
 
 

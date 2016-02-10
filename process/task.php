@@ -18,20 +18,12 @@ if(Input::exists('post')) {
 
         $task->setEvaluationId($evaluation->getEvaluationID());
 
-        $task->update(Input::get('total_time'), Input::get('straight_dist'), Input::get('travelled_dist'), Input::get('seq_score'), Input::get('completed'),
+        $task->update(Input::get('total_time'), Input::get('straight_dist'), Input::get('travelled_dist'), Input::get('sat_score'), Input::get('diff_score'), Input::get('time_score'), Input::get('completed'),
             Input::get('wrong_clicks'), Input::get('width'));
 
         if($task->getNumber() == $evaluation->getTaskCount()){
             $evaluation->setSessionEnd();
-
-            if($evaluation->getType() == Evaluation::ORIGINAL){
-
-                Redirect::to('../configuration.php');
-            }
-            else{
-
-                Redirect::to('../thankyou.php');
-            }
+            Redirect::to('../sus.php');
         }
 
         $taskNum = $task->getNumber() + 1;

@@ -14,7 +14,7 @@ class Evaluation
     const ORIGINAL = 'original';
     const EVOLVED = 'evolved';
 
-    private $db, $evaluation_id, $type, $user, $sessionStart, $sessionEnd, $susScore, $sumScore, $chromosome, $tasks;
+    private $db, $evaluation_id, $type, $user, $sessionStart, $sessionEnd, $susScore, $chromosome, $tasks;
 
     /**
      * Evaluation constructor.
@@ -28,7 +28,7 @@ class Evaluation
 
         if(!is_null($user_id)){
 
-            $sql = "SELECT e.evaluation_id, e.eval_type, e.session_start, e.session_end, e.sus_score, e.sum_score, e.chromosome FROM evaluation e
+            $sql = "SELECT e.evaluation_id, e.eval_type, e.session_start, e.session_end, e.sus_score, e.chromosome FROM evaluation e
                     INNER JOIN user u ON (u.user_id = e.user_id) WHERE e.user_id=? AND e.eval_type =?";
             $param = [$user_id, $type];
 
@@ -41,7 +41,6 @@ class Evaluation
                 $this->sessionStart = $pdo->result()[0]->session_start;
                 $this->sessionEnd = $pdo->result()[0]->session_end;
                 $this->susScore = $pdo->result()[0]->sus_score;
-                $this->sumScore = $pdo->result()[0]->sum_score;
                 $this->chromosome = $pdo->result()[0]->chromosome;
 
                 $this->user = new User();
@@ -193,6 +192,27 @@ class Evaluation
         }
 
     }
+
+
+    public function setSusScore($score){
+
+        $this->sessionEnd = date("Y-m-d H:i:s", time());
+        $this->susScore = $score;
+
+        $sql = "UPDATE evaluation SET session_end='$this->sessionEnd', sus_score='$this->susScore' WHERE user_id=? AND evaluation_id=?";
+
+        $params = [$this->user->getUserId(), $this->evaluation_id];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+            throw new Exception("Error updating session end time and sus in evaluation");
+        }
+        else{
+            return true;
+        }
+
+    }
+
 
     function decode(&$headerOrder = null, &$categoryPosition = null, &$footerOrder = null){
 

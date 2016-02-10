@@ -186,7 +186,7 @@ class Individual {
         $client = Client::getInstance();
         $client->getEngine()->setPath('C:/xampp/htdocs/IGA_Prototype/bin/phantomjs.exe');
 
-        $requestPath = 'http://localhost/IGA_Prototype/individual_interface_test.php?id='.$this->individual_id;
+        $requestPath = 'http://localhost/IGA_Prototype/individual_interface.php?id='.$this->individual_id;
         if(!is_null($user_id)){
             $requestPath .= "&user_id=$user_id";
         }
