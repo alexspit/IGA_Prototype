@@ -276,26 +276,26 @@ if(Input::exists('get')){
 
     $info = '<dl>
                     <dt><h4>Information</h4></dt>
-                    <dd><a href="">Delivery Information</a></dd>
-                    <dd><a href="">Return a product</a></dd>
-                    <dd><a href="">Terms and Conditions</a></dd>
-                    <dd><a href="">Privacy Policy</a></dd>
+                    <dd><a href="#">Delivery Information</a></dd>
+                    <dd><a href="#">Return a product</a></dd>
+                    <dd><a href="#">Terms and Conditions</a></dd>
+                    <dd><a href="#">Privacy Policy</a></dd>
                 </dl>';
 
     $serv = '<dl>
                     <dt><h4>Customer Service</h4></dt>
-                    <dd><a href="">Contact Us</a></dd>
-                    <dd><a href="">About Us</a></dd>
-                    <dd><a href="">Sign up for Newsletter</a></dd>
-                    <dd><a href="">Sitemap</a></dd>
+                    <dd><a href="#">Contact Us</a></dd>
+                    <dd><a href="#">About Us</a></dd>
+                    <dd><a href="#">Sign up for Newsletter</a></dd>
+                    <dd><a href="#">Sitemap</a></dd>
                 </dl>';
 
     $social = '<div id="social_icons">
-                <a href=""> <span class="fa fa-facebook hvr-grow"></span></a>
-                <a href=""> <span class="fa fa-twitter hvr-grow"></span></a>
-                <a href=""> <span class="fa fa-google-plus hvr-grow"></span></a>
-                <a href=""> <span class="fa fa-youtube hvr-grow"></span></a>
-                <a href=""> <span class="fa fa-pinterest hvr-grow"></span></a><a href="">
+                <a href="#"> <span class="fa fa-facebook hvr-grow"></span></a>
+                <a href="#"> <span class="fa fa-twitter hvr-grow"></span></a>
+                <a href="#"> <span class="fa fa-google-plus hvr-grow"></span></a>
+                <a href="#"> <span class="fa fa-youtube hvr-grow"></span></a>
+                <a href="#"> <span class="fa fa-pinterest hvr-grow"></span></a>
                </div>';
 
     ?>

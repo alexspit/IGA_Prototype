@@ -9,9 +9,16 @@ $( document ).ready(function() {
 
     //-------CONSENT.php----------//
 
-    $("#submit_consent_form").on("click", function(e){
+    $("#pre_test").on("click", function(e){
         e.preventDefault();
-        $("#submit_btn").click();
+        $("#consent_form").append('<input type="hidden" name="test_type" value="pre_test">');
+        $("#submit_btn").prop("disabled", false).click();
+    });
+
+    $("#full_test").on("click", function(e){
+        e.preventDefault();
+        $("#consent_form").append('<input type="hidden" name="test_type" value="full_test">');
+        $("#submit_btn").prop("disabled", false).click();
     });
 
     //-------CONFIGURATION.php-------//
@@ -131,6 +138,7 @@ $( document ).ready(function() {
         $("#form1").submit();
     });
 
+    $("#warningModal").modal($("#warning").data("warning"));
 
 
 

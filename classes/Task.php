@@ -251,7 +251,13 @@ class Task
     private function setErrorCount(){
         if(isset($this->travelledDistance) && isset($this->shortestDistance) && isset($this->wrongClicks)){
 
-            $this->errorCount = ((int) (($this->travelledDistance / $this->shortestDistance) - 1) + $this->wrongClicks);
+            if($this->travelledDistance == 0 || $this->shortestDistance == 0){
+                $this->errorCount = $this->wrongClicks;
+            }
+            else{
+                $this->errorCount = ((int) (($this->travelledDistance / $this->shortestDistance) - 1) + $this->wrongClicks);
+            }
+
         }
     }
 

@@ -42,8 +42,21 @@ if(Input::exists()){
         if($clean["consent"]){
             $user = new User($clean["name"], $clean["surname"], $clean["age"], $clean["sex"]);
             Session::put("user_id", $user->getUserId());
-            //Redirect::to("../configuration.php");
-            Redirect::to("original_evaluation.php");
+
+            if(Input::get('test_type') == "pre_test"){
+                Session::put("test_type", "pre_test");
+                Redirect::to("../configuration.php");
+            }
+            else if(Input::get('test_type') == "full_test"){
+                Session::put("test_type", "full_test");
+                Redirect::to("original_evaluation.php");
+            }
+            else{
+                Session::flash("consent-error","Please re-enter your details");
+                Redirect::to("../consent.php");
+            }
+
+
         }
         else{
             Session::flash("consent-error","Please give consent to proceed");

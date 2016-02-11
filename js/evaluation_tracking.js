@@ -6,6 +6,12 @@ $( document ).ready(function() {
 
     $("#taskModal").modal('show');
 
+   /* $("#help").hide();
+    $("#help_btn").on("click", function(e){
+        e.preventDefault();
+        $("#help").fadeToggle();
+    });*/
+
     var start = false, startTimer, startTime, endTime, wrongClicks = 0, totalTime, points = [], straightDist, travelledDist, completed, diffScore, timeScore, satScore;
 
     function startTimer(){
@@ -41,7 +47,7 @@ $( document ).ready(function() {
                 console.log(completed);
 
                 $("#seqModalHeader").append(" Failed to complete task in pre-determined time-frame");
-
+                $("#time_group_container").html('<input type="radio" class="hidden" name="time" value="1" checked/>');
 
                 $("#seqModal").modal('show');
             }
@@ -79,6 +85,13 @@ $( document ).ready(function() {
                 wrongClicks -= 1;
             }
 
+
+            //If wrong search phrase
+            if(finish == "#search_bar" &&  $("#search_input").val().toLowerCase() != "product 2"){
+                wrongClicks += 5;
+            }
+
+
             if(totalTime <= (maxTimeOut*1000) ){
                 completed = 1;
             }
@@ -113,15 +126,27 @@ $( document ).ready(function() {
 
     $(document).on("click", function(e){
         if(start){
-            wrongClicks++;
+
+            if(finish == "#search_bar"){
+
+                if(e.target.id != "search_input"){
+                    wrongClicks++;
+                    console.log(e.target.id);
+                }
+            }
+            else{
+                wrongClicks++;
+                console.log(e.target.id);
+            }
+
         }
 
     });
 
-    $(document).on("mousemove", function( event ) {
+    $(document).on("mousemove", function(e) {
         if(!start)
             return;
-        points.push(event.pageX + "," + event.pageY);
+        points.push(e.pageX + "," + e.pageY);
     });
 
     function travelledDistance(){
@@ -191,6 +216,11 @@ $( document ).ready(function() {
         $(".currency").html("&dollar;");
         $(".price").html("28.99");
 
+    });
+
+    //-----Do not submit search form -------//
+    $("#search_form").on("submit", function(e){
+        e.preventDefault();
     });
 
 

@@ -199,13 +199,29 @@ class Evaluation
         $this->sessionEnd = date("Y-m-d H:i:s", time());
         $this->susScore = $score;
 
-        $sql = "UPDATE evaluation SET session_end='$this->sessionEnd', sus_score='$this->susScore' WHERE user_id=? AND evaluation_id=?";
+        $sql = "UPDATE evaluation SET session_end='$this->sessionEnd', sus_score='$this->susScore' WHERE evaluation_id=?";
 
-        $params = [$this->user->getUserId(), $this->evaluation_id];
+        $params = [$this->evaluation_id];
         $result = $this->db->query($sql, $params);
 
         if($result->error()){
             throw new Exception("Error updating session end time and sus in evaluation");
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    public function setPreferred($preferred, $comment){
+
+        $sql = "UPDATE session SET preferred='$preferred', comment='$comment' WHERE user_id=?";
+
+        $params = [$this->user->getUserId()];
+        $result = $this->db->query($sql, $params);
+
+        if($result->error()){
+            throw new Exception("Error updating session preferred and comment");
         }
         else{
             return true;
@@ -252,7 +268,6 @@ class Evaluation
                                 }
                                 break;
                             }
-                            //echo "Match!<br>";
                             $css .= "$property : $value !important;".PHP_EOL;
                             break;
                         }

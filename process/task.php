@@ -22,7 +22,8 @@ if(Input::exists('post')) {
             Input::get('wrong_clicks'), Input::get('width'));
 
         if($task->getNumber() == $evaluation->getTaskCount()){
-            $evaluation->setSessionEnd();
+            //$evaluation->setSessionEnd();
+            Session::put("type", $evaluation->getType());
             Redirect::to('../sus.php');
         }
 

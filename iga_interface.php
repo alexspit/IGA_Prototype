@@ -78,6 +78,28 @@ $currentPopulation->shuffle();
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
+
+    <!--Task Modal -->
+    <div class="modal fade" id="warningModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="warningModalLabel"><i class="fa fa-warning"></i><?php echo " Warning: Last Generation from ".$ga->getCurrentSectionName()." Section"; ?></h4>
+                </div>
+                <div class="modal-body">
+
+                    <p>Please note that the interface with the highest rating from this generation will be assumed as your preferred choice for this section, and will remain constant beyond this point.</p>
+                    <p>In case of multiple highest ratings with the same score, a random interface amongst them will be chosen as your preference. It is highly suggested that you give a highest rating to a single interface.</p>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
    <!-- Navigation -->
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="container-fluid">
@@ -208,10 +230,7 @@ $currentPopulation->shuffle();
 
     </div>
 
-
-
-
-
+    <span id="warning" data-warning="<?php if($ga->getGenerationNumber() == $ga->getMaxGenerations()){ echo "show";}else{echo "hide";} ?>"></span>
 
 
 <?php include_once "includes/masterpage/footer.php "; ?>

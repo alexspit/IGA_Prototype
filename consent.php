@@ -28,9 +28,12 @@ require_once "includes/masterpage/header.php";
                 </ul>
                 <ul class="nav navbar-nav pull-right">
 
+                    <li class="">
+                        <a id="pre_test" class="active" href="">Start Pre-Test</a>
+                    </li>
 
                     <li class="">
-                        <a id="submit_consent_form" class="active" href="">Start Usability Evaluation</a>
+                        <a id="full_test" class="active" href="">Start Full Test</a>
                     </li>
 
                 </ul>
@@ -117,7 +120,7 @@ require_once "includes/masterpage/header.php";
 
             <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 
-            <input type="submit" class="hidden" id="submit_btn">
+            <input type="submit" class="hidden" disabled id="submit_btn">
 
 
         </form>

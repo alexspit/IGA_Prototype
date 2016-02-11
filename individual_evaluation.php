@@ -83,15 +83,25 @@ if(Input::exists('get') && Session::exists('user_id')){
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="gridSystemModalLabel">Task <?php echo $currentTask->getNumber();?></h4>
+                <h4 class="modal-title" id="gridSystemModalLabel">Task <?php echo $currentTask->getNumber()." of ".$evaluation->getTaskCount();?></h4>
             </div>
             <div class="modal-body">
 
-               <p>
-                   <?php
-                        echo $currentTask->getDescription();
-                   ?>
-               </p>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse1"><?php echo $currentTask->getQuestion(); ?> <i class="fa fa-question-circle"></i></a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body"><?php echo $currentTask->getDescription(); ?></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
             <div class="modal-footer">
                 <button type="button" id="start" class="btn btn-primary" data-dismiss="modal">Start Task</button>
@@ -105,7 +115,7 @@ if(Input::exists('get') && Session::exists('user_id')){
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="seqModalHeader">Task <?php echo $currentTask->getNumber()." of ".$evaluation->getTaskCount()." - ";?> </h4>
+                <h4 class="modal-title" id="seqModalHeader">Task <?php echo $currentTask->getNumber()." - ";?> </h4>
             </div>
             <div class="modal-body">
 
@@ -151,9 +161,9 @@ if(Input::exists('get') && Session::exists('user_id')){
 
                 </div>
 
-                <hr>
 
-                <div class="row">
+
+                <div class="row"><hr>
                     <div class="col-sm-12" style="text-align: center">
                         <p>How satisfied are you with using this interface to complete this task?</p>
                     </div>
@@ -186,9 +196,9 @@ if(Input::exists('get') && Session::exists('user_id')){
 
                 </div>
 
-                <hr>
 
-                <div class="row" style="text-align: center">
+
+                <div id="time_group_container" class="row" style="text-align: center"><hr>
                     <div class="col-sm-12">
                         <p>How would you rate the amount of time it took to complete this task? </p>
                     </div>
@@ -205,13 +215,13 @@ if(Input::exists('get') && Session::exists('user_id')){
                             <input type="radio" name="time" value="2" /> 2
                         </label>
                         <label class="btn btn-default active">
-                            <input type="radio" name="time" checked="checked" value="3" /> 3
+                            <input type="radio" name="time" checked="checked" value="3"/> 3
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio"  name="time" value="4" /> 4
+                            <input type="radio"  name="time" value="4"/> 4
                         </label>
                         <label class="btn btn-default">
-                            <input type="radio" name="time" value="5" /> 5
+                            <input type="radio" id="time_failed" name="time" value="5" /> 5
                         </label>
                     </div>
 
@@ -233,126 +243,6 @@ if(Input::exists('get') && Session::exists('user_id')){
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!--SUS Modal -->
-<div class="modal fade" data-backdrop="static" data-keyboard="false" id="susModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="susModalHeader"> Standard Usability Scale </h4>
-            </div>
-            <div class="modal-body">
-
-                <div class="row">
-                    <div class="col-sm-12" style="text-align: center">
-                        <p>How would you describe how difficult or easy it was to complete this task?</p>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <p class="pull-right" style="padding-top: 5px;">Difficult</p>
-                    </div>
-
-                    <div id="difficulty_group" class="btn-group col-sm-4" data-toggle="buttons">
-                        <label class="btn btn-default">
-                            <input type="radio"  name="difficulty" value="1" /> 1
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="difficulty" value="2" /> 2
-                        </label>
-                        <label class="btn btn-default active">
-                            <input type="radio" name="difficulty" checked="checked" value="3" /> 3
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio"  name="difficulty" value="4" /> 4
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="difficulty" value="5" /> 5
-                        </label>
-                    </div>
-
-                    <div class="col-sm-3" style="padding-left: 4px;">
-                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Easy</p>
-                    </div>
-
-                </div>
-
-                <hr>
-
-                <div class="row">
-                    <div class="col-sm-12" style="text-align: center">
-                        <p>How satisfied are you with using this interface to complete this task?</p>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <p class="pull-right" style="padding-top: 5px;">Very Unsatisfied</p>
-                    </div>
-
-                    <div id="satisfaction_group" class="btn-group col-sm-4" data-toggle="buttons">
-                        <label class="btn btn-default">
-                            <input type="radio"  name="satisfaction" value="1" /> 1
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="satisfaction" value="2" /> 2
-                        </label>
-                        <label class="btn btn-default active">
-                            <input type="radio" name="satisfaction" checked="checked" value="3" /> 3
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio"  name="satisfaction" value="4" /> 4
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="satisfaction" value="5" /> 5
-                        </label>
-                    </div>
-
-                    <div class="col-sm-3" style="padding-left: 4px;">
-                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Satisfied</p>
-                    </div>
-
-                </div>
-
-                <hr>
-
-                <div class="row" style="text-align: center">
-                    <div class="col-sm-12">
-                        <p>How would you rate the amount of time it took to complete this task? </p>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <p class="pull-right" style="padding-top: 5px;">Too Much Time</p>
-                    </div>
-
-                    <div id="time_group" class="btn-group col-sm-4" data-toggle="buttons">
-                        <label class="btn btn-default">
-                            <input type="radio"  name="time" value="1" /> 1
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="time" value="2" /> 2
-                        </label>
-                        <label class="btn btn-default active">
-                            <input type="radio" name="time" checked="checked" value="3" /> 3
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio"  name="time" value="4" /> 4
-                        </label>
-                        <label class="btn btn-default">
-                            <input type="radio" name="time" value="5" /> 5
-                        </label>
-                    </div>
-
-                    <div class="col-sm-3" style="padding-left: 4px;">
-                        <p class="pull-left" style="padding-left: 0; padding-top: 5px;">Very Little Time</p>
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="nextTask" class="btn btn-primary" data-dismiss="modal">Next Task</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 
 
 <!-- Navigation -->
@@ -384,11 +274,11 @@ if(Input::exists('get') && Session::exists('user_id')){
 
             $search = '<div class="col-md-5" id="search">
 
-                <form method="post" action="" class="navbar-form" role="search">
+                <form method="post" action="" class="navbar-form" id="search_form" role="search">
                     <div class="form-group">
-                        <input type="search" name="search" class="form-control" id="search_bar" placeholder="Search">
+                        <input type="search" name="search" class="form-control" id="search_input" placeholder="Search">
                     </div>
-                    <button type="submit" disabled class="btn btn-default">Search</button>
+                    <button type="button" id="search_bar" class="btn btn-default">Search</button>
                 </form>
             </div>';
 
@@ -554,25 +444,25 @@ if(Input::exists('get') && Session::exists('user_id')){
     $info = '<dl>
                     <dt><h4>Information</h4></dt>
                     <dd><a id="footer_shipping" href="#">Shipping Information</a></dd>
-                    <dd><a href="">Return a product</a></dd>
-                    <dd><a href="">Terms and Conditions</a></dd>
-                    <dd><a href="">Privacy Policy</a></dd>
+                    <dd><a href="#">Return a product</a></dd>
+                    <dd><a href="#">Terms and Conditions</a></dd>
+                    <dd><a href="#">Privacy Policy</a></dd>
                 </dl>';
 
     $serv = '<dl>
                     <dt><h4>Customer Service</h4></dt>
-                    <dd><a href="">Contact Us</a></dd>
-                    <dd><a href="">About Us</a></dd>
-                    <dd><a href="">Sign up for Newsletter</a></dd>
-                    <dd><a href="">Sitemap</a></dd>
+                    <dd><a href="#">Contact Us</a></dd>
+                    <dd><a href="#">About Us</a></dd>
+                    <dd><a href="#">Sign up for Newsletter</a></dd>
+                    <dd><a href="#">Sitemap</a></dd>
               </dl>';
 
     $social = '<div id="social_icons">
                     <a id="social_icons_facebook" href="#"> <span class="fa fa-facebook"></span></a>
                     <a href="#"> <span class="fa fa-twitter"></span></a>
-                    <a href=""> <span class="fa fa-google-plus"></span></a>
-                    <a href=""> <span class="fa fa-youtube"></span></a>
-                    <a href=""> <span class="fa fa-pinterest"></span></a>
+                    <a href="#"> <span class="fa fa-google-plus"></span></a>
+                    <a href="#"> <span class="fa fa-youtube"></span></a>
+                    <a href="#"> <span class="fa fa-pinterest"></span></a>
                </div>';
 
     ?>
