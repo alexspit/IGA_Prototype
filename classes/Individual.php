@@ -170,7 +170,8 @@ class Individual {
                 }
             }
             else{
-                throw new Exception("Error capturing screenshot of individual");
+                //throw new Exception("Error capturing screenshot of individual");
+                setcookie("capture_error", "Error capturing screenshot of individual");
             }
         }
     }
@@ -199,7 +200,7 @@ class Individual {
         $top    = 0;
         $left   = 0;
         $width  = 1600;
-        $height = 1050;
+        $height = 1150;
 
         $request->setViewportSize($width, $height);
         $request->setCaptureDimensions($width, $height, $top, $left);

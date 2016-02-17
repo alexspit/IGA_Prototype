@@ -86,11 +86,16 @@ $( document ).ready(function() {
             }
 
 
-            //If wrong search phrase
-            if(finish == "#search_bar" &&  $("#search_input").val().toLowerCase() != "product 2"){
-                wrongClicks += 5;
-            }
+            var searchPhrase = $("#search_input").val().toLowerCase();
 
+            //If wrong search phrase
+            if(finish == "#search_bar" &&  searchPhrase != "product 2"){
+                if(searchPhrase == ""){
+                    wrongClicks += 8;
+                }else if(searchPhrase != "product2"){
+                    wrongClicks += 4;
+                }
+            }
 
             if(totalTime <= (maxTimeOut*1000) ){
                 completed = 1;

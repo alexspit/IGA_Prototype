@@ -27,7 +27,7 @@ if(Input::exists()){
                            ],
             "sex"       => [    "filter"    => FILTER_VALIDATE_INT,
                                 "flags"     => FILTER_NULL_ON_FAILURE,
-                                "options"   => ["min_range" => 0, "max_range" => 1]
+                                "options"   => ["min_range" => 1, "max_range" => 2]
                            ],
             "consent"   => FILTER_VALIDATE_BOOLEAN
         ];

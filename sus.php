@@ -425,7 +425,7 @@ if(!Session::exists("user_id")){
 
         <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 
-        <input type="submit" id="sus_btn" class="btn btn-primary pull-right" name="sus_form_submit" value="Submit Form">
+        <input type="submit" id="sus_btn" class="btn btn-default pull-right" name="sus_form_submit" value="Submit Form">
         <br><br>
     </form>
 

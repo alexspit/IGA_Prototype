@@ -1,30 +1,3 @@
-<?php
-
-require_once "core/init.php";
-//require 'vendor/autoload.php';
-
-if(Input::exists('get')){
-
-    $individual_id = Input::get('id');
-
-    if(Input::get('user_id') != ''){
-        $user_id = Input::get('user_id');
-    }
-    else if(Session::exists('user_id')){
-        $user_id = Session::get('user_id');
-    }
-    else{
-        echo "USER_ID NOT FOUND!";
-    }
-
-    $ga = new GeneticAlgorithm($user_id);
-
-    $individual = new Individual($individual_id);
-
-
-}
-
-?>
 
 
 <!DOCTYPE html>
@@ -59,17 +32,13 @@ if(Input::exists('get')){
     <![endif]-->
 
     <style>
-        <?php
-        $headerOrder = "";
-        $categoryPosition = "left";
-        $footerOrder = "";
-        echo $ga->decode($individual, $headerOrder, $footerOrder, $categoryPosition); ?>
 
     </style>
 
 </head>
 
 <body>
+
 
 <!-- Navigation -->
 <nav class="navbar navbar-inverse" id="top_nav" role="navigation">
@@ -82,34 +51,29 @@ if(Input::exists('get')){
 
 
 
-        <?php
-
-            $nav = '  <div class="col-md-4" id="nav">
-               <ul class="nav navbar-nav">
+            <div class="col-md-4" id="nav">
+                <ul class="nav navbar-nav">
                     <li>
                         <a href="#" class="hvr-grow">Home</a>
                     </li>
-                    <li>
+                    <li >
                         <a href="#" class="hvr-grow">My Account</a>
                     </li>
                     <li >
                         <a href="#" class="hvr-grow">Shopping Cart</a>
                     </li>
                 </ul>
-            </div>';
+            </div><div class="col-md-5" id="search">
 
-            $search = '<div class="col-md-5" id="search">
-
-                <form method="post" action="" class="navbar-form" role="search">
+                <form method="post" action="" class="navbar-form" id="search_form" role="search">
                     <div class="form-group">
-                        <input type="search" name="search" class="form-control" placeholder="Search">
+                        <input type="search" name="search" class="form-control" id="search_input" placeholder="Search">
                     </div>
-                    <button type="submit" disabled class="btn btn-default">Search</button>
+                    <button type="button" id="search_bar" class="btn btn-default">Search</button>
                 </form>
-            </div>';
-
-            $currency = ' <div class="col-md-3" id="currency">
+            </div> <div class="col-md-3" id="currency">
                 <ul class="nav navbar-nav">
+
                     <li >
                         <a href="#">Currency</a>
                     </li>
@@ -124,47 +88,30 @@ if(Input::exists('get')){
                     </li>
                 </ul>
 
-            </div>';
-
-
-            if(is_array($headerOrder)){
-                echo $$headerOrder[0].$$headerOrder[1].$$headerOrder[2];
-            }else{
-                echo $nav.$search.$currency;
-            }
-
-        ?>
-        </div>
+            </div>        </div>
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
 </nav>
 
-<?php
-
-//echo $ga->decode($individual);
-//echo $categoryPosition;
-
-?>
-
 <!-- Page Content -->
 <div class="container" id="content">
+
 
     <div class="row" id="logo">
 
         <div class="col-md-12">
 
-            <h1><span class="glyphicon glyphicon-shopping-cart "></span>MyStore</h1>
-
-        </div>
-       <!-- <div class="col-md-4 hidden" style="text-align: center">
             <h1><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
-
         </div>
-        <div class="col-md-4 hidden">
-            <h1 class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
+        <!-- <div class="col-md-4 hidden" style="text-align: center">
+             <h1><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
 
-        </div>-->
+         </div>
+         <div class="col-md-4 hidden">
+             <h1 class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
+
+         </div>-->
 
     </div>
 
@@ -201,16 +148,16 @@ if(Input::exists('get')){
 
 
     <div class="row">
-        <div class="col-md-<?php if($categoryPosition == "top") { echo "offset-3 col-md-6"; } else if ($categoryPosition == "top-right") { echo "12"; } else if ($categoryPosition == "top-left") { echo "12"; } else { echo "2"; }?> pull-<?php echo $categoryPosition; ?>">
-            <ul class="nav nav-pills <?php if($categoryPosition == "right" || $categoryPosition == "left") { echo "nav-stacked"; } else { echo "nav-not-stacked";}  if ($categoryPosition == "top-right") { echo " pull-right"; } ?> nav-jusified">
+        <div class="col-md-2 pull-left">
+            <ul class="nav nav-pills nav-stacked nav-jusified">
                 <li><a href="#" class="hvr-grow-shadow">Category 1</a></li>
-                <li><a href="#" class="hvr-grow-shadow">Category 2</a></li>
+                <li><a id="category_2" href="#" class="hvr-grow-shadow">Category 2</a></li>
                 <li><a href="#" class="hvr-grow-shadow">Category 3</a></li>
                 <li><a href="#" class="hvr-grow-shadow">Category 4</a></li>
                 <li><a href="#" class="hvr-grow-shadow">Category 5</a></li>
             </ul>
         </div>
-        <div class="col-md-<?php if($categoryPosition == "top" || $categoryPosition=="top-right" || $categoryPosition =="top-left") { echo "12"; } else { echo "10"; }?>">
+        <div class="col-md-10">
 
             <div class="row">
 
@@ -218,11 +165,11 @@ if(Input::exists('get')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$24.99</h4>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
                             <h4><a href="#">Product 1</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
-                            <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
+                            <button id="product_1" class="btn btn-default pull-right hvr-grow">Add to Cart</button>
                             <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
 
@@ -232,7 +179,7 @@ if(Input::exists('get')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$15.99</h4>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
                             <h4><a href="#">Product 2</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
@@ -246,7 +193,7 @@ if(Input::exists('get')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right">$50.99</h4>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
                             <h4><a href="#">Product 3</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
@@ -271,64 +218,34 @@ if(Input::exists('get')){
 
 <div class="container-fluid" id="footer">
 
-    <?php
-
-    $info = '<dl>
-                    <dt><h4>Information</h4></dt>
-                    <dd><a href="#">Delivery Information</a></dd>
-                    <dd><a href="#">Return a product</a></dd>
-                    <dd><a href="#">Terms and Conditions</a></dd>
-                    <dd><a href="#">Privacy Policy</a></dd>
-                </dl>';
-
-    $serv = '<dl>
-                    <dt><h4>Customer Service</h4></dt>
-                    <dd><a href="#">Contact Us</a></dd>
-                    <dd><a href="#">About Us</a></dd>
-                    <dd><a href="#">Sign up for Newsletter</a></dd>
-                    <dd><a href="#">Sitemap</a></dd>
-                </dl>';
-
-    $social = '<div id="social_icons">
-                <a href="#"> <span class="fa fa-facebook hvr-grow"></span></a>
-                <a href="#"> <span class="fa fa-twitter hvr-grow"></span></a>
-                <a href="#"> <span class="fa fa-google-plus hvr-grow"></span></a>
-                <a href="#"> <span class="fa fa-youtube hvr-grow"></span></a>
-                <a href="#"> <span class="fa fa-pinterest hvr-grow"></span></a>
-               </div>';
-
-    ?>
 
     <!-- Footer -->
     <footer>
         <div class="row">
             <div class="col-lg-3 col-lg-offset-2">
-                <?php
-                    if(is_array($footerOrder)){
-                        echo $$footerOrder[0];
-                    }else{
-                        echo $info;
-                    }
-                ?>
-            </div>
+                <dl>
+                    <dt><h4>Information</h4></dt>
+                    <dd><a id="footer_shipping" href="#">Shipping Information</a></dd>
+                    <dd><a href="#">Return a product</a></dd>
+                    <dd><a href="#">Terms and Conditions</a></dd>
+                    <dd><a href="#">Privacy Policy</a></dd>
+                </dl>            </div>
             <div class="col-lg-3">
-                <?php
-                    if(is_array($footerOrder)){
-                        echo $$footerOrder[1];
-                    }else{
-                        echo $serv;
-                    }
-                ?>
-            </div>
+                <dl>
+                    <dt><h4>Customer Service</h4></dt>
+                    <dd><a href="#">Contact Us</a></dd>
+                    <dd><a href="#">About Us</a></dd>
+                    <dd><a href="#">Sign up for Newsletter</a></dd>
+                    <dd><a href="#">Sitemap</a></dd>
+                </dl>            </div>
             <div class="col-lg-3">
-                <?php
-                    if(is_array($footerOrder)){
-                        echo $$footerOrder[2];
-                    }else{
-                        echo $social;
-                    }
-                ?>
-            </div>
+                <div id="social_icons">
+                    <a id="social_icons_facebook" href="#"> <span class="fa fa-facebook hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-twitter hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-google-plus hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-youtube hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-pinterest hvr-grow"></span></a>
+                </div>            </div>
         </div>
     </footer>
 
@@ -340,6 +257,24 @@ if(Input::exists('get')){
 
 <!-- Bootstrap Core JavaScript -->
 <script src="js/bootstrap.min.js"></script>
+
+<script>
+
+    var maxTimeOut = 30000;
+    var finish = '#product_1';
+
+</script>
+
+<form action="process/task.php" method="post" id="taskForm">
+
+    <input type="hidden" name="task" value="1">
+    <input type="hidden" name="type" value="original">
+    <input type="hidden" name="token" value="87337fdffa26578d5f62ef03c547e7fc94fdae91">
+</form>
+
+<script src="js/evaluation_tracking.js"></script>
+
+
 
 </body>
 

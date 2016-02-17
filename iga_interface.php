@@ -66,7 +66,6 @@ $currentPopulation->shuffle();
 
                         <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 
-                        <input type="submit" id="config_submit_btn" class="hidden" name="configuration_form_submit" value="Apply Configuration Settings">
                     </form>
 
                 </div>
@@ -89,8 +88,8 @@ $currentPopulation->shuffle();
                 </div>
                 <div class="modal-body">
 
-                    <p>Please note that the interface with the highest rating from this generation will be assumed as your preferred choice for this section, and will remain constant beyond this point.</p>
-                    <p>In case of multiple highest ratings with the same score, a random interface amongst them will be chosen as your preference. It is highly suggested that you give a highest rating to a single interface.</p>
+                    <p>Please note that the interface with the highest rating from this generation will be your preferred choice for this section, and will remain constant beyond this point.</p>
+                    <p>In case of multiple highest ratings with the same score, a random interface amongst them will be chosen as your preference. It is highly recommended to give a highest rating to a single interface.</p>
 
                 </div>
                 <div class="modal-footer">

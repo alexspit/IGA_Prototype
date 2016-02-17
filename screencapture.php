@@ -15,16 +15,16 @@ $client = Client::getInstance();
 $client->getEngine()->setPath(__DIR__.'/bin/phantomjs.exe');
 
 //for($i=1;$i<=12;$i++){
-    $request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/IGA_Prototype/individual_interface_test.php?id=68');
+    $request  = $client->getMessageFactory()->createCaptureRequest('http://localhost/IGA_Prototype/individual_screenshot.php');
     $response = $client->getMessageFactory()->createResponse();
 
     //$file = 'thumbnails/individual'.$i.'.jpg';
-    $file = 'thumbnails/individual_68.jpg';
+    $file = 'thumbnails/screenshot.jpg';
 
     $top    = 0;
     $left   = 0;
-    $width  = 1400;
-    $height = 875;
+    $width  = 1920;
+    $height = 1200;
 
     $request->setViewportSize($width, $height);
     $request->setCaptureDimensions($width, $height, $top, $left);
@@ -38,7 +38,7 @@ $client->getEngine()->setPath(__DIR__.'/bin/phantomjs.exe');
 //}
 
 
-Redirect::to("iga_interface.php");
+//Redirect::to("iga_interface.php");
 
 /*
 for($i=1;$i<=12;$i++){

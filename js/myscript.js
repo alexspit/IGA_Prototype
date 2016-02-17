@@ -140,7 +140,30 @@ $( document ).ready(function() {
 
     $("#warningModal").modal($("#warning").data("warning"));
 
+    //----Change currency----//
+    $("#currency_pound").on('click', function(e){
+        e.preventDefault();
 
+        $(".currency").html("&pound;");
+        $(".price").html("20.99");
+
+    });
+
+    $("#currency_euro").on('click', function(e){
+        e.preventDefault();
+
+        $(".currency").html("&euro;");
+        $(".price").html("25.99");
+
+    });
+
+    $("#currency_dollar").on('click', function(e){
+        e.preventDefault();
+
+        $(".currency").html("&dollar;");
+        $(".price").html("28.99");
+
+    });
 
     /*
     var $pop_size = $("#pop_size");

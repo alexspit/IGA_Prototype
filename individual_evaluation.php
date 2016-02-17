@@ -46,6 +46,7 @@ if(Input::exists('get') && Session::exists('user_id')){
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/hover.css"/>
     <!--<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine:i|Tangerine:b|Inconsolata|Droid+Sans">-->
 
 
@@ -104,7 +105,7 @@ if(Input::exists('get') && Session::exists('user_id')){
 
             </div>
             <div class="modal-footer">
-                <button type="button" id="start" class="btn btn-primary" data-dismiss="modal">Start Task</button>
+                <button type="button" id="start" class="btn btn-default" data-dismiss="modal">Start Task</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -237,7 +238,7 @@ if(Input::exists('get') && Session::exists('user_id')){
 
             </div>
             <div class="modal-footer">
-                <button type="button" id="nextTask" class="btn btn-primary" data-dismiss="modal">Next Task</button>
+                <button type="button" id="nextTask" class="btn btn-default" data-dismiss="modal">Next Task</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -261,13 +262,13 @@ if(Input::exists('get') && Session::exists('user_id')){
             $nav = '  <div class="col-md-4" id="nav">
                <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">Home</a>
+                        <a href="#" class="hvr-grow">Home</a>
                     </li>
                     <li >
-                        <a href="#">My Account</a>
+                        <a href="#" class="hvr-grow">My Account</a>
                     </li>
                     <li >
-                        <a href="#">Shopping Cart</a>
+                        <a href="#" class="hvr-grow">Shopping Cart</a>
                     </li>
                 </ul>
             </div>';
@@ -289,13 +290,13 @@ if(Input::exists('get') && Session::exists('user_id')){
                         <a href="#">Currency</a>
                     </li>
                     <li>
-                        <a id="currency_dollar" href="#">&dollar;</a>
+                        <a id="currency_dollar" href="#" class="hvr-pop active">&dollar;</a>
                     </li>
                     <li >
-                        <a id="currency_euro" href="#">&euro;</a>
+                        <a id="currency_euro" href="#" class="hvr-pop">&euro;</a>
                     </li>
                     <li >
-                        <a id="currency_pound" href="#">&pound;</a>
+                        <a id="currency_pound" href="#" class="hvr-pop">&pound;</a>
                     </li>
                 </ul>
 
@@ -371,11 +372,11 @@ if(Input::exists('get') && Session::exists('user_id')){
     <div class="row">
         <div class="col-md-<?php if($categoryPosition == "top") { echo "offset-3 col-md-6"; } else if ($categoryPosition == "top-right") { echo "12"; } else if ($categoryPosition == "top-left") { echo "12"; } else { echo "2"; }?> pull-<?php echo $categoryPosition; ?>">
             <ul class="nav nav-pills <?php if($categoryPosition == "right" || $categoryPosition == "left") { echo "nav-stacked"; } else { echo "nav-not-stacked";}  if ($categoryPosition == "top-right") { echo " pull-right"; } ?> nav-jusified">
-                <li class="active"><a href="#">Category 1</a></li>
-                <li><a id="category_2" href="#">Category 2</a></li>
-                <li><a href="#">Category 3</a></li>
-                <li><a href="#">Category 4</a></li>
-                <li><a href="#">Category 5</a></li>
+                <li><a href="#" class="hvr-grow-shadow">Category 1</a></li>
+                <li><a id="category_2" href="#" class="hvr-grow-shadow">Category 2</a></li>
+                <li><a href="#" class="hvr-grow-shadow">Category 3</a></li>
+                <li><a href="#" class="hvr-grow-shadow">Category 4</a></li>
+                <li><a href="#" class="hvr-grow-shadow">Category 5</a></li>
             </ul>
         </div>
         <div class="col-md-<?php if($categoryPosition == "top" || $categoryPosition=="top-right" || $categoryPosition =="top-left") { echo "12"; } else { echo "10"; }?>">
@@ -386,12 +387,12 @@ if(Input::exists('get') && Session::exists('user_id')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right"><span class="currency">$</span><span class="price">24.99</span></h4>
-                            <h4><a href="#">First Product</a>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
+                            <h4><a href="#">Product 1</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
-                            <button id="product_1" class="btn btn-default pull-right">Add to Cart</button>
-                            <button class="btn btn-default pull-left">Add to Wishlist</button>
+                            <button id="product_1" class="btn btn-default pull-right hvr-grow">Add to Cart</button>
+                            <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
 
                     </div>
@@ -400,12 +401,12 @@ if(Input::exists('get') && Session::exists('user_id')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right"><span class="currency">$</span><span class="price">15.99</span></h4>
-                            <h4><a href="#">Second Product</a>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
+                            <h4><a href="#">Product 2</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
-                            <button class="btn btn-default pull-right">Add to Cart</button>
-                            <button class="btn btn-default pull-left">Add to Wishlist</button>
+                            <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
+                            <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
 
                     </div>
@@ -414,12 +415,12 @@ if(Input::exists('get') && Session::exists('user_id')){
                     <div class="thumbnail">
                         <img src="img/320x150.png" alt="">
                         <div class="caption">
-                            <h4 class="pull-right"><span class="currency">$</span><span class="price">50.99</span></h4>
-                            <h4><a href="#">Third Product</a>
+                            <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
+                            <h4><a href="#">Product 3</a>
                             </h4>
                             <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
-                            <button class="btn btn-default pull-right">Add to Cart</button>
-                            <button class="btn btn-default pull-left">Add to Wishlist</button>
+                            <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
+                            <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
 
                     </div>
@@ -458,11 +459,11 @@ if(Input::exists('get') && Session::exists('user_id')){
               </dl>';
 
     $social = '<div id="social_icons">
-                    <a id="social_icons_facebook" href="#"> <span class="fa fa-facebook"></span></a>
-                    <a href="#"> <span class="fa fa-twitter"></span></a>
-                    <a href="#"> <span class="fa fa-google-plus"></span></a>
-                    <a href="#"> <span class="fa fa-youtube"></span></a>
-                    <a href="#"> <span class="fa fa-pinterest"></span></a>
+                    <a id="social_icons_facebook" href="#"> <span class="fa fa-facebook hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-twitter hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-google-plus hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-youtube hvr-grow"></span></a>
+                    <a href="#"> <span class="fa fa-pinterest hvr-grow"></span></a>
                </div>';
 
     ?>

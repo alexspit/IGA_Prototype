@@ -20,24 +20,14 @@ require_once "includes/masterpage/header.php";
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-
-                    <li class="hidden">
-                        <a href="#">Configuration</a>
-                    </li>
-                </ul>
                 <ul class="nav navbar-nav pull-right">
-
-                    <li class="">
+                    <li>
                         <a id="pre_test" class="active" href="">Start Pre-Test</a>
                     </li>
-
-                    <li class="">
+                    <li>
                         <a id="full_test" class="active" href="">Start Full Test</a>
                     </li>
-
                 </ul>
-
             </div>
             <!-- /.navbar-collapse -->
         </div>
