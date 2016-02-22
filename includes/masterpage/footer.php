@@ -23,8 +23,8 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/ion.rangeSlider.js"></script>
         <script src="js/ion.zoom.js"></script>
-        <script src="js/contentHover.js"></script>
         <script src="js/fancybox/jquery.fancybox.js"></script>
+        <script src="js/contentHover.js"></script>
 
 
         <script src="js/myscript.js"></script>

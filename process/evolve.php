@@ -33,6 +33,7 @@ if(Input::exists()) {
                 Redirect::to("evolved_evaluation.php");
             }
             else{
+                Session::put('evolved', $fittestIndividual);
                 Redirect::to("../thankyou.php");
             }
         }

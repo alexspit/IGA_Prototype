@@ -688,14 +688,14 @@ class GeneticAlgorithm {
 
             }
 
-            echo "Tourny Population: <br>$tournamentPopulation<br> -------------------------------<br>";
+            //echo "Tourny Population: <br>$tournamentPopulation<br> -------------------------------<br>";
 
 
             $tournamentPopulation->orderedByFittest();
 
 
             $matingPool->addIndividual($tournamentPopulation->getIndividual(0));
-            echo "Added: {$tournamentPopulation->getIndividual(0)} ";
+           // echo "Added: {$tournamentPopulation->getIndividual(0)} ";
         }
 
         //echo "<br>$matingPool";

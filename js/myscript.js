@@ -7,6 +7,8 @@ $( document ).ready(function() {
         value.html(this.value);
     });*/
 
+    $("#loader").hide();
+
     //-------CONSENT.php----------//
 
     $("#pre_test").on("click", function(e){
@@ -97,9 +99,17 @@ $( document ).ready(function() {
 
     //-------IGA_INTERFACE.php-----//
 
+    $('.image').contenthover({
+        overlay_height:65,
+        effect:'slide',
+        slide_speed:150,
+        overlay_background:'#000',
+        overlay_opacity:0.5
+    });
+
     $(".fancybox").fancybox({
         fitToView	: true,
-        width		: '100%',
+        width		: '90%',
         height		: '90%',
         autoSize	: true,
         padding : 0,
@@ -108,13 +118,7 @@ $( document ).ready(function() {
 
     });
 
-    $('.img-responsive').contenthover({
-        overlay_height:65,
-        effect:'slide',
-        slide_speed:150,
-        overlay_background:'#000',
-        overlay_opacity:0.5
-    });
+
 
     $(".input_range").ionRangeSlider({
             min: 1,
@@ -126,7 +130,7 @@ $( document ).ready(function() {
         visibleControls: false                  // Disable visual controls
     });
 
-    $("#loader").hide();
+
 
     $("#next_generation").on("click", function() {
         //console.log($("#form1").serialize());

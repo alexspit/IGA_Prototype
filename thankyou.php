@@ -48,6 +48,7 @@ require_once "includes/masterpage/header.php";
             $user = new User();
             $user->get(Session::get('user_id'));
 
+
         ?>
 
         <h1 style="text-align: center; margin-top: 270px; margin-bottom: 270px; font-size: 100px">Thank You, <?php echo ucfirst($user->getName());?> <i id="thumbs" class="fa fa-thumbs-up hvr-pulse"></i></h1>

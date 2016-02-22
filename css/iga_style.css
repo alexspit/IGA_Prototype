@@ -68,6 +68,11 @@ i.fa-code{
     font-size: 40px;
 
 }
+/*
+.ch_normal, .ch_element, .ch_wrapper{
+    width: 315px !important;
+    height: 226px !important;
+}*/
 
 .modal-header{
     background-color: #fefcfc;

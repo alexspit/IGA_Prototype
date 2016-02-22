@@ -166,7 +166,7 @@ $currentPopulation->shuffle();
         $index = 0;
         for($i=0;$i<4;$i++){
             echo '<div class="col-md-3 individual-thumbnail">
-                        <img class="img-responsive" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
+                        <img class="image" width="305" height="185" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
                         <div class="contenthover">
                             <a class="fancybox" href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg">
                                 <i class="fa fa-search-plus hvr-grow" title="Zoom Image"></i>
@@ -188,7 +188,7 @@ $currentPopulation->shuffle();
         <?php
         for($i=0;$i<4;$i++){
             echo '<div class="col-md-3 individual-thumbnail">
-                        <img class="img-responsive" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
+                        <img class="image" width="305" height="185" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
                         <div class="contenthover">
                             <a class="fancybox" href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg">
                                 <i class="fa fa-search-plus hvr-grow" title="Zoom Image"></i>
@@ -210,7 +210,7 @@ $currentPopulation->shuffle();
         <?php
         for($i=0;$i<4;$i++){
             echo '<div class="col-md-3 individual-thumbnail">
-                        <img class="img-responsive" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
+                        <img class="image" width="305" height="185" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
                         <div class="contenthover">
                             <a class="fancybox" href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg">
                                 <i class="fa fa-search-plus hvr-grow" title="Zoom Image"></i>

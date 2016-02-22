@@ -178,10 +178,10 @@ if(Input::exists('get')){
                     <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                 </ol>
                 <div class="carousel-inner" id="banner">
-                    <div class="item active">
+                    <div class="item">
                         <img class="slide-image" src="img/banner1.jpg" alt="">
                     </div>
-                    <div class="item">
+                    <div class="item active">
                         <img class="slide-image" src="img/banner2.jpg" alt="">
                     </div>
                     <div class="item">
