@@ -17,5 +17,3 @@ class Config{
         }
     }
 }
-
-//HAHA
