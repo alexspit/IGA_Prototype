@@ -12,7 +12,7 @@ $( document ).ready(function() {
         $("#help").fadeToggle();
     });*/
 
-    var start = false, startTimer, startTime, endTime, wrongClicks = 0, totalTime, points = [], straightDist, travelledDist, completed, diffScore, timeScore, satScore;
+    var start = false, startTime, endTime, wrongClicks = 0, totalTime, points = [], straightDist, travelledDist, completed, diffScore, timeScore, satScore;
 
     function startTimer(){
 
@@ -33,18 +33,6 @@ $( document ).ready(function() {
                 completed = 0;
                 width = $(finish).outerWidth();
 
-                console.log(startTime);
-                console.log(endTime);
-                console.log("Total time: " + totalTime);
-                console.log("Wrong Clicks: " + (wrongClicks));
-                console.log(points);
-
-                console.log("Shortest Distance: " + straightDist);
-                console.log("Travelled Distance: " + travelledDist);
-
-                console.log(maxTimeOut);
-                console.log(finish);
-                console.log(completed);
 
                 $("#seqModalHeader").append(" Failed to complete task in pre-determined time-frame");
                 $("#time_group_container").html('<input type="radio" class="hidden" name="time" value="1" checked/>');
@@ -61,7 +49,7 @@ $( document ).ready(function() {
         clearInterval(startTimer);
     }
 
-    $("#start").on("click", function(e){
+    $("#start").on("click", function(){
         start = true;
         startTimer();
         wrongClicks = 0;
@@ -69,7 +57,7 @@ $( document ).ready(function() {
         startTime = Date.now();
     });
 
-    $(finish).on("click", function(e){
+    $(finish).on("click", function(){
 
         if(start){
             start = false;
@@ -123,8 +111,6 @@ $( document ).ready(function() {
 
             $("#seqModal").modal('show');
 
-
-
         }
 
     });
@@ -177,7 +163,7 @@ $( document ).ready(function() {
         return Math.round(Math.sqrt(Math.pow(end_point[0] - start_point[0], 2) + Math.pow(end_point[1] - start_point[1], 2)));
     }
 
-    $("#nextTask").on("click", function(e){
+    $("#nextTask").on("click", function(){
 
         diffScore = $("input:radio[name='difficulty']:checked").val();
         satScore = $("input:radio[name='satisfaction']:checked").val();

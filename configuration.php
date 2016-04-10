@@ -69,7 +69,7 @@ if(!Session::exists("user_id")){
 
         <div class="form-group">
             <label for="max_gen">Maximum Generations</label>
-            <input type="text" class="config_range form-control" id="max_gen" name="max_generations" min="2" max="50" value="10" />
+            <input type="text" class="config_range form-control" id="max_gen" name="max_generations" min="2" max="50" value="5" />
         </div>
 
         <div class="form-group">
@@ -80,15 +80,15 @@ if(!Session::exists("user_id")){
         <div class="form-group">
             <label for="selection_operator">Selection Operator</label>
             <select class="form-control" id="selection_operator" name="selection_operator">
-                <option value="<?php echo Selection::ROULETTE; ?>" selected>Roulette Wheel</option>
-                <option value="<?php echo Selection::TOURNAMENT; ?>" >Tournament</option>
+                <option value="<?php echo Selection::ROULETTE; ?>" >Roulette Wheel</option>
+                <option value="<?php echo Selection::TOURNAMENT; ?>" selected>Tournament</option>
                 <option value="<?php echo Selection::STOCHASTIC_UNIVERSAL_SAMPLING; ?>">Stochastic Universal Sampling</option>
             </select>
         </div>
 
         <div class="form-group" id="tournament_size_container">
             <label for="tourny_size">Tournament Size</label>
-            <input type="text" class="config_range form-control" id="tourny_size" name="tournament_size" disabled min="0" max="100" value="20" step="5" data-postfix="%"/>
+            <input type="text" class="config_range form-control" id="tourny_size" name="tournament_size" disabled min="0" max="100" value="25" step="5" data-postfix="%"/>
         </div>
 
         <div class="form-group">
@@ -108,20 +108,20 @@ if(!Session::exists("user_id")){
 
         <div class="form-group">
             <label for="xover_rate">Crossover Rate</label>
-            <input type="text" class="config_range form-control" id="xover_rate" name="crossover_rate" min="0" max="100" value="85" data-postfix="%"/>
+            <input type="text" class="config_range form-control" id="xover_rate" name="crossover_rate" min="0" max="100" value="80" data-postfix="%"/>
         </div>
 
         <div class="form-group">
             <label for="mutation_operator">Mutation Operator</label>
             <select class="form-control" id="mutation_operator" name="mutation_operator">
-                <option value="<?php echo Mutation::UNIFORM; ?>">Uniform</option>
+                <option value="<?php echo Mutation::UNIFORM; ?>" selected>Uniform</option>
                 <option value="<?php echo Mutation::NON_UNIFORM; ?>">Non-Uniform</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="mut_rate">Mutation Rate</label>
-            <input type="text" class="config_range form-control" id="mut_rate" name="mutation_rate" min="0" max="100" value="5" data-postfix="%"/>
+            <input type="text" class="config_range form-control" id="mut_rate" name="mutation_rate" min="0" max="100" value="8" data-postfix="%"/>
         </div>
 
         <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">

@@ -55,12 +55,6 @@ require_once "includes/masterpage/header.php";
 
 
 
-
-
-
-
-
-
 <?php
 
 require_once "includes/masterpage/footer.php";

@@ -61,14 +61,10 @@ if(Input::exists()) {
     else{
 
         $matingPool = $ga->selection($evaluatedPopulation);
-        //echo "Mating Pool: $matingPool<br>";
 
         $crossedPopulation = $ga->crossover($matingPool);
-        //echo "Crossed Population: $crossedPopulation<br>";
 
         $mutatedPopulation = $ga->mutate($crossedPopulation);
-        //echo "Mutated Populations: ".$mutatedPopulation."<br>";
-
 
         $ga->nextGeneration($mutatedPopulation);
 

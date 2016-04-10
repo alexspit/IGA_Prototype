@@ -45,18 +45,13 @@ require_once "includes/masterpage/header.php";
             <?php if(Session::exists("session-error")){ echo '<p class="bg-danger">'.Session::flash("session-error").'</p>'; } ?>
             <div class="form-group">
                 <label for="nameInput">First Name</label>
-                <input type="text" name="name" required placeholder="Name" id="nameInput" class="form-control">
+                <input type="text" name="name" required placeholder="Name" id="nameInput" pattern="^[a-zA-Z]+$" title="Only letters accepted" class="form-control">
             </div>
 
             <div class="form-group">
                 <label for="surnameInput">Last Name</label>
-                <input type="text" name="surname" required placeholder="Surame" id="surnameInput" class="form-control">
+                <input type="text" name="surname" required placeholder="Surame" id="surnameInput" pattern="^[a-zA-Z]+$" title="Only letters accepted" class="form-control">
             </div>
-
-           <!-- <div class="form-group">
-                <label for="ageInput">Age</label>
-                <input type="number" name="age" required min="18" max="120" placeholder="Age" id="ageInput" class="form-control">
-            </div>-->
 
             <div class="form-group <?php if(Session::exists("age-error")){echo "has-error has-feedback";}?>">
                 <label class="control-label" for="ageInput"><?php if(Session::exists("age-error")){echo Session::flash("age-error");}else{echo "Age";}?></label>
@@ -94,10 +89,6 @@ require_once "includes/masterpage/header.php";
                 </div>
             </div>
 
-            <!--<label class="checkbox-inline pull-right">
-                <input type="checkbox" name="consent" id="consent_checkbox" checked> Agree and Give Consent
-            </label>-->
-
             <div class="<?php if(Session::exists("consent-error")){echo "has-error";}?>">
                 <div class="checkbox-inline pull-right">
                     <label>
@@ -112,15 +103,8 @@ require_once "includes/masterpage/header.php";
 
             <input type="submit" class="hidden" disabled id="submit_btn">
 
-
         </form>
-
 <br>
-
-
-
-
-
 
 <?php
 

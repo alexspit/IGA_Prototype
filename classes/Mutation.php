@@ -10,7 +10,6 @@
 
 abstract class Mutation
 {
-
     const UNIFORM = 1;
     const NON_UNIFORM = 2;
 }

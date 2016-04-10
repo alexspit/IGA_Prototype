@@ -47,7 +47,7 @@ if(!Session::exists("user_id")){
     <!-- Page Content -->
     <div class="container">
 
-    <h1 id="config_title">Standard Usability Scale  <small>Please answer the following 10 questions as accurately as possible. </small></h1>
+    <h1 id="config_title">System Usability Scale  <small>Please answer the following 10 questions as accurately as possible. </small></h1>
 
 
     <form method="post" action="process/sus.php" name="sus_form" id="sus_form">
@@ -420,8 +420,6 @@ if(!Session::exists("user_id")){
 
         <?php }
         ?>
-
-
 
         <input type="hidden" name="token" value="<?php echo Token::generate(); ?>">
 

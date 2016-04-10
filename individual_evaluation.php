@@ -20,11 +20,6 @@ if(Input::exists('get') && Session::exists('user_id')){
 
     }
 
-   // $ga = new GeneticAlgorithm($user_id);
-
-    //$individual = new Individual($individual_id);
-
-
 }
 
 ?>
@@ -101,8 +96,6 @@ if(Input::exists('get') && Session::exists('user_id')){
                     </div>
                 </div>
 
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" id="start" class="btn btn-default" data-dismiss="modal">Start Task</button>
@@ -119,15 +112,6 @@ if(Input::exists('get') && Session::exists('user_id')){
                 <h4 class="modal-title" id="seqModalHeader">Task <?php echo $currentTask->getNumber()." - ";?> </h4>
             </div>
             <div class="modal-body">
-
-               <!-- <p>Overall, how difficult or easy did you find this task?</p>
-                <select name="seq_score" id="seq_score">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>-->
 
                 <div class="row">
                     <div class="col-sm-12" style="text-align: center">
@@ -231,11 +215,6 @@ if(Input::exists('get') && Session::exists('user_id')){
                     </div>
 
                 </div>
-
-
-
-
-
             </div>
             <div class="modal-footer">
                 <button type="button" id="nextTask" class="btn btn-default" data-dismiss="modal">Next Task</button>
@@ -253,9 +232,6 @@ if(Input::exists('get') && Session::exists('user_id')){
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="top_nav_order">
-
-
-
 
         <?php
 
@@ -326,14 +302,6 @@ if(Input::exists('get') && Session::exists('user_id')){
 
             <h1><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
         </div>
-       <!-- <div class="col-md-4 hidden" style="text-align: center">
-            <h1><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
-
-        </div>
-        <div class="col-md-4 hidden">
-            <h1 class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
-
-        </div>-->
 
     </div>
 
@@ -390,7 +358,7 @@ if(Input::exists('get') && Session::exists('user_id')){
                             <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
                             <h4><a href="#">Product 1</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
+                            <p>Description of product goes here...</p>
                             <button id="product_1" class="btn btn-default pull-right hvr-grow">Add to Cart</button>
                             <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
@@ -404,7 +372,7 @@ if(Input::exists('get') && Session::exists('user_id')){
                             <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
                             <h4><a href="#">Product 2</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
+                            <p>Description of product goes here...</p>
                             <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
                             <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
@@ -418,17 +386,13 @@ if(Input::exists('get') && Session::exists('user_id')){
                             <h4 class="pull-right"><span class="currency">$</span><span class="price">28.99</span></h4>
                             <h4><a href="#">Product 3</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
+                            <p>Description of product goes here...</p>
                             <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
                             <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
 
                     </div>
                 </div>
-
-
-
-
             </div>
 
         </div>

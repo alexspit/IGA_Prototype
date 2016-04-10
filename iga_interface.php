@@ -160,6 +160,35 @@ $currentPopulation->shuffle();
 
     <div id="interface_thumbnails">
 
+        <?php
+        $index = 0;
+        for($z=0; $z < $currentPopulation->size()/4; $z++){
+            echo '<!-- Projects Row -->
+                  <div class="row">';
+
+            for($i=0;$i<4;$i++){
+                echo '<div class="col-md-3 individual-thumbnail">
+                        <img class="image" width="305" height="185" src="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg" alt="">
+                        <div class="contenthover">
+                            <a class="fancybox" href="thumbnails/individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'.jpg">
+                                <i class="fa fa-search-plus hvr-grow" title="Zoom Image"></i>
+                            </a>
+                            <a class="fancybox" data-fancybox-type="iframe" href="http://localhost/IGA_Prototype/individual_interface.php?id='.$currentPopulation->getIndividual($index)->getIndividualId().'">
+                                <i class="fa fa-code hvr-skew" title="View HTML version"></i>
+                            </a>
+                        </div>
+                        <input type="text" class="input_range" id="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" form="form1" name="individual_'.$currentPopulation->getIndividual($index)->getIndividualId().'" value="" />
+                      </div>';
+                $index++;
+            }
+
+            echo '</div>
+                  <!-- /.row -->';
+        }
+
+        ?>
+
+        <?php /*
     <!-- Projects Row -->
     <div class="row">
         <?php
@@ -226,6 +255,7 @@ $currentPopulation->shuffle();
         ?>
     </div>
     <!-- /.row -->
+*/ ?>
 
     </div>
 

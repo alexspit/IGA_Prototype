@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Implementation of Singleton Design Pattern
+ *
+ * Class DB
+ */
 class DB{
     //_ is a notation for private properties
     //Store an instance of the database or instantiate it

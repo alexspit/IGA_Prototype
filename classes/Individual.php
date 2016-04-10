@@ -5,23 +5,26 @@
  * Date: 26-Dec-15
  * Time: 18:26
  */
-//require '../vendor/autoload.php';
 
 use JonnyW\PhantomJs\Client;
 
-
 class Individual {
-
 
     private $chromosome;
     private $fitness;
     private $individual_id;
     private $image_path;
-   // private $elements;
-
     private $db;
 
 
+    /**
+     * Creates a new instance of the Individual class or retrieves it from the database
+     *
+     * @param null $id If it is set, the new Individual creates is retrieved from the database
+     * @param bool|false $new Create a new random Individual or retrieve it from database
+     * @param null $user_id The user_id associated with the individual
+     * @throws Exception
+     */
     public function __construct($id = null, $new = false, $user_id = null)
     {
         $this->db = DB::getInstance();
@@ -82,32 +85,15 @@ class Individual {
             else{
                 throw new Exception("Error getting current section");
             }
-
         }
-
-
     }
 
-   /* private function encode(array $elements){
-
-        $newChromosome = [];
-        $chromosomeIndex = 0;
-
-
-        foreach ($elements as $element) {
-
-            //To change chromosomeIndex to reflect the key of the property
-            foreach ($element->getProperties() as $property) {
-                $newChromosome[$chromosomeIndex] = $property->getRandomValue();
-                $chromosomeIndex++;
-            }
-
-        }
-
-        return $newChromosome;
-
-    }*/
-
+    /**
+     * Encodes the interface array into a chromosome.
+     *
+     * @param int $section The section to work on.
+     * @return array An encoded chromosome array.
+     */
     private function encode($section){
 
         $locus = 0;
@@ -133,10 +119,9 @@ class Individual {
             foreach ($sections as $selector => $selectors) {
 
                 foreach ($selectors as $property => $properties) {
-
+                    //Picking a random index from the properties
                     $randomIndex = rand(0,count($properties)-1);
                     $i->setGene($locus, $randomIndex);
-                    //echo "Chromosome[$locus] = $randomIndex ($selector: $property, Total properties = ".count($properties).")<br>";
                     $locus++;
                 }
             }
@@ -145,7 +130,13 @@ class Individual {
         return $i->getChromosome();
     }
 
-
+    /**
+     *
+     *
+     * @param $generation_id
+     * @param null $user_id
+     * @throws Exception
+     */
     public function save($generation_id, $user_id = null){
         $sql = "INSERT INTO individual (generation_id, chromosome) VALUES (?,?)";
         $params = [$generation_id, implode(',',$this->chromosome)];
@@ -170,18 +161,26 @@ class Individual {
                 }
             }
             else{
-                //throw new Exception("Error capturing screenshot of individual");
                 setcookie("capture_error", "Error capturing screenshot of individual");
             }
         }
     }
 
+    /**
+     * @param $section
+     */
     public function generateRandom($section){
 
         $this->chromosome = $this->encode($section);
 
     }
 
+    /**
+     * Captures a screenshot of an Individual Interface
+     *
+     * @param null $user_id The current user
+     * @return bool True if the status code is between 200 and 300, False otherwise
+     */
     public function captureImage($user_id = null){
 
         $client = Client::getInstance();
@@ -216,21 +215,35 @@ class Individual {
 
     }
 
+    /**
+     * @return array
+     */
     public function getChromosome(){
 
         return $this->chromosome;
     }
 
+    /**
+     * @return int
+     */
     public function getChromosomeLength(){
 
         return count($this->chromosome);
     }
 
+    /**
+     * @param $locus
+     * @param $gene
+     */
     public function setGene($locus, $gene){
 
         $this->chromosome[$locus] = $gene;
     }
 
+    /**
+     * @param $locus
+     * @return mixed
+     */
     public function getGene($locus){
 
         return $this->chromosome[$locus];
@@ -244,7 +257,11 @@ class Individual {
         return $this->fitness;
     }
 
-
+    /**
+     * @param $fitness
+     * @param $persistInDB
+     * @throws Exception
+     */
     public function setFitness($fitness, $persistInDB)
     {
         $this->fitness = $fitness;
@@ -263,6 +280,9 @@ class Individual {
 
     }
 
+    /**
+     * @param array $chromosome
+     */
     public function setChromosome(array $chromosome){
         $this->chromosome = $chromosome;
     }
@@ -301,6 +321,9 @@ class Individual {
     }
 
 
+    /**
+     * @return string
+     */
     public function __toString(){
         $output = "";
 
@@ -308,8 +331,6 @@ class Individual {
 
             $output .= $this->getChromosome()[$gene].", ";
         }
-
-
 
         return "$output ID: {$this->getIndividualId()} Fitness: {$this->getFitness()}";
     }

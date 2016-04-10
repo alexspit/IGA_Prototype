@@ -13,131 +13,27 @@ class GeneticAlgorithm {
     private $populationSize;
     private $elitismCount;
     private $maxGenerations;
-
     private $selectionOperator;
     private $tournamentSize;
-
     private $crossoverOperator;
     private $crossoverRate;
-
     private $mutationOperator;
     private $mutationRate;
-
     private $generationNumber;
     private $generation_id;
-
     private $sessionStart;
     private $sessionEnd;
-
     private $user;
     private $db;
 
-   // private $element;
-   // private $elements;
-
-    /*
-        public function __construct($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user)
-        {
-            $this->db = DB::getInstance();
-
-            $this->sessionStart = date("Y-m-d H:i:s", time());
-
-            $sql = "INSERT INTO session (user_id, selection_operator, crossover_operator, mutation_operator, elitism_count, max_generations, population_size, tournament_size, session_start) VALUES (?,?,?,?,?,?,?,?,?)";
-            $params = [$user->getUserId(), $selectionOperator, $crossoverOperator, $mutationOperator, $elitismCount, $maxGenerations, $populationSize, $tournamentSize, $this->sessionStart];
-
-            $result = $this->db->query($sql, $params);
-
-            if($result->error()){
-
-                throw new Exception("Error adding new GA Session");
-
-            }else{
-
-                $this->session_id = $result->last_inserted_id;
-                $this->generationNumber = 1;
-                $this->user = $user;
-
-                $this->populationSize = $populationSize;
-                $this->elitismCount = $elitismCount;
-                $this->maxGenerations = $maxGenerations;
-                $this->selectionOperator = $selectionOperator;
-                $this->tournamentSize = $tournamentSize;
-                $this->crossoverOperator = $crossoverOperator;
-                $this->crossoverRate = $crossoverRate;
-                $this->mutationOperator = $mutationOperator;
-                $this->mutationRate = $mutationRate;
-
-                $sql = "INSERT INTO generation (session_id, generation_number, crossover_rate, mutation_rate) VALUES (?,?,?,?)";
-                $params = [$this->session_id, $this->generationNumber, $this->crossoverRate, $this->mutationRate];
-
-                $result = $this->db->query($sql, $params);
-
-                if($result->error()){
-                    throw new Exception("Error adding new Generation");
-                }
-            }
-
-        }
-    */
-
+    /**
+     * Creates a new instance of the GeneticAlgorithm class, if a user_id is supplied it will retrieve the data associated with the id
+     *
+     * @param null $user_id
+     */
     public function __construct($user_id = null)
     {
         $this->db = DB::getInstance();
-                /*
-        //OBVIOUSLT TEMP - For testing only
-        $this->element = new Element("h1", 1);
-
-        $this->element->addProperty(new Property(1, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-        $this->element->addProperty(new Property(2, "text-align", ["center", "left", "right"]));
-        $this->element->addProperty(new Property(3, "text-decoration", ["overline", "underline", "line-through", "none"]));
-        $this->element->addProperty(new Property(4, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
-        $this->element->addProperty(new Property(5, "font-style", ["normal", "italic", "oblique"]));
-        $this->element->addProperty(new Property(6, "font-weight", ["normal", "lighter", "bold"]));
-        $this->element->addProperty(new Property(7, "letter-spacing", ["-3px", "-2px", "-1px", "0px", "1px", "2px", "3px"]));
-        //$this->element->addProperty(new Property(7, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-
-        $logo = new Element("h1", 1);
-
-        $logo->addProperty(new Property(1, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-        $logo->addProperty(new Property(2, "text-align", ["center", "left", "right"]));
-        $logo->addProperty(new Property(3, "text-decoration", ["overline", "underline", "line-through", "none"]));
-        $logo->addProperty(new Property(4, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
-        $logo->addProperty(new Property(5, "font-style", ["normal", "italic", "oblique"]));
-        $logo->addProperty(new Property(6, "font-weight", ["normal", "lighter", "bold"]));
-        $logo->addProperty(new Property(7, "letter-spacing", ["-3px", "-2px", "-1px", "0px", "1px", "2px", "3px"]));
-
-        $banner = new Element("#banner", 2);
-
-        $heightRange = range(150, 400, 10);
-
-        foreach ($heightRange as &$range) {
-            $range .= "px";
-        }
-
-        $banner->addProperty(new Property(1, "height", $heightRange));
-
-        $topNav = new Element("#top_nav", 3);
-
-        $topNav->addProperty(new Property(1, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-        $topNav->addProperty(new Property(2, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
-
-
-        $categoryNav = new Element(".nav-pills > li > a", 4);
-
-        $categoryNav->addProperty(new Property(2, "margin-bottom", ["0px", "2px", "4px", "6px", "8px", "10px"]));
-        $categoryNav->addProperty(new Property(3, "font-family", ["Tangerine", "Inconsolata", "Droid Sans", "Times New Roman", "Arial", "Calibri", "Helvetica"]));
-        $categoryNav->addProperty(new Property(4, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-        $categoryNav->addProperty(new Property(5, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-
-        $categoryNavActive = new Element(".nav-pills > li.active > a", 5);
-
-        $categoryNavActive->addProperty(new Property(11, "background-color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-        $categoryNavActive->addProperty(new Property(22, "color", ["#1abc9c", "#16a085", "#f1c40f", "#f39c12", "#40d47e", "#27ae60", "#e67e22", "#d35400", "#3498db", "#2980b9", "#e74c3c", "#c0392b", "#9b59b6", "#8e44ad", "#ecf0f1", "#bdc3c7", "#34495e", "#2c3e50", "#95a5a6","#7f8c8d"]));
-        */
-
-
-        //$this->elements = [$logo, $banner];
-
 
         if (!is_null($user_id)){
 
@@ -172,7 +68,23 @@ class GeneticAlgorithm {
 
     }
 
-      public function init($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user){
+    /**
+     * Initialize the class by passing all the data, which is inserted in the DB.
+     *
+     * @param int $populationSize The population size for each generation
+     * @param int $elitismCount The number of individuals to be kept unaltered for the next generation
+     * @param int $maxGenerations The number of iterations
+     * @param int $selectionOperator The selection operator to be used for the algorithm
+     * @param int $tournamentSize The tournament size incase the tournament operator is chosen
+     * @param int $crossoverOperator The crossover operator to be used for the algorithm
+     * @param int $crossoverRate The percentage of individuals to undergo crossover
+     * @param int $mutationOperator The mutation operator to be user for the algorithm
+     * @param int $mutationRate The percentage chance for a particular gene to undergo mutation
+     * @param User $user The user associated with the current session
+     * @return bool If there class was initialized correctly
+     * @throws Exception
+     */
+    public function init($populationSize, $elitismCount, $maxGenerations, $selectionOperator, $tournamentSize, $crossoverOperator, $crossoverRate, $mutationOperator, $mutationRate, User $user){
 
 
         $this->sessionStart = date("Y-m-d H:i:s", time());
@@ -227,14 +139,15 @@ class GeneticAlgorithm {
                     return true;
 
                 }
-
             }
-
         }
-        return false;
-
     }
 
+    /**
+     * Initializes a new generation
+     *
+     * @throws Exception
+     */
     public function initGeneration(){
 
         $generationStart = date("Y-m-d H:i:s", time());
@@ -253,41 +166,26 @@ class GeneticAlgorithm {
         //return new Population($this->populationSize, $this->generation_id, $this->user->getUserId());
     }
 
+    /**
+     * Initializes a new population
+     *
+     * @return Population A new population
+     */
     public function initPopulation(){
 
         return new Population($this->populationSize, $this->generation_id, $this->user->getUserId());
     }
 
-    /*function decode(Individual $individual){
-
-        $cssCode = "";
-
-        foreach ($this->elements as $element) {
-
-            $cssCode .= "{$element->getCssTag()} {".PHP_EOL;
-
-            $chromosome = $individual->getChromosome();
-            $geneIndex = 0;
-
-            foreach ($element->getProperties() as $property) {
-
-                if($property->getCssName() == "font-family"){
-                    $cssCode .= "            {$property->getCssName()} : '{$property->getValue($chromosome[$geneIndex])}', serif; ".PHP_EOL;
-                }else{
-                    $cssCode .= "            {$property->getCssName()} : {$property->getValue($chromosome[$geneIndex])} !important; ".PHP_EOL;
-                }
-
-                $geneIndex++;
-            }
-            $cssCode .= "}".PHP_EOL;
-
-        }
-
-
-        return $cssCode;
-
-    }*/
-    function decode(Individual $i, &$headerOrder = null, &$footerOrder = null, &$categoryPosition = null){
+    /**
+     * Gets an Individual object and decodes it's chromosome and returns a CSS string
+     *
+     * @param Individual $i The individual to be decoded
+     * @param null $headerOrder Variable for header nav order
+     * @param null $footerOrder Variable for category position
+     * @param null $categoryPosition Variable for footer order
+     * @return string A decoded CSS string
+     */
+    public function decode(Individual $i, &$headerOrder = null, &$footerOrder = null, &$categoryPosition = null){
 
         $css = "";
         $geneIndex = 0;
@@ -358,8 +256,11 @@ class GeneticAlgorithm {
 
     }
 
-
-
+    /**
+     * Gets the current population from the database
+     *
+     * @return Population The current population
+     */
     public function currentPopulation(){
 
         $sql = "SELECT i.individual_id FROM individual i
@@ -380,28 +281,20 @@ class GeneticAlgorithm {
         return $currentPopulation;
 
     }
-/*
-    public function evalPopulation(Population $population){
 
-        $populationFitness = 0;
-
-
-        foreach ($population->getIndividuals() as $individual) {
-
-
-            $populationFitness += $individual->getFitness();
-        }
-
-        $population->setPopulationFitness($populationFitness);
-
-    }*/
-
+    /**
+     * Evaluates a population by assigning the user's ratings the each individual
+     *
+     * @param Population $population The current population
+     * @param array $ratings The ratings array posted by the user
+     * @return Population An evaluated population
+     * @throws Exception
+     */
     public function evalPopulation(Population $population, array $ratings){
 
         $populationFitness = 0;
 
         if(count($ratings) != $population->size()){
-            //echo count($ratings)." ".$population->size();
             throw new Exception("Not all individuals have been rated");
         }
         else{
@@ -430,7 +323,12 @@ class GeneticAlgorithm {
 
     }
 
-
+    /**
+     * Sends the algorithm to the next generation phase
+     *
+     * @param Population $population The current population
+     * @throws Exception
+     */
     public function nextGeneration(Population $population){
 
             //Updating end time of current generation
@@ -465,15 +363,26 @@ class GeneticAlgorithm {
                 }
 
             }
-
-
     }
 
+    /**
+     * Checks if the current generation number is the same as the maximum generations number supplied by the researcher
+     *
+     * @return bool If the termination condition is met
+     */
     public function terminationConditionMet(){
 
         return $this->generationNumber == $this->maxGenerations;
     }
 
+    //--Genetic Operators--//
+
+    /**
+     * Selection method, checks which particular operator was chosen and calls it.
+     *
+     * @param Population $population The current population
+     * @return null|Population The mating pool, null on failure
+     */
     public function selection(Population $population){
 
         switch($this->selectionOperator){
@@ -496,6 +405,12 @@ class GeneticAlgorithm {
 
     }
 
+    /**
+     * Crossover method, checks which particular operator was chosen and calls it.
+     *
+     * @param Population $population The current population
+     * @return null|Population Crossed population, null on failure.
+     */
     public function crossover(Population $population){
 
         switch($this->crossoverOperator){
@@ -520,6 +435,12 @@ class GeneticAlgorithm {
         return $crossedPopulation;
     }
 
+    /**
+     * Mutation method, checks which particular operator was chosen and calls it.
+     *
+     * @param Population $population The current population
+     * @return null|Population Mutated population, null of failure
+     */
     public function mutate(Population $population){
 
         switch($this->mutationOperator){
@@ -539,7 +460,14 @@ class GeneticAlgorithm {
 
     }
 
+    //--Selection Operators--//
 
+    /**
+     * Applies the Roulette Wheel selection operator to select individuals
+     *
+     * @param Population $population The evaluated population to be selected
+     * @return Population The mating pool
+     */
     public function rouletteWheelSelection(Population $population){
 
         //Getting all individuals in given population
@@ -555,11 +483,7 @@ class GeneticAlgorithm {
         for($i = 0; $i<$this->elitismCount; $i++){
 
             $matingPool->addIndividual( $population->getFittestIndividual($i));
-           // echo $population->getFittestIndividual($i)." added to mating pool (Elitism)<br>";
         }
-
-        //echo $population;
-       // echo $populationFitness."<br>";
 
         //Selecting the rest of the individuals for the mating pool
         for ($i = 0; $i< $population->size() - $this->elitismCount; $i++){
@@ -567,33 +491,30 @@ class GeneticAlgorithm {
             $tmpFitness= 0;
             $rouletteWheelPosition = rand(0, ($populationFitness*1000))/1000;
 
-
-            //echo "Position: $rouletteWheelPosition<br>";
-
             foreach ($individuals as $individual) {
                 $tmpFitness += $individual->getFitness();
 
-                //echo $individual."<br>";
-
                 if($tmpFitness >= $rouletteWheelPosition){
                     $matingPool->addIndividual($individual);
-                   // echo $individual." added to mating pool <br>";
                     break;
                 }
             }
 
         }
 
-        //echo "Original Population:<br> $population";
-        //echo "Mating Pool:<br> $matingPool";
-
         return $matingPool;
 
     }
 
+
+    /**
+     * Applies the Stochastic Universal Sampling algorithm to select individuals proportionally.
+     *
+     * @param Population $population The evaluated population to be selected.
+     * @return Population The Mating Pool.
+     */
     public function stochasticUniversalSampling(Population $population){
 
-        //TODO: Include Elitism
         //Cloning population
         $tmpPopulation = $population->getClone();
         $pointers = [];
@@ -601,12 +522,8 @@ class GeneticAlgorithm {
 
         //Setting the fitness relative to a total of 1.0
         foreach ($tmpPopulation->getIndividuals() as $individual) {
-
             $individual->setFitness($individual->getFitness()/$population->getPopulationFitness(), false);
         }
-
-        //echo $population;
-        //echo $tmpPopulation;
 
         //Creating array of pointers
 
@@ -614,10 +531,6 @@ class GeneticAlgorithm {
         $pointerSize = 1/$tmpPopulation->size();
         //Starting pointer position
         $rndStartingPoint = rand(0, $pointerSize*1000)/1000;
-        //$rndStartingPoint = 0;
-
-        //echo "Pointer Start: $rndStartingPoint<br>";
-        //echo "Space: $pointerSize<br>";
 
         //Adding first pointer
         $pointers[] = $rndStartingPoint;
@@ -629,81 +542,59 @@ class GeneticAlgorithm {
             $pointers[] = $rndStartingPoint;
         }
 
-       /* echo "<pre>";
-        print_r($pointers);
-        echo "</pre>";*/
-
-
         $fitnessCount = 0;
         foreach ($tmpPopulation->getIndividuals() as $individual) {
 
-            //echo "Individual: ".$individual."<br>----------------------<br>";
-
             foreach ($pointers as $key => $pointer) {
-               // echo "Pointer: ".$pointer."<br>";
-               // echo "Lower Bound: $fitnessCount<br>";
-               // echo "Upper bound: ".($individual->getFitness() + $fitnessCount)."<br>------------------------<br>";
 
                 if($pointer >= $fitnessCount && $pointer < ($individual->getFitness() + $fitnessCount)){
                     $matingPool->addIndividual($individual);
-
-                   // echo "Added $individual to mating pool<br>------------------<br>";
                 }
-
-
             }
 
             $fitnessCount += $individual->getFitness();
-
-
-           // echo "------------------------<br>".$matingPool."---------------------<br>";
-
         }
-
-       // echo $matingPool;
-       // exit;
         return $matingPool;
-
     }
 
+    /**
+     * Applies tournament selection on the given population and selects individuals to add to the mating pool
+     *
+     * @param Population $population The evaluated population to be selected
+     * @return Population The mating pool
+     */
     public function tournamentSelection(Population $population){
-        //TODO: TEST THIS!
 
         $tmpPopulation = $population->getClone();
         $matingPool = new Population($population->size());
         $tournamentPopulation = new Population($this->tournamentSize);
-
-
 
         for($i = 0; $i < $tmpPopulation->size(); $i++) {
 
             $tmpPopulation->shuffle();
             $tournamentPopulation->clear();
 
-
             for ($z = 0; $z < $this->tournamentSize; $z++) {
 
                 $tournamentIndividual = $tmpPopulation->getIndividual($z);
                 $tournamentPopulation->addIndividual($tournamentIndividual);
-
             }
 
-            //echo "Tourny Population: <br>$tournamentPopulation<br> -------------------------------<br>";
-
-
             $tournamentPopulation->orderedByFittest();
-
-
             $matingPool->addIndividual($tournamentPopulation->getIndividual(0));
-           // echo "Added: {$tournamentPopulation->getIndividual(0)} ";
         }
 
-        //echo "<br>$matingPool";
         return $matingPool;
-
-
     }
 
+    //--Crossover Operators--//
+
+    /**
+     * Applies uniform crossover on the mating pool and returns a crossed population
+     *
+     * @param Population $population The mating pool to be crossed
+     * @return Population The crossed population
+     */
     public function uniformCrossover(Population $population){
 
         $newPopulation = new Population($population->size());
@@ -713,35 +604,20 @@ class GeneticAlgorithm {
         for($i = 0; $i<$this->elitismCount; $i++){
 
             $newPopulation->addIndividual( $population->getFittestIndividual($i));
-            //echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
-
         }
 
-        //for($populationIndex = 0; $populationIndex < ($population->size() - $this->elitismCount)/2 ; $populationIndex++){
         while ($newPopulation->size() < $this->populationSize){
-
-            //echo $newPopulation->size()."<br>";
 
             if ($newPopulation->size() == $this->populationSize-1){
 
                 $oddIndividual = array_pop($individuals);
 
-                //echo "Added remainder odd individual: ".$oddIndividual."<br>";
                 $newPopulation->addIndividual($oddIndividual);
 
-                //echo "Original Population:<br> $population";
-                //echo "Crossed Population:<br> $newPopulation";
-
                 return $newPopulation;
-
             }
 
             if(count($individuals) <= 0){
-
-
-                //echo "Original Population:<br> $population";
-                //echo "Crossed Population:<br> $newPopulation";
-
                 return $newPopulation;
             }
 
@@ -749,9 +625,6 @@ class GeneticAlgorithm {
 
             $parent1 = array_pop($individuals);
             $parent2 = array_pop($individuals);
-
-           // echo "Parent 1: ".$parent1."<br>";
-           // echo "Parent 2: ".$parent2."<br>";
 
             if($this->crossoverRate > Random::generate()){
 
@@ -770,30 +643,27 @@ class GeneticAlgorithm {
                     }
                 }
 
-                //echo "Added offspring ".$offspring1."<br>";
-                //echo "Added offspring ".$offspring2."<br>";
                 $newPopulation->addIndividual($offspring1);
                 $newPopulation->addIndividual($offspring2);
 
             }
             else{
-                //echo "Added parent: ".$parent1."<br>";
-                //echo "Added parent: ".$parent2."<br>";
                 $newPopulation->addIndividual($parent1);
                 $newPopulation->addIndividual($parent2);
             }
 
         }
 
-       // echo "Original Population:<br> $population";
-       // echo "Mating Pool:<br> $newPopulation";
-
         return $newPopulation;
     }
 
+    /**
+     * Applies single point crossover on the mating pool and returns a crossed population
+     *
+     * @param Population $population The mating pool to be crossed
+     * @return Population The crossed population
+     */
     public function singlePointCrossover(Population $population){
-
-        //echo "Starting Single Point Crossover...<br>";
 
         $newPopulation = new Population($population->size());
 
@@ -802,32 +672,21 @@ class GeneticAlgorithm {
         for($i = 0; $i<$this->elitismCount; $i++){
 
             $newPopulation->addIndividual( $population->getFittestIndividual($i));
-            //echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
-
         }
 
-        //for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
         while ($newPopulation->size() < $this->populationSize){
 
             if ($newPopulation->size() == $this->populationSize-1){
 
                 $oddIndividual = array_pop($individuals);
 
-                //echo "Added remainder odd individual: ".$oddIndividual."<br>";
                 $newPopulation->addIndividual($oddIndividual);
-
-                //echo "Original Population:<br> $population";
-                //echo "Crossed Population:<br> $newPopulation";
 
                 return $newPopulation;
 
             }
 
             if(count($individuals) <= 0){
-
-                //echo "Original Population:<br> $population";
-                //echo "Crossed Population:<br> $newPopulation";
-
                 return $newPopulation;
             }
 
@@ -836,17 +695,12 @@ class GeneticAlgorithm {
             $parent1 = array_pop($individuals);
             $parent2 = array_pop($individuals);
 
-            //echo "Parent 1: ".$parent1."<br>";
-            //echo "Parent 2: ".$parent2."<br>";
-
             if($this->crossoverRate > Random::generate()){
 
                 $offspring1 = new Individual();
                 $offspring2 = new Individual();
 
                 $swapPoint = rand(1,$parent1->getChromosomeLength()-1);
-
-                //echo "Swap Point: $swapPoint<br>";
 
                 for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
 
@@ -860,127 +714,34 @@ class GeneticAlgorithm {
 
                     }
                 }
-                //echo "Offspring1: $offspring1<br>";
-                //echo "Offspring2: $offspring2<br>";
-
 
                 $newPopulation->addIndividual($offspring1);
                 $newPopulation->addIndividual($offspring2);
             }
             else{
-                //echo "Added offspring unchanged: ".$parent1."<br>";
-                //echo "Added offsping unchanged: ".$parent2."<br>";
+
                 $newPopulation->addIndividual($parent1);
                 $newPopulation->addIndividual($parent2);
             }
-            //echo "-------------------------------------<br>";
         }
 
         return $newPopulation;
     }
 
+    /**
+     * Applies two point crossover on the mating pool and returns a crossed population
+     *
+     * @param Population $population The mating pool to be crossed
+     * @return Population The crossed population
+     */
     public function twoPointCrossover(Population $population){
-
-   // echo "Starting Two Point Crossover...<br>";
-
-    $newPopulation = new Population($population->size());
-
-    $individuals = $population->getIndividuals();
-
-    for($i = 0; $i<$this->elitismCount; $i++){
-
-        $newPopulation->addIndividual( $population->getFittestIndividual($i));
-       // echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
-
-    }
-
-    while ($newPopulation->size() < $this->populationSize){
-
-        if ($newPopulation->size() == $this->populationSize-1){
-
-            $oddIndividual = array_pop($individuals);
-
-           // echo "Added remainder odd individual: ".$oddIndividual."<br>";
-            $newPopulation->addIndividual($oddIndividual);
-
-           // echo "Original Population:<br> $population";
-           // echo "Crossed Population:<br> $newPopulation";
-
-            return $newPopulation;
-
-        }
-
-        if(count($individuals) <= 0){
-
-           // echo "Original Population:<br> $population";
-           // echo "Crossed Population:<br> $newPopulation";
-
-            return $newPopulation;
-        }
-
-        shuffle($individuals);
-
-        $parent1 = array_pop($individuals);
-        $parent2 = array_pop($individuals);
-       // echo "Parent 1: $parent1<br>";
-       // echo "Parent 2: $parent2<br>";
-
-
-        if($this->crossoverRate > Random::generate() ){
-
-            $offspring1 = new Individual();
-            $offspring2 = new Individual();
-
-            $swapPoint1 = rand(0,$parent1->getChromosomeLength()-2);
-            $swapPoint2 = rand($swapPoint1+1, $parent1->getChromosomeLength()-1);
-
-           // echo "Swap Points: $swapPoint1, $swapPoint2<br>";
-
-            for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
-
-                if($geneIndex < $swapPoint1 || $geneIndex > $swapPoint2 ){
-                    $offspring1->setGene($geneIndex, $parent1->getGene($geneIndex));
-                    $offspring2->setGene($geneIndex, $parent2->getGene($geneIndex));
-                }
-                else{
-                    $offspring1->setGene($geneIndex, $parent2->getGene($geneIndex));
-                    $offspring2->setGene($geneIndex, $parent1->getGene($geneIndex));
-                }
-            }
-
-           // echo "Offspring1: $offspring1<br>";
-           // echo "Offspring2: $offspring2<br>";
-
-
-            $newPopulation->addIndividual($offspring1);
-            $newPopulation->addIndividual($offspring2);
-        }
-        else{
-          //  echo "Added offspring unchanged: ".$parent1."<br>";
-          //  echo "Added offsping unchanged: ".$parent2."<br>";
-            $newPopulation->addIndividual($parent1);
-            $newPopulation->addIndividual($parent2);
-        }
-
-       // echo "----------------------------------------<br>";
-    }
-
-    return $newPopulation;
-}
-
-    public function multiPointCrossover(Population $population, $numberOfSwapPoints){
-
-      //  echo "Starting $numberOfSwapPoints Point Crossover...<br>";
 
         $newPopulation = new Population($population->size());
 
         $individuals = $population->getIndividuals();
 
         for($i = 0; $i<$this->elitismCount; $i++){
-
             $newPopulation->addIndividual( $population->getFittestIndividual($i));
-          //  echo "Added individual: ".$population->getFittestIndividual($i)."<br>";
-
         }
 
         while ($newPopulation->size() < $this->populationSize){
@@ -988,22 +749,12 @@ class GeneticAlgorithm {
             if ($newPopulation->size() == $this->populationSize-1){
 
                 $oddIndividual = array_pop($individuals);
-
-             //   echo "Added remainder odd individual: ".$oddIndividual."<br>";
                 $newPopulation->addIndividual($oddIndividual);
 
-              //  echo "Original Population:<br> $population";
-              //  echo "Crossed Population:<br> $newPopulation";
-
                 return $newPopulation;
-
             }
 
             if(count($individuals) <= 0){
-
-             //   echo "Original Population:<br> $population";
-             //   echo "Crossed Population:<br> $newPopulation";
-
                 return $newPopulation;
             }
 
@@ -1011,9 +762,73 @@ class GeneticAlgorithm {
 
             $parent1 = array_pop($individuals);
             $parent2 = array_pop($individuals);
-          //  echo "Parent 1: $parent1<br>";
-          //  echo "Parent 2: $parent2<br>";
 
+            if($this->crossoverRate > Random::generate() ){
+
+                $offspring1 = new Individual();
+                $offspring2 = new Individual();
+
+                $swapPoint1 = rand(0,$parent1->getChromosomeLength()-2);
+                $swapPoint2 = rand($swapPoint1+1, $parent1->getChromosomeLength()-1);
+
+                for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
+
+                    if($geneIndex < $swapPoint1 || $geneIndex > $swapPoint2 ){
+                        $offspring1->setGene($geneIndex, $parent1->getGene($geneIndex));
+                        $offspring2->setGene($geneIndex, $parent2->getGene($geneIndex));
+                    }
+                    else{
+                        $offspring1->setGene($geneIndex, $parent2->getGene($geneIndex));
+                        $offspring2->setGene($geneIndex, $parent1->getGene($geneIndex));
+                    }
+                }
+
+                $newPopulation->addIndividual($offspring1);
+                $newPopulation->addIndividual($offspring2);
+            }
+            else{
+                $newPopulation->addIndividual($parent1);
+                $newPopulation->addIndividual($parent2);
+            }
+        }
+        return $newPopulation;
+    }
+
+    /**
+     * Applies multipoint crossover on the mating pool and returns a crossed population
+     *
+     * @param Population $population The mating pool to be crossed
+     * @param int $numberOfSwapPoints The number of swap points to used
+     * @return Population The crossed population
+     */
+    public function multiPointCrossover(Population $population, $numberOfSwapPoints){
+
+        $newPopulation = new Population($population->size());
+
+        $individuals = $population->getIndividuals();
+
+        for($i = 0; $i<$this->elitismCount; $i++){
+            $newPopulation->addIndividual( $population->getFittestIndividual($i));
+        }
+
+        while ($newPopulation->size() < $this->populationSize){
+
+            if ($newPopulation->size() == $this->populationSize-1){
+
+                $oddIndividual = array_pop($individuals);
+                $newPopulation->addIndividual($oddIndividual);
+
+                return $newPopulation;
+            }
+
+            if(count($individuals) <= 0){
+                return $newPopulation;
+            }
+
+            shuffle($individuals);
+
+            $parent1 = array_pop($individuals);
+            $parent2 = array_pop($individuals);
 
             if($this->crossoverRate > Random::generate() ){
 
@@ -1021,12 +836,6 @@ class GeneticAlgorithm {
                 $offspring2 = new Individual();
 
                 $mask = $this->getMask($parent1, $numberOfSwapPoints);
-
-
-              /*  echo "Mask: <pre>";
-                var_dump($mask);
-                echo "</pre>";*/
-
 
                 for($geneIndex = 0; $geneIndex < $parent1->getChromosomeLength(); $geneIndex++){
 
@@ -1040,26 +849,68 @@ class GeneticAlgorithm {
                     }
                 }
 
-               // echo "Offspring1: $offspring1<br>";
-               // echo "Offspring2: $offspring2<br>";
-
-
                 $newPopulation->addIndividual($offspring1);
                 $newPopulation->addIndividual($offspring2);
             }
             else{
-               // echo "Added offspring unchanged: ".$parent1."<br>";
-               // echo "Added offsping unchanged: ".$parent2."<br>";
                 $newPopulation->addIndividual($parent1);
                 $newPopulation->addIndividual($parent2);
             }
-
-          //  echo "----------------------------------------<br>";
         }
 
         return $newPopulation;
     }
 
+    //--Mutation Operators--//
+
+    /**
+     * Applies the uniform mutation operator on a population and returns a mutated population
+     *
+     * @param Population $population A population to be mutated
+     * @return Population A mutated population
+     */
+    public function uniformMutation(Population $population){
+
+        $newPopulation = new Population($population->size());
+
+        for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
+
+            $individual = $population->getFittestIndividual($populationIndex);
+
+            $randomIndividual = new Individual();
+            $randomIndividual->generateRandom($this->section);
+
+            for($geneIndex = 0; $geneIndex < $individual->getChromosomeLength(); $geneIndex++){
+
+                if($populationIndex >= $this->elitismCount){
+                    if($this->mutationRate > Random::generate()){
+                        $individual->setGene($geneIndex, $randomIndividual->getGene($geneIndex));
+                    }
+                }
+            }
+
+            $newPopulation->setIndividual($populationIndex,$individual);
+        }
+
+        return $newPopulation;
+    }
+
+    /**
+     * @param Population $population
+     */
+    public function nonUniformMutation(Population $population){
+
+    }
+
+    //--Other functions--//
+
+    /**
+     * Method to be used in multipoint crossover operator. Generates a mask of swap points for an individual
+     *
+     * @param Individual $individual Individual to create a mask from
+     * @param $numberOfSwapPoints Number of swap points
+     * @return array The mask as an array
+     */
     public function getMask(Individual $individual, $numberOfSwapPoints){
 
         $swapPoints = [0, $individual->getChromosomeLength()];
@@ -1076,13 +927,6 @@ class GeneticAlgorithm {
         }
 
         sort($swapPoints);
-
-
-        //echo "Swap Points:<br>";
-
-       /* echo "<pre>";
-        var_dump($swapPoints);
-        echo "</pre>";*/
 
         $segments = [];
 
@@ -1116,59 +960,48 @@ class GeneticAlgorithm {
         return $mask;
     }
 
-    public function uniformMutation(Population $population){
-
-        $newPopulation = new Population($population->size());
-
-        for($populationIndex = 0; $populationIndex < $population->size(); $populationIndex++){
-
-            $individual = $population->getFittestIndividual($populationIndex);
-
-
-            $randomIndividual = new Individual();
-            $randomIndividual->generateRandom($this->section);
-
-
-            for($geneIndex = 0; $geneIndex < $individual->getChromosomeLength(); $geneIndex++){
-
-                if($populationIndex >= $this->elitismCount){
-                    if($this->mutationRate > Random::generate()){
-
-                        //echo "Mutating individual: $individual  Gene at locus: $geneIndex from {$individual->getGene($geneIndex)} to {$randomIndividual->getGene($geneIndex)}<br>";
-                        $individual->setGene($geneIndex, $randomIndividual->getGene($geneIndex));
-                    }
-
-                }
-            }
-
-            $newPopulation->setIndividual($populationIndex,$individual);
-
-        }
-
-        return $newPopulation;
-    }
-
-    public function nonUniformMutation(Population $population){
-
-    }
-
-
-    public function getGenerationNumber(){
-        return $this->generationNumber;
-    }
-
-    public function getSessionID(){
-        return $this->session_id;
-    }
-
-    public function getGenerationID(){
-        return $this->generation_id;
-    }
-
+    /**
+     * Increments the generation number
+     *
+     */
     public function incrementGeneration(){
         $this->generationNumber++;
     }
 
+    /**
+     * Gets the generation number
+     *
+     * @return int The Generation number
+     */
+    public function getGenerationNumber(){
+        return $this->generationNumber;
+    }
+
+    /**
+     * Gets the session ID
+     *
+     * @return int The session ID
+     */
+    public function getSessionID(){
+        return $this->session_id;
+    }
+
+    /**
+     * Gets the generation ID
+     *
+     * @return int The generation ID
+     */
+    public function getGenerationID(){
+        return $this->generation_id;
+    }
+
+    //--Getters and Setters--//
+
+    /**
+     * Sets the session end timestamp in the database
+     *
+     * @throws Exception
+     */
     public function setSessionEnd(){
 
         $this->sessionEnd = date("Y-m-d H:i:s", time());
@@ -1191,6 +1024,11 @@ class GeneticAlgorithm {
 
     }
 
+    /**
+     * Sets the generation end timestamp in the database
+     *
+     * @throws Exception
+     */
     public function setGenerationEnd(){
 
         $this->sessionEnd = date("Y-m-d H:i:s", time());
@@ -1205,11 +1043,21 @@ class GeneticAlgorithm {
 
     }
 
-
+    /**
+     * Gets the current section
+     *
+     * @return int The current section
+     */
     public function getCurrentSection(){
         return $this->section;
     }
 
+    /**
+     * Sets the section
+     *
+     * @param int $section The current section
+     * @throws Exception
+     */
     public function setSection($section){
 
         $this->section = $section;
@@ -1225,6 +1073,12 @@ class GeneticAlgorithm {
 
     }
 
+    /**
+     * Sets the final chromosome for a particular section
+     *
+     * @param Individual $i The fittest individual from the last generation
+     * @throws Exception
+     */
     public function setSectionChromosome(Individual $i){
         $sql = "UPDATE section SET chromosome='".implode(",",$i->getChromosome())."' WHERE session_id=? AND section =?";
         $params = [$this->session_id, $this->section];
@@ -1235,6 +1089,12 @@ class GeneticAlgorithm {
         }
     }
 
+    /**
+     * Gets the chromosome associated with a particular section from the database
+     *
+     * @param int $section The current section
+     * @return string The chromosome stored in the database as a string
+     */
     public function getSectionChromosome($section){
 
         $sql = "SELECT chromosome FROM section WHERE session_id=? AND section=?";
@@ -1247,6 +1107,11 @@ class GeneticAlgorithm {
         }
     }
 
+    /**
+     * Gets the section name
+     *
+     * @return string The section name
+     */
     public function getCurrentSectionName(){
 
         switch ($this->section){
@@ -1262,10 +1127,16 @@ class GeneticAlgorithm {
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getMaxGenerations(){
         return $this->maxGenerations;
     }
 
+    /**
+     * @return mixed
+     */
     public function getSelectionOperator(){
         return $this->selectionOperator;
     }
@@ -1325,6 +1196,8 @@ class GeneticAlgorithm {
     {
         return $this->populationSize;
     }
+
+
 
 
 }

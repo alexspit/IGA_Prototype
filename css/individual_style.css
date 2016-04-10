@@ -159,3 +159,7 @@ footer {
     color: rgba(149, 165, 166, 0.5)
 
 }
+
+.modal-backdrop.in {
+    opacity: 0.9;
+}

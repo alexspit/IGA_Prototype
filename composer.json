@@ -10,10 +10,10 @@
         }
     ],
     "require": {
-        "jonnyw/php-phantomjs": "4.*",
-        "psr/log": "1.0.0",
-        "dlin/geocoder": "0.9.3"
-    },
+    "jonnyw/php-phantomjs": "4.*",
+    "psr/log": "1.0.0",
+    "dlin/geocoder": "0.9.3"
+},
     "config": {
         "bin-dir": "bin"
     },

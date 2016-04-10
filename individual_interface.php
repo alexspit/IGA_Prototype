@@ -1,7 +1,6 @@
 <?php
 
 require_once "core/init.php";
-//require 'vendor/autoload.php';
 
 if(Input::exists('get')){
 
@@ -21,11 +20,9 @@ if(Input::exists('get')){
 
     $individual = new Individual($individual_id);
 
-
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -74,14 +71,8 @@ if(Input::exists('get')){
 <!-- Navigation -->
 <nav class="navbar navbar-inverse" id="top_nav" role="navigation">
     <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="top_nav_order">
-
-
-
-
         <?php
 
             $nav = '  <div class="col-md-4" id="nav">
@@ -140,13 +131,6 @@ if(Input::exists('get')){
     <!-- /.container -->
 </nav>
 
-<?php
-
-//echo $ga->decode($individual);
-//echo $categoryPosition;
-
-?>
-
 <!-- Page Content -->
 <div class="container" id="content">
 
@@ -157,14 +141,6 @@ if(Input::exists('get')){
             <h1><span class="glyphicon glyphicon-shopping-cart "></span>MyStore</h1>
 
         </div>
-       <!-- <div class="col-md-4 hidden" style="text-align: center">
-            <h1><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
-
-        </div>
-        <div class="col-md-4 hidden">
-            <h1 class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
-
-        </div>-->
 
     </div>
 
@@ -221,7 +197,7 @@ if(Input::exists('get')){
                             <h4 class="pull-right">$24.99</h4>
                             <h4><a href="#">Product 1</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
+                            <p>Description of product goes here...</p>
                             <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
                             <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
@@ -235,7 +211,7 @@ if(Input::exists('get')){
                             <h4 class="pull-right">$15.99</h4>
                             <h4><a href="#">Product 2</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
+                            <p>Description of product goes here...</p>
                             <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
                             <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
@@ -249,17 +225,13 @@ if(Input::exists('get')){
                             <h4 class="pull-right">$50.99</h4>
                             <h4><a href="#">Product 3</a>
                             </h4>
-                            <p>Description of product goes here. Bla bla this product is so cool becuase...</p>
+                            <p>Description of product goes here...</p>
                             <button class="btn btn-default pull-right hvr-grow">Add to Cart</button>
                             <button class="btn btn-default pull-left hvr-grow">Add to Wishlist</button>
                         </div>
 
                     </div>
                 </div>
-
-
-
-
             </div>
 
         </div>

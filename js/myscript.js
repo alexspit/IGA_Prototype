@@ -42,9 +42,6 @@ $( document ).ready(function() {
     });
 
 
-
-
-
     $('.config_range').each(function(i, range){
 
         var $range = $(range);
@@ -68,7 +65,7 @@ $( document ).ready(function() {
         });
     });
 
-    $("#tournament_size_container").hide();
+    //$("#tournament_size_container").hide();
 
     $("#selection_operator").on("change", function() {
 
@@ -135,11 +132,28 @@ $( document ).ready(function() {
     $("#next_generation").on("click", function() {
         //console.log($("#form1").serialize());
 
+        var needToCheck = true;
+        var choice = true;
+        $('.input_range').each(function(i, range){
+
+           if(($(range).val()) != 5 ){
+               needToCheck = false;
+           }
+        });
+
+        if(needToCheck){
+            choice = confirm("No rating has been modified, are you sure you want to continue?");
+        }
+
        // $("#interface_thumbnails").html("<img src='img/ion.zoom.preloader.gif'>");
-        $("#interface_thumbnails").hide();
-        $("#loader").show();
-        $("#instructions").text("Please Wait: Generating new population of interfaces...").css("text-align", "center").css("margin-top", "100px");
-        $("#form1").submit();
+
+        if(choice){
+            $("#interface_thumbnails").hide();
+            $("#loader").show();
+            $("#instructions").text("Please Wait: Generating new population of interfaces...").css("text-align", "center").css("margin-top", "100px");
+            $("#form1").submit();
+        }
+
     });
 
     $("#warningModal").modal($("#warning").data("warning"));

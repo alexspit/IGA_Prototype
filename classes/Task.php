@@ -255,7 +255,7 @@ class Task
                 $this->errorCount = $this->wrongClicks;
             }
             else{
-                $this->errorCount = ((int) (($this->travelledDistance / $this->shortestDistance) - 1) + $this->wrongClicks);
+                $this->errorCount = ((int) (($this->travelledDistance / $this->shortestDistance) - 2) + $this->wrongClicks);
             }
 
         }

@@ -1,11 +1,17 @@
 <?php
 
 class Config{
-    
+
+    /**
+     * Extracts config data from the Global config array
+     *
+     * @param null $path A string path separated by (/)
+     * @return mixed The config setting value
+     */
     public static function get($path = null){//Setting a static function to be able to access it without declaring a new class
         if($path){ //Make sure a path has been submitted
             $config = $GLOBALS['config']; //Setting the value of the config array in a vriable for easier access
-            $path = explode('/', $path);//Sepetating the $path in a array 
+            $path = explode('/', $path);//Separating the $path in a array
             
             foreach($path as $x) //Looping through the array
             {

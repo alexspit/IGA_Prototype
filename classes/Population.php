@@ -31,14 +31,19 @@ class Population {
         return $this->population;
     }
 
+    /**
+     * Order the population by fitness and return the nth fittest individual
+     *
+     * @param $offset The nth fittest individual offset
+     * @return Individual The nth fittest individual
+     */
     public function getFittestIndividual($offset){
-
-       //CHECK HERE IF THERE ARE PROBLEMS
 
         $tmpPopulation = $this->population;
 
+        //Using a callback to sort by fitness
         usort($tmpPopulation, function(Individual $individual1, Individual $individual2) { //Returning positive or negative numbers to sort the elements. By putting the 2nd parameter first, we sort in descending order.
-            //return $individual2->getFitness() - $individual1->getFitness();
+
             if($individual1->getFitness() > $individual2->getFitness()){
                 return -1;
             }

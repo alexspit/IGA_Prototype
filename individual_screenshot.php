@@ -43,13 +43,8 @@
 <!-- Navigation -->
 <nav class="navbar navbar-inverse" id="top_nav" role="navigation">
     <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="top_nav_order">
-
-
-
 
             <div class="col-md-4" id="nav">
                 <ul class="nav navbar-nav">
@@ -104,14 +99,6 @@
 
             <h1><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
         </div>
-        <!-- <div class="col-md-4 hidden" style="text-align: center">
-             <h1><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
-
-         </div>
-         <div class="col-md-4 hidden">
-             <h1 class="pull-right"><span class="glyphicon glyphicon-shopping-cart"></span>MyStore</h1>
-
-         </div>-->
 
     </div>
 

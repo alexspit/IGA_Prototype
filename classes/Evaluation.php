@@ -1,13 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: Dell
- * Date: 2/8/2016
- * Time: 3:55 PM
- */
-
-
 class Evaluation
 {
 
@@ -17,9 +9,10 @@ class Evaluation
     private $db, $evaluation_id, $type, $user, $sessionStart, $sessionEnd, $susScore, $chromosome, $tasks;
 
     /**
-     * Evaluation constructor.
-     * @param $user_id
-     * @param $type
+     * Creates a new instance of the Evaluation class, retrieves data from DB if a $user_id is supplied.
+     *
+     * @param int $user_id
+     * @param int $type
      */
     public function __construct($user_id = null, $type = null)
     {
@@ -67,10 +60,16 @@ class Evaluation
 
     }
 
+    /**
+     * Initialize a new Evaluation class
+     *
+     * @param User $user The user associated with this evaluation
+     * @param string $type Whether the evaluation is being done on the original or evolved interface
+     * @return bool If initialized successfully
+     * @throws Exception
+     */
     public function init(User $user, $type = self::ORIGINAL)
     {
-
-        //TODO: Check if session is finished and that original is set (for evolved)
 
         if($type == self::EVOLVED){
 
@@ -116,6 +115,12 @@ class Evaluation
 
     }
 
+    /**
+     * Save a task to the tasks field
+     *
+     * @param int $number The number of the task
+     * @throws Exception
+     */
     public function saveTask($number){
 
         if($number >= 1 && $number <= $this->getTaskCount()){
@@ -135,6 +140,11 @@ class Evaluation
         }
     }
 
+    /**
+     * Get the total number of tasks
+     *
+     * @return mixed Task count
+     */
     public function getTaskCount(){
 
         $sql = 'SELECT COUNT(task_id) as task_count FROM task';
@@ -146,25 +156,47 @@ class Evaluation
         }
     }
 
+    /**
+     * Adds a task to the tasks array
+     *
+     * @param int $number Task number
+     */
     public function addTask($number){
 
         $this->tasks[$number] = new Task($number);
 
     }
 
+    /**
+     * Returns a task
+     *
+     * @param int $number Task number
+     * @return Task A task object
+     */
     public function getTask($number){
 
         return $this->tasks[$number];
     }
 
+    /**
+     * @return mixed
+     */
     public function getEvaluationID(){
         return $this->evaluation_id;
     }
 
+    /**
+     * @return mixed
+     */
     public function getType(){
         return $this->type;
     }
 
+    /**
+     * Returns the chromosome associated with the evaluation and returns it as an array
+     *
+     * @return array Chromosome array
+     */
     private function getChromosome(){
         $sql = 'SELECT chromosome FROM evaluation WHERE evaluation_id=?';
         $params = [$this->evaluation_id];
@@ -175,6 +207,12 @@ class Evaluation
         }
     }
 
+    /**
+     * Updates the database when the session is finished
+     *
+     * @return bool If updated successfully
+     * @throws Exception
+     */
     public function setSessionEnd(){
 
         $this->sessionEnd = date("Y-m-d H:i:s", time());
@@ -193,7 +231,13 @@ class Evaluation
 
     }
 
-
+    /**
+     * Updates database with the SUS score
+     *
+     * @param int $score The SUS score of the interface
+     * @return bool If successful
+     * @throws Exception
+     */
     public function setSusScore($score){
 
         $this->sessionEnd = date("Y-m-d H:i:s", time());
@@ -213,6 +257,14 @@ class Evaluation
 
     }
 
+    /**
+     * Update the database with the preferred interface chosen by the user
+     *
+     * @param string $preferred The preferred interface
+     * @param string $comment Any additional comment
+     * @return bool If successful
+     * @throws Exception
+     */
     public function setPreferred($preferred, $comment){
 
         $sql = "UPDATE session SET preferred='$preferred', comment='$comment' WHERE user_id=?";
@@ -229,7 +281,14 @@ class Evaluation
 
     }
 
-
+    /**
+     * Decodes a chromosome and returns a CSS string.
+     *
+     * @param null $headerOrder Variable for header nav order
+     * @param null $categoryPosition Variable for category position
+     * @param null $footerOrder Variable for footer order
+     * @return string CSS String
+     */
     function decode(&$headerOrder = null, &$categoryPosition = null, &$footerOrder = null){
 
         $css = "";
